@@ -1,11 +1,7 @@
 \documentclass{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage{blindtext}
-\usepackage{hyperref}
-\usepackage{array}
-\usepackage{float}
-\usepackage{indentfirst}
+\usepackage[utf8]{inputenc} \usepackage{blindtext} \usepackage{hyperref}
+\usepackage{array} \usepackage{float} \usepackage{indentfirst}
 \usepackage{enumerate}
 
 \newcommand{\wrap}[1]{\parbox{.33\linewidth}{\vspace{1.5mm}#1\vspace{1mm}}}
@@ -51,31 +47,17 @@ In terms of where to look for information, ACM Digital Library, Science Direct,
 IEEE Xplore, Wiley, Springer Link, Engineering Village and Google Scholar were
 the target databases present in Table \ref{tab:databases}.
 
-\begin{table}[H]
-  \caption{Databases}
-  \label{tab:databases}
+\begin{table}[H] \caption{Databases} \label{tab:databases}
   \begin{center}
-    \begin{tabular}[c]{l|l}
-      \textbf{Search Engine} &
+    \begin{tabular}[c]{l|l|l} \textbf{ID} & \textbf{Search Engine} &
       \textbf{Website} \\
-      \hline
-      ACM Digital Library &
-      \url{https://dl.acm.org/} \\
-      \hline
-      IEEE Xplore &
-      \url{https://ieeexplore.ieee.org/} \\
-      \hline
-      Springer Link &
-      \url{https://link.springer.com/} \\
-      \hline
-      Wiley &
-      \url{https://onlinelibrary.wiley.com/} \\
-      \hline
-      Engineering Village &
+      \hline DB.1 & ACM Digital Library & \url{https://dl.acm.org/} \\
+      \hline DB.2 & IEEE Xplore & \url{https://ieeexplore.ieee.org/} \\
+      \hline DB.3 & Springer Link & \url{https://link.springer.com/} \\
+      \hline DB.4 & Wiley & \url{https://onlinelibrary.wiley.com/} \\
+      \hline DB.5 & Engineering Village &
       \url{https://www.engineeringvillage.com/} \\
-      \hline
-      Google Scholar &
-      \url{https://scholar.google.com/} \\
+      \hline DB.6 & Google Scholar & \url{https://scholar.google.com/} \\
     \end{tabular}
   \end{center}
 \end{table}
@@ -92,43 +74,31 @@ because it reduces the number of publications to analyse during subsequent
 databases queries as multiple publications will probably be previous analysed
 in previous iterations.
 
-In terms of research keywords, since the study of this thesis is mainly focused
-``microservices", multiple ways of writing microservices should be used. As for
-the practices that may help identification of microservices, keywords that help
-this architectural refactoring should be included, things like ``migration",
-``refactor", ``identification". It could also be useful to use ``monolith" (and
-all its possible synonyms) to be the comparison against ``microservices",
-although this can result in some extra publications not related to
-microservices but instead related to ``service oriented architecture". An
-expected outcome or conclusion of the publication could be included,
-``approach" or even ``tool".
+In terms of research keywords, since the study of this thesis is mainly
+focused ``microservices", multiple ways of writing microservices should be
+used. As for the practices that may help identification of microservices,
+keywords that help this architectural refactoring should be included, things
+like ``migration", ``refactor", ``identification". It could also be useful to
+use ``monolith" (and all its possible synonyms) to be the comparison against
+``microservices", although this can result in some extra publications not
+related to microservices but instead related to ``service oriented
+architecture". An expected outcome or conclusion of the publication could be
+included, ``approach" or even ``tool".
 
-\begin{table}[H]
-  \caption{Keywords}
-  \label{tab:keywords}
+\begin{table}[H] \caption{Keywords} \label{tab:keywords}
   \begin{center}
-    \begin{tabular}[c]{l|l}
-      {\textbf{Focus}} &
-      microservices \\
-      \hline
-      \wrap{{\textbf{Architectural\\Refactoring}}} &
-      \wrap{
-        migration, decomposition,\\
-        identify, refactor, evolve,\\
-        discover, transition
-      } \\
-      \hline
-      {\textbf{Target}} &
-      monolith \\
-      \hline
-      {\textbf{Outcome}} &
-      approach, tool \\
+    \begin{tabular}[c]{l|l} {\textbf{Focus}} & microservices \\
+      \hline \textbf{Refactoring} & {\wrap{ migration, decomposition,\\
+          identify, refactor, evolve,\\
+      discover, transition }} \\
+      \hline \textbf{Target} & monolith \\
+      \hline \textbf{Outcome} & approach, tool \\
     \end{tabular}
   \end{center}
 \end{table}
 
 
-\subsubsection{Selection Criteria}
+\subsubsection{Selection Criteria} \label{sub:selection-criteria}
 
 In order to filter the publications, the title and the abstract will be
 analysed and should mention some at least one of:
@@ -150,7 +120,8 @@ will be:
 
 \begin{enumerate}[{EC}1.]
   \item Publications that are not written in English or Portuguese.
-  \item For Portuguese publications, English must be the language used in the
+  \item For Portuguese publications, English must be the language used in
+    the
   \item Publication is not accessible.
 \end{enumerate}
 
@@ -160,56 +131,61 @@ In the first iteration of the review, the main purpose was figuring out how
 many tools exist that were able to solve this research question or, at the
 very least, help partially with it. In order to do this, one could not be
 limited to tools that are documented in academic databases therefore, in
-addition to the databases mentioned in \ref{sub:research-methodology},
-\href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and even
-\href{https://duckduckgo.org}{DuckDuckGo} were searched for.
+addition to the databases mentioned in Table \ref{tab:databases},
+\href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
+even \href{https://duckduckgo.org}{DuckDuckGo} were searched for, even
+though they donot represent a scientific search engine.
 
-% \begin{table}
-% \begin{tabular}{| m{4cm} | m{4cm}| m{2cm} m{2cm} |}
+By using some keywords mentioned in Table \ref{tab:keywords} we created an
+initial trial query:
 
-% \hline
-% {Database} &
-% {Query} &
-% {Total number of results} &
-% {Extracted results} \\
-% \hline
-% {https://dl.acm.org/} &
-% {("microservice" OR "micro-service") AND ("migration" OR "identification") AND ("monolithic" OR "monolith") AND ("tool")} &
-% {118} &
-% {3} \\
-% \hline
-% {https://ieeexplore.ieee.org/} &
-% {("microservice" OR "micro-service") AND ("migration" OR "identification") AND ("monolithic" OR "monolith") AND ("tool")} &
-% {4} &
-% {0} \\
-% \hline
-% {https://link.springer.com/} &
-% {("microservice" OR "micro-service") AND ("migration" OR "identification") AND ("monolithic" OR "monolith") AND ("tool")} &
-% {658} &
-% {3} \\
-% \hline
-% {https://github.com/} &
-% {https://github.com/search
-% ?q=monolith+to+microservice} &
-% {745} &
-% {4} \\
-% \hline
-% {https://gitlab.com/} &
-% {https://gitlab.com/search
-% ?search=monolith\%20to\%20microservice} &
-% {0} &
-% {0} \\
-% \hline
-% {https://duckduckgo.org/} &
-% {https://duckduckgo.com/
-% ?q=monolith+to+microservices+tool} &
-% {Infinity?} &
-% {2} \\
-% \hline
 
-% \end{tabular}
-% \end{table}
+\begin{center}
+  \emph{("microservice" OR "micro-service") AND ("migration" OR
+  "identification") AND ("monolithic" OR "monolith") AND ("tool")}
+\end{center}
 
+
+The query was then applied to DB.1, DB.2 and DB.3 and after applying the
+selection criteria mentioned in subsection \ref{sub:selection-criteria},
+results were gathered and are presented in Table \ref{tab:tool-search}.
+
+\begin{table}[H] \caption{Tool Search} \label{tab:tool-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5.5em}|p{5em}|p{5em}} \textbf{Database} &
+      \textbf{Total\newline number\newline of results} &
+      \textbf{Extracted\newline Results} \\
+      \hline DB.1 & {118} & {3} \\
+      \hline DB.2 & {4} & {0} \\
+      \hline DB.3 & {658} & {3} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+As for the not so scientific search, the query would be essentilly typed into
+their respective search engine and the results gathered are present in Table
+\ref{tab:search-engine-tool-search}.
+
+\begin{table}[H] \caption{Search Engine Tool Search}
+  \label{tab:search-engine-tool-search}
+  \begin{center}
+    \begin{tabular}[c]{p{6em}|p{12em}|p{5em}|p{5em}}
+      \textbf{Search\newline Engine} &
+      \textbf{Query} &
+      \textbf{Total\newline number\newline of results} &
+      \textbf{Extracted\newline Results} \\
+      \hline GitHub &
+      {https://github.com/search\newline?q=monolith+to\newline+microservice} & {745} & {4}
+      \\
+      \hline GitLab &
+      {https://gitlab.com/search\newline?search=monolith\%20\newline to\%20microservice} & {0} &
+      {0} \\
+      \hline DuckDuckGo &
+      {https://duckduckgo.com/\newline?q=monolith+to\newline+microservices+tool} & {Infinity} &
+      {2} \\
+    \end{tabular}
+  \end{center}
+\end{table}
 By doing this search, we can also backtrack from the references used and
 check if the tools here were based on other work, but only a part of it and
 therefore just implemented a specific approach.
