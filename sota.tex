@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[conference]{IEEEtran}
 
 \usepackage[utf8]{inputenc} \usepackage{blindtext} \usepackage{hyperref}
 \usepackage{array} \usepackage{float} \usepackage{indentfirst}
@@ -41,7 +41,7 @@ Falar das questões?
 To address the research questions posed in the Introduction, the appropriate
 research methods were utilized.
 
-\subsubsection{Data sources and search strategy}
+\subsubsection{Data sources and search strategy} \label{sub:search-strategy}
 
 In terms of where to look for information, ACM Digital Library, Science Direct,
 IEEE Xplore, Wiley, Springer Link, Engineering Village and Google Scholar were
@@ -55,9 +55,10 @@ the target databases present in Table \ref{tab:databases}.
       \hline DB.2 & IEEE Xplore & \url{https://ieeexplore.ieee.org/} \\
       \hline DB.3 & Springer Link & \url{https://link.springer.com/} \\
       \hline DB.4 & Wiley & \url{https://onlinelibrary.wiley.com/} \\
-      \hline DB.5 & Engineering Village &
+      \hline DB.5 & Wiley & \url{https://www.sciencedirect.com/} \\
+      \hline DB.6 & Engineering Village &
       \url{https://www.engineeringvillage.com/} \\
-      \hline DB.6 & Google Scholar & \url{https://scholar.google.com/} \\
+      \hline DB.7 & Google Scholar & \url{https://scholar.google.com/} \\
     \end{tabular}
   \end{center}
 \end{table}
@@ -66,13 +67,18 @@ the target databases present in Table \ref{tab:databases}.
 % TODO: Aqui estava a pensar introduzir a palha a explicar o que são por alto
 
 A breadth first search like approach will used, meaning that after selecting
-relevant publications from a given database and query string, a one level
-forward and backward snowballing of citations will be done, using Google
-Scholar to search for citations and publications. When this is exhausted, the
-next database and query string will be selected. This approach is helpful
-because it reduces the number of publications to analyse during subsequent
-databases queries as multiple publications will probably be previous analysed
-in previous iterations.
+relevant publications from a given database and query string, a two level
+forward and backward snowballing of references will be done, using Google
+Scholar to search for citations and publications. The two level simply means,
+after selecting a publication to snowball, extracting its references is at
+level one and then selecting the references of those references means level
+two. The backward snowballing will then be applied just once for all previous
+publications found, including ones selected in the forward snowballing step.
+
+When this is exhausted, the next database and query string will be selected.
+This approach is helpful because it reduces the number of publications to
+analyse during subsequent databases queries as multiple publications will
+probably be previous analysed in previous iterations.
 
 In terms of research keywords, since the study of this thesis is mainly
 focused ``microservices", multiple ways of writing microservices should be
@@ -139,7 +145,6 @@ though they donot represent a scientific search engine.
 By using some keywords mentioned in Table \ref{tab:keywords} we created an
 initial trial query:
 
-
 \begin{center}
   \emph{("microservice" OR "micro-service") AND ("migration" OR
   "identification") AND ("monolithic" OR "monolith") AND ("tool")}
@@ -169,12 +174,12 @@ their respective search engine and the results gathered are present in Table
 \begin{table}[H] \caption{Search Engine Tool Search}
   \label{tab:search-engine-tool-search}
   \begin{center}
-    \begin{tabular}[c]{p{6em}|p{12em}|p{5em}|p{5em}}
+    \begin{tabular}[c]{p{5.5em}|p{10em}|p{4em}|p{5em}}
       \textbf{Search\newline Engine} &
       \textbf{Query} &
       \textbf{Total\newline number\newline of results} &
       \textbf{Extracted\newline Results} \\
-      \hline GitHub &
+    \hline GitHub &
       {https://github.com/search\newline?q=monolith+to\newline+microservice} & {745} & {4}
       \\
       \hline GitLab &
@@ -189,6 +194,102 @@ their respective search engine and the results gathered are present in Table
 By doing this search, we can also backtrack from the references used and
 check if the tools here were based on other work, but only a part of it and
 therefore just implemented a specific approach.
+
+As for the second iteration of the review, the focus was more about finding
+other approaches for migrating from monolith to microservices that might have
+been documented and not implemented. With this, it will be easier to understand
+where the state of the art starts and ends, what is missing from at the moment
+and what can be improved on.
+
+Since it was a start of a new iteration, the results of the previous ``test
+run" were not taken into account when extracting literature and only after this
+iteration, the already analysed literature will not be reanalysed.
+
+Relying on the keywords identified in Table \ref{tab:keywords}, the following query was tried:
+
+\begin{center}
+  \emph{(microservice* OR micro?service*) AND (migrat* OR identif*) AND (monolith*) AND (migrat* NEAR/2 (process* OR approach*))}
+\end{center}
+
+\begin{table}[H] \caption{DB.1 Results} \label{tab:db1-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
+      results} & \textbf{Extracted\newline New Results} \\
+      \hline{450} & {12} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+The next step was going through the papers references to try to find other
+related publications that is, by applying forward and backward snowballing as
+stated in \ref{sub:search-strategy}
+
+\begin{table}[H] \caption{DB.1 Snowballing Results} \label{tab:db1-snowballing}
+  \begin{center}
+    \begin{tabular}[c]{p{8em}|p{8em}|p{8em}}
+      \textbf{1st Forward} &
+      \textbf{2nd Forward} &
+      \textbf{Backward} \\
+      \hline{23} &
+      {2} &
+      {45} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+
+
+\subsection{Publications Grouping}
+
+With the huge amount of publications selected as candidates for final reading,
+there was a necessity diluting the list of publications even more. To achieve
+this, categorizing them for later selection and better priotization was the
+approach we went for. In this case, we arrived at four main groups to be
+categorize each publication:
+
+\begin{itemize}
+  \item The \textbf{approach} used for identifying microservices from monoliths.
+  \begin{itemize}
+    \item \textit{Data flow}.
+    \item \textit{Dependency analysis}.
+    \item \textit{Execution log}.
+    \item \textit{etc}.
+  \end{itemize}
+  \item The current \textbf{status} of the publication.
+  \begin{itemize}
+    \item It only explains the \textit{method} at a high level.
+    \item Has implementation details with the \textit{algorithm} on how to identify.
+    \item Already has a working \textit{tool}.
+  \end{itemize}
+  \item The \textbf{language} in which that it targets.
+  \begin{itemize}
+    \item \textit{Java}.
+    \item \textit{Cpp}.
+    \item \textit{C}.
+    \item \textit{Language Agnostic}.
+    \item \textit{etc}.
+  \end{itemize}
+\end{itemize}
+
+% \begin{table}[H] \caption{Approach grouping}
+%   \begin{center}
+%     \begin{tabular}[c]{p{8em}|p{4em}}
+%       \textbf{Approach} &
+%       \textbf{Amount} \\
+%       \hline Static analysis & {13} \\
+%       \hline Model based & {9} \\
+%       \hline Dependency analysis  & {7} \\
+%       \hline Domain analysis  & {6} \\
+%       \hline Data flow  & {6} \\
+%       \hline Data & {5} \\
+%       \hline Cohesion & {4} \\
+%       \hline Multiple & {4} \\
+%     \end{tabular}
+%   \end{center}
+% \end{table}
+
+\subsection{Selected Work}
+
 
 
 \section{Conclusion and Future Work}
