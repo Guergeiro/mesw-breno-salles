@@ -3,8 +3,10 @@
 \usepackage[utf8]{inputenc} \usepackage{blindtext} \usepackage{hyperref}
 \usepackage{array} \usepackage{float} \usepackage{indentfirst}
 \usepackage{enumerate}
+\usepackage{multibib}
 
 \newcommand{\wrap}[1]{\parbox{.33\linewidth}{\vspace{1.5mm}#1\vspace{1mm}}}
+\newcites{SLR}{Systematic Review References}
 
 \title{Refactoring-assisted migration of monoliths to microservices}
 \author{Breno Salles} \date{January 2023}
@@ -28,15 +30,158 @@
 
 \end{abstract}
 
-\section{Introduction} foo
+\section{Introduction}
 
-Falar das questões?
+Microservices is an architectural style that evolved from Service Oriented
+Architecture (SOA). Just like SOA, microservices are a response to monolithic
+architecture. The main contrasts are that, while monolithic applications are
+software systems with a single, integrated codebase that includes all necessary
+components and features \cite{kazanavivcius2019migrating}, microservices tend
+to be separated and loosely coupled \cite{newman2021building}, and also that
+while monoliths tend to be easier to develop they may scale poorly and are
+harder do maintain when compared to microservices \cite{newman2019monolith}.
 
-\section{Background and Related Works} foo
+Microservices are increasingly being used in the development of modern
+applications, particularly in the areas of cloud computing and DevOps
+\cite{ren2018migrating}. Many organizations, including large enterprises and
+startups, are adopting microservices as a way to build and deploy applications
+more quickly and efficiently \cite{richardson-microservices}. Microservices are
+particularly well-suited to distributed, cloud-based environments, where they
+can take advantage of the flexibility and scalability of the cloud
+\cite{fowler-microservices-prerequisites}. This type of architecture is already
+being applied in multiple well known companies, like Uber, Netflix, Ebay
+\cite{microservices-users} and also being followed by the rest of the herd when compared to monolith architecture \cite{taibi2017processes}.
 
-\section{Systematic Literature Review} foo
+Refactoring from monoliths to microservices is a heavily debated topic both in
+the academic world and the industry. The main takes from this debate is that
+refactoring is difficult and time consuming if a proper ways of migration are
+chosen. To help fight this, some tools were developed that help with the
+refactor \cite{brito2021identification} \cite{kalia2021mono2micro}
+\cite{freitas2021refactoring}, but in a world with more and more data and
+information, having a single place where achitects, engineers and developers
+can find and use all these and future tools can be considered utopic.
+
+The goal of this study is to structurely analyse the state of the art in
+regards of migration of monolithic applications to microservices architectural
+style, mainly how tools are helping architects, engineers and developers in
+this migration, and how automated they are. The hope is to, in the future,
+develop a tool that aggregates already existing tools to further relieve the
+pain of migrating.
+
+To achieve this, the guidelines presented by Kitchenham and Charters
+\citeSLR{kitchenham2007guidelines} were taken into account while performing a
+systematic literature review. The research protocol was defined at first and then followed to ensure all results could be reproduced.
+
+According to Kitchenham and Charters \citeSLR{kitchenham2007guidelines},
+research questions should be specified as they will direct the entire review
+methodology. The research questions formulated are as follows:
+
+\emph{
+  \begin{enumerate}[{RQ}1.]
+    \item What tools already exist that aid in the migration process of
+      monoliths to microservices?
+    \begin{enumerate}[{RQ1.}1.]
+      \item How do they take the monolith as input?
+      \item How do they produce the microservice as output?
+      \item Are they bound to a specific language?
+    \end{enumerate}
+    \item How can an aggregator of those tools help architects, engineers
+      and developers in their microservice migration?
+  \end{enumerate}
+}
+
+\section{Background}
+
+\subsection{Monoliths}
+
+Monolithic applications are software systems that are designed as a single,
+self-contained unit. In other words, monolithic applications are composed of a
+single, integrated codebase that includes all of the necessary components and
+features for the application to run \cite{kazanavivcius2019migrating}. This
+means that all of the different parts of the application, such as the user
+interface, business logic, and database access, are all contained within a
+single codebase and are not modularized or separated into distinct components.
+
+Monolithic architecture is a traditional approach to software development that
+has been widely used for many years. It is generally characterized by a strong
+emphasis on simplicity and ease of development. However, monolithic
+applications can also be more difficult to maintain and update, as changes to
+one part of the codebase can have unintended consequences on other parts of the
+system. This can make it challenging to introduce new features or make changes
+to the application without significant testing and debugging
+\cite{kazanavivcius2019migrating}.
+
+Despite these challenges, monolithic applications are still widely used in many
+contexts due to their simplicity and ease of development. They are particularly
+well-suited for small to medium-sized applications that do not require a high
+level of modularity or separation of concerns.
+
+\subsection{Microservices}
+
+Microservices is an architectural style that structures an application as a
+collection of loosely coupled services \cite{newman2021building}. This means
+that each microservice is a self-contained unit of functionality, which
+communicates with other microservices through well-defined interfaces,
+typically using a lightweight messaging protocol such as HTTP
+\cite{fowler-microservices}.
+
+One key benefit of this approach is that it allows for greater flexibility and
+scalability \cite{newman2019monolith}. Because each microservice is independent
+and modular, it can be modified and deployed independently of the other
+services in the application. This can make it easier to make changes to the
+system, as it is not necessary to redeploy the entire application every time a
+change is made. In addition, the modular nature of microservices allows for
+easier scaling, as individual services can be scaled up or down as needed to
+meet changing demand
+\cite{newman2019monolith}\cite{newman2021building}\cite{fowler-microservices}.
+
+Another advantage of microservices is that they can be developed and maintained
+by small, autonomous teams \cite{chen2018microservices}. This can be beneficial
+for organizations with a large codebase or a distributed development team, as
+it allows for more focused development and faster deployment of changes
+\cite{nadareishvili2016microservice}.
+
+However, there are also challenges to consider when adopting a microservices
+architecture \cite{fowler-microservices-tradeoffs}. One challenge is the added
+complexity of managing a distributed system, as there may be a larger number of
+moving parts to monitor and troubleshoot \cite{newman2021building}. In
+addition, the communication between microservices can add latency to the
+system, which may impact the performance of the overall application
+\cite{fowler-microservices-tradeoffs} \cite{pautasso2017microservices}.
+
+Overall, microservices can be an effective way to structure an application,
+particularly for large, complex systems that require a high degree of
+flexibility and scalability \cite{newman2021building}. However, it is important
+to carefully evaluate the trade-offs and consider whether the benefits of a
+microservices architecture are worth the added complexity
+\cite{fowler-microservices-tradeoffs}.
+
+\section{Systematic Literature Review}
+
+A systematic literature review is a type of review that aims to identify,
+evaluate, and summarize the results of all studies that address a specific
+research question or topic \citeSLR{kitchenham2007guidelines}
+\citeSLR{kitchenham2009systematic} \citeSLR{gough2017introduction}. It involves
+following a specific methodology to identify, analyze, and interpret all
+relevant evidence related to the research question being addressed. The purpose
+of a systematic literature review is to provide a comprehensive and up-to-date
+overview of the current state of knowledge on a specific research question or
+topic. It is a critical appraisal of the existing research, and it can help
+identify gaps in the literature and inform future research directions
+\citeSLR{kitchenham2007guidelines}.
+
+As per Kitchenham and Charters guidelines \citeSLR{kitchenham2007guidelines}, a
+systematic literature review (SLR) involves three phases: planning, conducting,
+and reporting. The planning phase involves establishing the review protocol
+based on the research questions and the need for the review. The conducting
+phase involves selecting primary studies and applying the criteria established
+in the review protocol to analyze them. Finally, the reporting phase involves
+the creation of the report. These guidelines were loosely followed in the
+development of this review.
 
 \subsection{Research Methodology} \label{sub:research-methodology}
+
+
 
 To address the research questions posed in the Introduction, the appropriate
 research methods were utilized.
@@ -55,7 +200,7 @@ the target databases present in Table \ref{tab:databases}.
       \hline DB.2 & IEEE Xplore & \url{https://ieeexplore.ieee.org/} \\
       \hline DB.3 & Springer Link & \url{https://link.springer.com/} \\
       \hline DB.4 & Wiley & \url{https://onlinelibrary.wiley.com/} \\
-      \hline DB.5 & Wiley & \url{https://www.sciencedirect.com/} \\
+      \hline DB.5 & Science Direct & \url{https://www.sciencedirect.com/} \\
       \hline DB.6 & Engineering Village &
       \url{https://www.engineeringvillage.com/} \\
       \hline DB.7 & Google Scholar & \url{https://scholar.google.com/} \\
@@ -237,7 +382,78 @@ stated in \ref{sub:search-strategy}
   \end{center}
 \end{table}
 
+A point was reached in which multiple publications found via the snowballing
+approach were adding little to no value to our general knowledge. Therefore, it
+was decided to apply the query to the remaining publications databases.
 
+On other instances of databases, the query would sometimes produce more than
+two thousand results and that would be inconsivable to analyse in the given
+timeframe, therefore it was decided to change a bit of the query and only focus
+on titles and abstracts. The following query was the one used:
+
+\begin{center}
+  \emph{(microservice* OR "micro-service") AND (migrat* OR decompos* OR identif* OR refactor* OR evolv* OR extract* OR discover* OR transition*)}
+\end{center}
+
+In the case of Science Direct, it is limited to 7 \textit{OR} conditions,
+therefore it was necessary to split it into two queries where it does not
+affect the general condition. In the specific case, the \textit{``evolv"}
+keyword was moved into a separate query. Also, Scince Direct automatically
+accepts truncations without using the \textit{``*"} char.
+
+\begin{enumerate}
+  \item \emph{(microservice OR "micro-service") AND ( migrat OR decompos OR
+    identif OR refactor OR extract OR discover OR transition)}
+  \item \emph{(microservice OR "micro-service") AND (evolv)}
+\end{enumerate}
+
+\begin{table}[H] \caption{DB.5 Results} \label{tab:db5-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
+      results} & \textbf{Extracted\newline New Results} \\
+      \hline{21} & {1} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[H] \caption{DB.4 Results} \label{tab:db4-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
+      results} & \textbf{Extracted\newline New Results} \\
+      \hline{9} & {3} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[H] \caption{DB.6 Results} \label{tab:db6-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
+      results} & \textbf{Extracted\newline New Results} \\
+      \hline{114} & {12} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[H] \caption{DB.3 Results} \label{tab:db3-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
+      results} & \textbf{Extracted\newline New Results} \\
+      \hline{20} & {0} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[H] \caption{DB.2 Results} \label{tab:db2-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
+      results} & \textbf{Extracted\newline New Results} \\
+      \hline{0} & {0} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+
+Iterating over the results the references of newly found publications, there were no new interesting publications worth adding to the final list, ending our general search.
 
 \subsection{Publications Grouping}
 
@@ -293,5 +509,7 @@ categorize each publication:
 
 
 \section{Conclusion and Future Work}
+
+\bibliography{refs.bib}
 
 \end{document}
