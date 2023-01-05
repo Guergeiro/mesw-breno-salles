@@ -92,6 +92,11 @@ methodology. The research questions formulated are as follows:
 
 \section{Background}
 
+To give readers a foundational understanding of microservice architecture and
+its key features, we will provide a brief overview of microservices and
+contrast them with traditional monolithic applications. This will allow readers
+to clearly understand the differences between the two architectures.
+
 \subsection{Monoliths}
 
 Monolithic applications are software systems that are designed as a single,
@@ -155,6 +160,31 @@ flexibility and scalability \cite{newman2021building}. However, it is important
 to carefully evaluate the trade-offs and consider whether the benefits of a
 microservices architecture are worth the added complexity
 \cite{fowler-microservices-tradeoffs}.
+
+\subsection{Refactoring}
+
+Refactoring is the process of modifying the internal structure of an existing
+codebase without changing its external behavior \cite{becker1999refactoring}.
+When migrating from a monolithic architecture to a microservices architecture,
+it may be necessary to refactor the existing codebase in order to break it up
+into independent microservices. This can be a complex and time-consuming
+process, particularly for large, complex systems \cite{newman2019monolith}.
+
+There are several factors to consider when refactoring an existing codebase for
+a microservices architecture \cite{newman2019monolith}. One challenge is
+ensuring that the code is modular and loosely coupled, so that it can be
+developed and deployed independently as a microservice. This may require
+restructuring the code, introducing new abstractions and interfaces, and
+potentially even rewriting parts of the code.
+
+Another challenge is preserving the existing functionality of the application
+while making changes to the codebase. It is important to carefully plan and
+test the refactoring process to ensure that the application continues to work
+as expected after the changes are made.
+
+Overall, refactoring an existing codebase for a microservices architecture can
+be a significant undertaking, and it is important to carefully evaluate the
+resources and time required to complete the process \cite{newman2019monolith}.
 
 \section{Systematic Literature Review}
 
@@ -510,6 +540,10 @@ categorize each publication:
 
 \section{Conclusion and Future Work}
 
-\bibliography{refs.bib}
+\bibliographystyle{unsrt}
+\bibliography{refs}
+
+\bibliographystyleSLR{unsrt}
+\bibliographySLR{slr}
 
 \end{document}
