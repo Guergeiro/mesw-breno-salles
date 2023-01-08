@@ -1,11 +1,13 @@
 \documentclass[conference]{IEEEtran}
 
-\usepackage[utf8]{inputenc} \usepackage{blindtext} \usepackage{hyperref}
-\usepackage{array} \usepackage{float} \usepackage{indentfirst}
-\usepackage{enumerate}
-\usepackage{multibib}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref} % Hyperlinks
+\usepackage{indentfirst} % Indent first line section
+\usepackage{enumerate} % Ordered list
+\usepackage{multibib} % Multiple bibliographies
+\usepackage{graphicx} % Allows for figures
+\graphicspath{ {./.assets/images/} }
 
-\newcommand{\wrap}[1]{\parbox{.33\linewidth}{\vspace{1.5mm}#1\vspace{1mm}}}
 \newcites{SLR}{Systematic Review References}
 
 \title{Refactoring-assisted migration of monoliths to microservices}
@@ -58,15 +60,18 @@ refactoring is difficult and time consuming if a proper ways of migration are
 chosen. To help fight this, some tools were developed that help with the
 refactor \cite{brito2021identification} \cite{kalia2021mono2micro}
 \cite{freitas2021refactoring}, but in a world with more and more data and
-information, having a single place where achitects, engineers and developers
-can find and use all these and future tools can be considered utopic.
+information, having a single place where architects, engineers and developers
+can find and use all these and future tools can be considered utopia.
 
-The goal of this study is to structurely analyse the state of the art in
+The goal of this study is to structurally analyse the state of the art in
 regards of migration of monolithic applications to microservices architectural
 style, mainly how tools are helping architects, engineers and developers in
-this migration, and how automated they are. The hope is to, in the future,
-develop a tool that aggregates already existing tools to further relieve the
-pain of migrating.
+this migration, and how automated they are. Furthermore, in the following
+thesis, the purpose is to develop a tool which aims to aggregate existing tools
+into a single platform, as well as provide the means to extend and incorporate
+new tools. This tool will offer a convenient and comprehensive way to access
+and use a variety of tools that help on the refactor from monolith to
+microservices.
 
 To achieve this, the guidelines presented by Kitchenham and Charters
 \citeSLR{kitchenham2007guidelines} were taken into account while performing a
@@ -218,11 +223,16 @@ research methods were utilized.
 
 \subsubsection{Data sources and search strategy} \label{sub:search-strategy}
 
-In terms of where to look for information, ACM Digital Library, Science Direct,
-IEEE Xplore, Wiley, Springer Link, Engineering Village and Google Scholar were
-the target databases present in Table \ref{tab:databases}.
+To access relevant research and information in this field, it is advisable to
+search several databases that specialise in scientific literature. Table
+\ref{tab:databases} presents a list of several such databases, including the
+ACM Digital Library, Science Direct, IEEE Xplore, Wiley, Springer Link,
+Engineering Village, and Google Scholar. These databases contain a wealth of
+knowledge and resources, including journal articles, conference proceedings,
+technical reports, and more, which can be useful for staying up to date on the
+latest developments in this field.
 
-\begin{table}[H] \caption{Databases} \label{tab:databases}
+\begin{table}[!htb] \caption{Databases} \label{tab:databases}
   \begin{center}
     \begin{tabular}[c]{l|l|l} \textbf{ID} & \textbf{Search Engine} &
       \textbf{Website} \\
@@ -241,37 +251,56 @@ the target databases present in Table \ref{tab:databases}.
 
 % TODO: Aqui estava a pensar introduzir a palha a explicar o que são por alto
 
-A breadth first search like approach will used, meaning that after selecting
-relevant publications from a given database and query string, a two level
-forward and backward snowballing of references will be done, using Google
-Scholar to search for citations and publications. The two level simply means,
-after selecting a publication to snowball, extracting its references is at
-level one and then selecting the references of those references means level
-two. The backward snowballing will then be applied just once for all previous
-publications found, including ones selected in the forward snowballing step.
+To ensure a thorough and comprehensive search for relevant publications in this
+field, we will utilize a breadth first search approach. This method involves
+starting with a specific query string and selecting relevant publications from
+a given database. We will then use a technique called snowballing to expand the
+search and locate additional relevant publications. Snowballing involves
+searching for citations and publications that are related to the initially
+selected publications.
 
-When this is exhausted, the next database and query string will be selected.
-This approach is helpful because it reduces the number of publications to
-analyse during subsequent databases queries as multiple publications will
-probably be previous analysed in previous iterations.
+There are two types of snowballing that we will employ in this search: forward
+snowballing and backward snowballing. Forward snowballing involves searching
+for citations and publications using Google Scholar for the initially selected
+publications. This process can be repeated multiple times, with each iteration
+referred to as a level of snowballing. For the purpose of this search, we will
+perform two levels of forward snowballing, in which we extract the references
+of the initially selected publications (level one) and then select the
+references of those references (level two).
 
-In terms of research keywords, since the study of this thesis is mainly
-focused ``microservices", multiple ways of writing microservices should be
-used. As for the practices that may help identification of microservices,
-keywords that help this architectural refactoring should be included, things
-like ``migration", ``refactor", ``identification". It could also be useful to
-use ``monolith" (and all its possible synonyms) to be the comparison against
-``microservices", although this can result in some extra publications not
-related to microservices but instead related to ``service oriented
-architecture". An expected outcome or conclusion of the publication could be
-included, ``approach" or even ``tool".
+Backward snowballing involves searching for publications that have cited the
+initially selected publications. This technique can also be repeated multiple
+times, but for the purpose of this search, we will only perform one level of
+backward snowballing. This will include all previous publications found during
+the forward snowballing step.
 
-\begin{table}[H] \caption{Keywords} \label{tab:keywords}
+By utilizing both forward and backward snowballing techniques, we aim to cast a
+wide net and identify as many relevant publications as possible.
+
+After completing the search for relevant publications in a given database using
+the specified query string, we will move on to the next database. This approach
+is advantageous because it allows us to efficiently locate relevant
+publications while minimizing the number of duplicates that are analyzed. By
+searching multiple databases and using snowballing techniques, we can identify
+a large number of relevant publications and eliminate the need to analyze many
+of them in subsequent iterations.
+
+To identify relevant publications for this research, we will utilize a range of
+keywords related to the topic of microservices. These keywords will include
+various phrases and terms used to describe microservices. As for the practices
+that may help identification of microservices, keywords that help this
+architectural refactoring should be included, things like ``migration",
+``refactor", ``identification". It could also be useful to use ``monolith" (and
+all its possible synonyms) to be the comparison against ``microservices",
+although this can result in some extra publications not related to
+microservices but instead related to ``service oriented architecture". An
+expected outcome or conclusion of the publication could be included,
+``approach" or even ``tool".
+
+\begin{table}[!htb] \caption{Keywords} \label{tab:keywords}
   \begin{center}
-    \begin{tabular}[c]{l|l} {\textbf{Focus}} & microservices \\
-      \hline \textbf{Refactoring} & {\wrap{ migration, decomposition,\\
-          identify, refactor, evolve,\\
-      discover, transition }} \\
+    \begin{tabular}[c]{p{7em}|p{13em}} {\textbf{Focus}} & microservices \\
+      \hline \textbf{Refactoring} & {migration, decomposition, identify, refactor, evolve, discover, transition } \\
       \hline \textbf{Target} & monolith \\
       \hline \textbf{Outcome} & approach, tool \\
     \end{tabular}
@@ -315,7 +344,7 @@ limited to tools that are documented in academic databases therefore, in
 addition to the databases mentioned in Table \ref{tab:databases},
 \href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
 even \href{https://duckduckgo.org}{DuckDuckGo} were searched for, even
-though they donot represent a scientific search engine.
+though they do not represent a scientific search engine.
 
 By using some keywords mentioned in Table \ref{tab:keywords} we created an
 initial trial query:
@@ -330,7 +359,7 @@ The query was then applied to DB.1, DB.2 and DB.3 and after applying the
 selection criteria mentioned in subsection \ref{sub:selection-criteria},
 results were gathered and are presented in Table \ref{tab:tool-search}.
 
-\begin{table}[H] \caption{Tool Search} \label{tab:tool-search}
+\begin{table}[!htb] \caption{Tool Search} \label{tab:tool-search}
   \begin{center}
     \begin{tabular}[c]{p{5.5em}|p{5em}|p{5em}} \textbf{Database} &
       \textbf{Total\newline number\newline of results} &
@@ -346,7 +375,7 @@ As for the not so scientific search, the query would be essentilly typed into
 their respective search engine and the results gathered are present in Table
 \ref{tab:search-engine-tool-search}.
 
-\begin{table}[H] \caption{Search Engine Tool Search}
+\begin{table}[!htb] \caption{Search Engine Tool Search}
   \label{tab:search-engine-tool-search}
   \begin{center}
     \begin{tabular}[c]{p{5.5em}|p{10em}|p{4em}|p{5em}}
@@ -366,27 +395,41 @@ their respective search engine and the results gathered are present in Table
     \end{tabular}
   \end{center}
 \end{table}
-By doing this search, we can also backtrack from the references used and
-check if the tools here were based on other work, but only a part of it and
-therefore just implemented a specific approach.
+Through this search process, we can also trace the references used in these
+publications to determine if the tools described were based on previous work,
+but only implemented a specific approach. This will help us to understand the
+context and origins of these tools and how they fit into the broader landscape
+of research in this area.
 
-As for the second iteration of the review, the focus was more about finding
-other approaches for migrating from monolith to microservices that might have
-been documented and not implemented. With this, it will be easier to understand
-where the state of the art starts and ends, what is missing from at the moment
-and what can be improved on.
+During the second iteration of the review process, we focused on locating
+publications that describe alternative approaches for migrating from monolithic
+to microservices architectures that may not have been implemented in practice.
+This allowed us to gain a deeper understanding of the current state of the art
+in this area, identify any gaps or areas where further research is needed, and
+determine what can be improved upon. This information will be useful in guiding
+the development of our tool and abstraction.
 
-Since it was a start of a new iteration, the results of the previous ``test
-run" were not taken into account when extracting literature and only after this
-iteration, the already analysed literature will not be reanalysed.
+As this was the beginning of a new iteration of the review process, the results
+of the previous ``test run" were not considered when extracting literature.
+Only after this iteration was completed did we incorporate the previously
+analysed literature and exclude it from further analysis to avoid duplication
+of effort. This allowed us to focus on identifying new and potentially relevant
+publications for our purposes.
 
-Relying on the keywords identified in Table \ref{tab:keywords}, the following query was tried:
+Relying on the keywords identified in Table \ref{tab:keywords}, the following
+query was tried:
 
 \begin{center}
-  \emph{(microservice* OR micro?service*) AND (migrat* OR identif*) AND (monolith*) AND (migrat* NEAR/2 (process* OR approach*))}
+  \emph{(microservice* OR micro?service*) AND (migrat* OR identif*) AND
+  (monolith*) AND (migrat* NEAR/2 (process* OR approach*))}
 \end{center}
 
-\begin{table}[H] \caption{DB.1 Results} \label{tab:db1-search}
+With this, we then proceed to apply the query and search the first database. As
+shown in Table \ref{tab:db1-search}, from four hundred and fifty results, only
+twelve passed the selection criteria defined in section
+\ref{sub:selection-criteria}.
+
+\begin{table}[!htb] \caption{DB.1 Results} \label{tab:db1-search}
   \begin{center}
     \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
       results} & \textbf{Extracted\newline New Results} \\
@@ -395,11 +438,13 @@ Relying on the keywords identified in Table \ref{tab:keywords}, the following qu
   \end{center}
 \end{table}
 
-The next step was going through the papers references to try to find other
-related publications that is, by applying forward and backward snowballing as
-stated in \ref{sub:search-strategy}
+After reviewing the references of the identified papers and applying forward
+and backward snowballing techniques, we were able to locate additional related
+publications and expand the scope of our search as demonstrated in Table
+\ref{tab:db1-snowballing}. This helped us to increase the number of relevant
+publications that we were able to consider in the next steps of the process.
 
-\begin{table}[H] \caption{DB.1 Snowballing Results} \label{tab:db1-snowballing}
+\begin{table}[!htb] \caption{DB.1 Snowballing Results} \label{tab:db1-snowballing}
   \begin{center}
     \begin{tabular}[c]{p{8em}|p{8em}|p{8em}}
       \textbf{1st Forward} &
@@ -412,24 +457,42 @@ stated in \ref{sub:search-strategy}
   \end{center}
 \end{table}
 
-A point was reached in which multiple publications found via the snowballing
-approach were adding little to no value to our general knowledge. Therefore, it
-was decided to apply the query to the remaining publications databases.
-
-On other instances of databases, the query would sometimes produce more than
-two thousand results and that would be inconsivable to analyse in the given
-timeframe, therefore it was decided to change a bit of the query and only focus
-on titles and abstracts. The following query was the one used:
+After a certain point, we found that the publications located through the
+snowballing approach were no longer adding significant value to our overall
+understanding of the topic. As a result, we decided to apply the search query
+to the remaining databases. In some instances, the query produced more than two
+thousand results, which would have been impractical to analyse within the given
+timeframe. Therefore, we modified the query to focus only on the titles and
+abstracts of the publications. The revised query that we used is as follows:
 
 \begin{center}
-  \emph{(microservice* OR "micro-service") AND (migrat* OR decompos* OR identif* OR refactor* OR evolv* OR extract* OR discover* OR transition*)}
+  \emph{(microservice* OR "micro-service") AND (migrat* OR decompos* OR
+  identif* OR refactor* OR evolv* OR extract* OR discover* OR transition*)}
 \end{center}
 
-In the case of Science Direct, it is limited to 7 \textit{OR} conditions,
-therefore it was necessary to split it into two queries where it does not
-affect the general condition. In the specific case, the \textit{``evolv"}
-keyword was moved into a separate query. Also, Scince Direct automatically
-accepts truncations without using the \textit{``*"} char.
+\begin{table}[!htb] \caption{Remaining DB Results} \label{tab:other-db-search}
+  \begin{center}
+    \begin{tabular}[c]{p{5em}|p{5em}|p{5em}}
+      \textbf{Database} &
+      \textbf{Total\newline number\newline of results} &
+      \textbf{Extracted\newline New Results} \\
+      \hline {DB.5 - 1st} & {21} & {1} \\
+      \hline {DB.5 - 2nd} & {0} & {0} \\
+      \hline {DB.4} & {9} & {3} \\
+      \hline {DB.6} & {114} & {12} \\
+      \hline {DB.3} & {20} & {0} \\
+      \hline {DB.2} & {0} & {0} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+In the case of Science Direct, as presented in Table \ref{tab:other-db-search},
+two queries were done. The main reason for this is that Science Direct is
+limited to 7 \textit{OR} conditions, therefore it was necessary to split it
+into two queries where it does not affect the general condition. In the
+specific case, the \textit{``evolv"} keyword was moved into a separate query.
+Also, Scince Direct automatically accepts truncations without using the
+\textit{``*"} char.
 
 \begin{enumerate}
   \item \emph{(microservice OR "micro-service") AND ( migrat OR decompos OR
@@ -437,61 +500,22 @@ accepts truncations without using the \textit{``*"} char.
   \item \emph{(microservice OR "micro-service") AND (evolv)}
 \end{enumerate}
 
-\begin{table}[H] \caption{DB.5 Results} \label{tab:db5-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
-      results} & \textbf{Extracted\newline New Results} \\
-      \hline{21} & {1} \\
-    \end{tabular}
-  \end{center}
-\end{table}
 
-\begin{table}[H] \caption{DB.4 Results} \label{tab:db4-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
-      results} & \textbf{Extracted\newline New Results} \\
-      \hline{9} & {3} \\
-    \end{tabular}
-  \end{center}
-\end{table}
-
-\begin{table}[H] \caption{DB.6 Results} \label{tab:db6-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
-      results} & \textbf{Extracted\newline New Results} \\
-      \hline{114} & {12} \\
-    \end{tabular}
-  \end{center}
-\end{table}
-
-\begin{table}[H] \caption{DB.3 Results} \label{tab:db3-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
-      results} & \textbf{Extracted\newline New Results} \\
-      \hline{20} & {0} \\
-    \end{tabular}
-  \end{center}
-\end{table}
-
-\begin{table}[H] \caption{DB.2 Results} \label{tab:db2-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
-      results} & \textbf{Extracted\newline New Results} \\
-      \hline{0} & {0} \\
-    \end{tabular}
-  \end{center}
-\end{table}
-
-
-Iterating over the results the references of newly found publications, there were no new interesting publications worth adding to the final list, ending our general search.
+After iterating over the results and reviewing the references of the newly
+found publications, we did not identify any additional publications that were
+worth including in the final list. This marked the end of our general search
+for relevant publications.
 
 \subsection{Publications Grouping}
 
-With the huge amount of publications selected as candidates for final reading,
-there was a necessity diluting the list of publications even more. To achieve
-this, categorizing them for later selection and better priotization was the
-approach we went for. In this case, we arrived at four main groups to be
-categorize each publication:
+Given the large number of publications that were identified as potential
+candidates for further analysis, it was necessary to further narrow down the
+list to a more manageable size. To accomplish this, we employed a
+categorization approach in order to better organize and prioritize the
+publications for later selection. This allowed us to more efficiently select
+and analyze the most relevant publications for our purposes. Through this
+process, we arrived at four main categories into which we could place each
+publication:
 
 \begin{itemize}
   \item The \textbf{approach} used for identifying microservices from monoliths.
@@ -517,7 +541,7 @@ categorize each publication:
   \end{itemize}
 \end{itemize}
 
-% \begin{table}[H] \caption{Approach grouping}
+% \begin{table}[!htb] \caption{Approach grouping}
 %   \begin{center}
 %     \begin{tabular}[c]{p{8em}|p{4em}}
 %       \textbf{Approach} &
@@ -536,7 +560,72 @@ categorize each publication:
 
 \subsection{Selected Work}
 
+\section{Tool Design}
 
+As of the time of writing this paper, the design of the proposed tool is not
+yet finalized. We have only developed initial ideas about how we will approach
+the problem and have created a sketch of the proposed tool architecture, which
+is shown in Figure \ref{fig:tool-architecture}.
+
+\begin{figure}[!htb]
+  \caption{Candidate tool architecture}
+  \label{fig:tool-architecture}
+  \centering
+  \includegraphics[width=\columnwidth]{thesis-architecture.drawio}
+\end{figure}
+
+The proposed tool architecture, as depicted in the sketch shown in Figure
+\ref{fig:tool-architecture}, consists of three distinct components. The
+frontend is responsible for the interface between the tool logic and the user.
+The tools domain contains adapters for individual tools and the tool runtime,
+which receives the monolithic input and generates the candidate microservices.
+The backend serves as a bridge between the frontend, the database of available
+tools, and the tools domain.
+
+The main role of the backend component in the proposed tool architecture is to
+initiate jobs and notify the frontend when a given job has completed. A job
+consists of the process of identifying microservices from a given monolithic
+input, which is then completed when the output containing the identified
+microservices is produced. To avoid potential bottlenecks when multiple jobs
+are run concurrently, the backend does not perform these tasks directly but
+rather delegates them to the individual tools, therefore acting like a bridge.
+
+The tools domain in the proposed tool architecture includes the tool runtime,
+which contains the tool itself, and an adapter for the tool. The purpose of the
+adapter is to provide a consistent interface for interacting with the tool,
+regardless of the specific input and output formats that it uses. This is
+important because different tools may accept different inputs and produce
+different outputs, such as JSON or raw code. By using an adapter to translate
+between these formats, it becomes easier to process the inputs and outputs of
+the tool and integrate it with the overall tool logic. The tool runtime
+receives the monolithic input and generates the candidate microservices, while
+the adapter serves as a "middleman" between the tool runtime and the other
+components of the architecture.
+
+One of the first decisions that we have considered is which target platform the
+tool should support. There are three major platforms that are relevant for this
+purpose: macOS, Windows, and Linux. Determining which of these platforms to
+focus on would require extensive surveying to ensure that the tool will be used
+by the intended audience. While market share data suggests that Windows is the
+most widely used desktop operating system, followed by macOS and Linux
+\cite{desktop-usage-worldwide}, this may not necessarily reflect the operating
+systems used by the architects, engineers, and developers who are responsible
+for migration. Given the limited time frame, it is infeasible to conduct a
+thorough survey to determine the preferred operating system of this target
+audience. As a result, we have decided to adopt a more cross-platform solution.
+After evaluating the options, we have determined that the browser is the most
+suitable platform for this purpose.
+
+Ideally, each component of the proposed tool architecture would be deployed as
+a microservice in a Docker container to facilitate scalability and
+cross-platform deployment. This is especially important for the tool runtime
+component, as it is uncertain at this point whether the tools will take
+advantage of multithreading. By using Docker, we can create a new container for
+each job, which would allow us to handle multiple jobs concurrently and avoid
+the need for users to wait for their jobs to complete. Of course, it is
+possible that certain tool limitations may prevent us from implementing this
+approach, but it is our goal to use microservices and Docker to the greatest
+extent possible to ensure the flexibility and scalability of the tool.
 
 \section{Conclusion and Future Work}
 
