@@ -1,0 +1,10 @@
+*
+!.assets
+!research
+!.gitignore
+!extract-csv.ts
+!IEEEtran.bst
+!IEEEtran.cls
+!refs.bib
+!slr.bib
+!sota.tex
