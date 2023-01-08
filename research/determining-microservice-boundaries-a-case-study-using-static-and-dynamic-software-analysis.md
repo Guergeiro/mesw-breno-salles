@@ -6,6 +6,7 @@
 [_metadata_:tag]:- #approach-execution-flow
 [_metadata_:tag]:- #status-tool
 [_metadata_:tag]:- #language-python
+[_metadata_:tag]:- #tool-available
 
 <!-- deno-fmt-ignore-end -->
 

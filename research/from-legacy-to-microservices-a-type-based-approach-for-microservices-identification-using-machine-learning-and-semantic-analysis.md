@@ -4,6 +4,7 @@
 [_metadata_:tag]:- #approach-dependencies
 [_metadata_:tag]:- #status-tool
 [_metadata_:tag]:- #language-agnostic
+[_metadata_:tag]:- #tool-available
 
 <!-- deno-fmt-ignore-end -->
 

@@ -5,6 +5,7 @@
 [_metadata_:tag]:- #approach-business
 [_metadata_:tag]:- #status-tool
 [_metadata_:tag]:- #language-unknown
+[_metadata_:tag]:- #tool-unavailable
 
 <!-- deno-fmt-ignore-end -->
 

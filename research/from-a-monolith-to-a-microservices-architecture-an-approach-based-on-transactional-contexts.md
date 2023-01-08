@@ -3,6 +3,7 @@
 [_metadata_:tag]:- #approach-transactional-contexts
 [_metadata_:tag]:- #status-tool
 [_metadata_:tag]:- #language-java
+[_metadata_:tag]:- #tool-available
 
 <!-- deno-fmt-ignore-end -->
 

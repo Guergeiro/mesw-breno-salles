@@ -3,6 +3,7 @@
 [_metadata_:tag]:- #approach-multiple
 [_metadata_:tag]:- #status-tool
 [_metadata_:tag]:- #language-java
+[_metadata_:tag]:- #tool-unavailable
 
 <!-- deno-fmt-ignore-end -->
 

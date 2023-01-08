@@ -1,6 +1,7 @@
 \documentclass[conference]{IEEEtran}
 
 \usepackage[utf8]{inputenc}
+\usepackage{url} % Urls
 \usepackage{hyperref} % Hyperlinks
 \usepackage{indentfirst} % Indent first line section
 \usepackage{enumerate} % Ordered list
@@ -511,7 +512,8 @@ Also, Scince Direct automatically accepts truncations without using the
 After iterating over the results and reviewing the references of the newly
 found publications, we did not identify any additional publications that were
 worth including in the final list. This marked the end of our general search
-for relevant publications.
+for relevant publications. We were able to find one hundred and six relevant
+publications.
 
 \subsection{Publications Grouping}
 
@@ -525,20 +527,24 @@ process, we arrived at four main categories into which we could place each
 publication:
 
 \begin{itemize}
-  \item The \textbf{approach} used for identifying microservices from monoliths.
+  \item The \textbf{approach} used for identifying microservices from
+    monoliths, Table \ref{tab:approach-grouping}.
   \begin{itemize}
     \item \textit{Data flow}.
     \item \textit{Dependency analysis}.
     \item \textit{Execution log}.
     \item \textit{etc}.
   \end{itemize}
-  \item The current \textbf{status} of the publication.
+  \item The current \textbf{status} of the publication, Table
+    \ref{tab:status-grouping}.
   \begin{itemize}
     \item It only explains the \textit{method} at a high level.
-    \item Has implementation details with the \textit{algorithm} on how to identify.
+    \item Has implementation details with the \textit{algorithm} on how to
+      identify.
     \item Already has a working \textit{tool}.
   \end{itemize}
-  \item The \textbf{language} in which that it targets.
+  \item The \textbf{language} in which that it targets, Table
+    \ref{tab:language-grouping}.
   \begin{itemize}
     \item \textit{Java}.
     \item \textit{Cpp}.
@@ -548,24 +554,94 @@ publication:
   \end{itemize}
 \end{itemize}
 
-% \begin{table}[!htb] \caption{Approach grouping}
-%   \begin{center}
-%     \begin{tabular}[c]{p{8em}|p{4em}}
-%       \textbf{Approach} &
-%       \textbf{Amount} \\
-%       \hline Static analysis & {13} \\
-%       \hline Model based & {9} \\
-%       \hline Dependency analysis  & {7} \\
-%       \hline Domain analysis  & {6} \\
-%       \hline Data flow  & {6} \\
-%       \hline Data & {5} \\
-%       \hline Cohesion & {4} \\
-%       \hline Multiple & {4} \\
-%     \end{tabular}
-%   \end{center}
-% \end{table}
+The publications that were selected are grouped in Tables
+\ref{tab:approach-grouping}, \ref{tab:status-grouping}, and
+\ref{tab:language-grouping}. It is important to note that not all of the
+publications fit into these categories, so they are not included in the tables.
+
+\begin{table}[!htb] \caption{Approach grouping} \label{tab:approach-grouping}
+  \begin{center}
+    \begin{tabular}[c]{p{12em}|p{4em}}
+      \textbf{Approach} &
+      \textbf{Amount} \\
+      \hline Data flow & {8} \\
+      \hline Control flow & {7} \\
+      \hline Dynamic analysis & {11} \\
+      \hline Semantic analysis & {4} \\
+      \hline Problem frames & {1} \\
+      \hline Model based & {10} \\
+      \hline Static analysis & {13} \\
+      \hline Dependency analysis & {15} \\
+      \hline Multi objective & {1} \\
+      \hline Feature analysis & {7} \\
+      \hline Data analysis & {6} \\
+      \hline REST & {4} \\
+      \hline Graph based & {2} \\
+      \hline Domain analysis & {10} \\
+      \hline Neural analysis & {2} \\
+      \hline Layer & {1} \\
+      \hline Business analysis & {3} \\
+      \hline Strangler pattern & {1} \\
+      \hline Code change history & {1} \\
+      \hline Contributor based & {1} \\
+      \hline Logs analysis & {1} \\
+      \hline Transactional contexts & {1} \\
+      \hline Execution flow & {1} \\
+      \hline Unknown & {2} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[!htb] \caption{Status grouping} \label{tab:status-grouping}
+  \begin{center}
+    \begin{tabular}[c]{p{12em}|p{4em}}
+      \textbf{Status} &
+      \textbf{Amount} \\
+      \hline Method & {48} \\
+      \hline Algorithm & {7} \\
+      \hline Tool & {25} \\
+      \hline Unknown & {1} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[!htb] \caption{Language grouping} \label{tab:language-grouping}
+  \begin{center}
+    \begin{tabular}[c]{p{12em}|p{4em}}
+      \textbf{Language} &
+      \textbf{Amount} \\
+      \hline Agnostic & {60} \\
+      \hline Java & {15} \\
+      \hline Ruby & {1} \\
+      \hline Python & {3} \\
+      \hline Unknown & {4} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Publication Analysis}
+
+In the following sections, we will provide an analysis of the data collected
+during the knowledge extraction process from the selected publications. This
+analysis will allow us to address the primary research question (RQ1) and its
+sub-questions.
+
+\subsubsection{Monolith as an input for the tool}
+
+\subsubsection{Microservices as an output for the tool}
+
+\subsubsection{Tool target language}
 
 \subsection{Selected Work}
+
+Now that the publications have been grouped, we need to select those that are
+most relevant for the purpose of this thesis. Given our focus on tools and
+their implementation, we will prioritize works that have already developed a
+tool and made it available for inspection and use. Therefore, if a publication
+does not provide a link to the tool or instructions for self-hosting or
+deploying it, it is not worth further consideration. This will help us to focus
+our efforts on publications that provide practical and useful information about
+tools and their implementation.
 
 \section{Tool Design}
 
@@ -647,10 +723,10 @@ tool runtime and the backend.
 
 \section{Conclusion and Future Work}
 
-\bibliographystyle{unsrt}
-\bibliography{IEEEfull,refs}
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
 
-\bibliographystyleSLR{unsrt}
-\bibliographySLR{IEEEfull,slr}
+\bibliographystyleSLR{IEEEtran}
+\bibliographySLR{slr}
 
 \end{document}
