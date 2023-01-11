@@ -35,6 +35,9 @@ recall of 0.78 and F-Measure of 0.81.
 
 Tool not available.
 
+Input: #open-api
+Output: #list-candidates 
+
 ## References
 
 - [Microservices Identification Through Interface Analysis](./microservices-identification-through-interface-analysis.md)

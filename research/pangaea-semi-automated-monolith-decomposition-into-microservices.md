@@ -28,6 +28,9 @@ useful insights to developers.
 
 No tool available.
 
+Input: #system-model
+Output: #list-candidates 
+
 ## References
 
 - [Microservices Identification Through Interface Analysis](./microservices-identification-through-interface-analysis.md)

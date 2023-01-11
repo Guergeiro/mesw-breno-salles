@@ -33,6 +33,10 @@ application.
 
 https://www.ibm.com/cloud/mono2micro
 
+Input: #source-code 
+Output: #list-candidates 
+
+
 ## References
 
 - [From Monolith to Microservices: A Dataflow-Driven Approach](./from-monolith-to-microservices-a-dataflow-driven-approach.md)

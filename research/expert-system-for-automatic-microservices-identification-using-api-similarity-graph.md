@@ -30,3 +30,6 @@ demonstrate the effectiveness of our system.
 ## Tool Notes
 
 https://github.com/HduDBSI/MsDecomposer
+
+Input: #open-api 
+Output: #list-candidates 

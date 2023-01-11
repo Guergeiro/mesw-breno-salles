@@ -4,9 +4,7 @@
 [_metadata_:tag]:- #approach-contributor-based
 [_metadata_:tag]:- #approach-domain
 [_metadata_:tag]:- #status-algorithm
-[_metadata_:tag]:- #language-java
-[_metadata_:tag]:- #language-ruby
-[_metadata_:tag]:- #language-python
+[_metadata_:tag]:- #language-agnostic 
 
 <!-- deno-fmt-ignore-end -->
 

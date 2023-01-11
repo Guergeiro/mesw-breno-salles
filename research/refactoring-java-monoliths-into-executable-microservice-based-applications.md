@@ -33,6 +33,9 @@ tool can successfully refactor 80% of the applications tested.
 
 https://github.com/FranciscoFreitas45/MicroRefact
 
+Input: #source-code #database
+Output: #database #source-code 
+
 ## References
 
 - [From monolithic systems to Microservices: An assessment framework](./from-monolithic-systems-to-microservices-an-assessment-framework.md)

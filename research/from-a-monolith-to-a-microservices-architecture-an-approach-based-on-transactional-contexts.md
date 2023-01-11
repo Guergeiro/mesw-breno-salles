@@ -33,6 +33,9 @@ logic.
 
 https://github.com/socialsoftware/mono2micro
 
+Input: #source-code 
+Output: #list-candidates 
+
 ## References
 
 - [Microservices Identification Through Interface Analysis](./microservices-identification-through-interface-analysis.md)

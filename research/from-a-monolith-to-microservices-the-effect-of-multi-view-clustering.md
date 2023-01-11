@@ -44,7 +44,10 @@ to favor semantics while focussing less on static and dynamic dependencies.
 
 ## Tool Notes
 
-No tool available.
+https://github.com/larsvasseldonk/pymonosplitter
+
+Input: #source-code 
+Output: #list-candidates (json)
 
 ## References
 

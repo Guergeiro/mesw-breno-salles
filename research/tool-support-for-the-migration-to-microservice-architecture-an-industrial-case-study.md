@@ -34,6 +34,9 @@ them identify microservices.
 
 https://essere.disco.unimib.it/wiki/arcan/
 
+Input: #source-code 
+Output: #list-candidates 
+
 ## References
 
 - [Microservices Identification Through Interface Analysis](./microservices-identification-through-interface-analysis.md)

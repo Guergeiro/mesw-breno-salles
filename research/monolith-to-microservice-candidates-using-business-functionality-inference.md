@@ -35,6 +35,9 @@ candidate goodness.
 
 https://github.com/gmazlami/microserviceExtraction-backend
 
+Input: #source-code 
+Output: #output-unknown
+
 ## References
 
 - [Mono2Micro: an AI-based toolchain for evolving monolithic enterprise applications to a microservice architecture](./mono2micro-an-ai-based-toolchain-for-evolving-monolithic-enterprise-applications-to-a-microservice-architecture.md)

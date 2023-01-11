@@ -38,6 +38,8 @@ which I don't have.
 
 https://github.com/TschiwenGu/MasterThesis
 
+Aggregator
+
 ## References
 
 - [Migrating Web Applications from Monolithic Structure to Microservices Architecture](./migrating-web-applications-from-monolithic-structure-to-microservices-architecture.md)

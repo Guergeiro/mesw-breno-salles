@@ -36,4 +36,7 @@ of application modernization.
 
 https://www.ibm.com/cloud/mono2micro
 
+Input: #source-code 
+Output: #list-candidates 
+
 ## References

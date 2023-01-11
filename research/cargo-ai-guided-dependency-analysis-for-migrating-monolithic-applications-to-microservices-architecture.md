@@ -43,6 +43,9 @@ and increases throughput by 120% on average.
 https://github.com/wala/WALA
 https://github.com/konveyor/tackle-data-gravity-insights
 
+Input: #source-code 
+Output: #other 
+
 ## References
 
 - [Mono2Micro: a practical and effective tool for decomposing monolithic Java applications to microservices](./mono2micro-a-practical-and-effective-tool-for-decomposing-monolithic-java-applications-to-microservices.md)

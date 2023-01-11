@@ -2,7 +2,7 @@
 
 [_metadata_:tag]:- #approach-feature
 [_metadata_:tag]:- #status-tool
-[_metadata_:tag]:- #language-agnostic
+[_metadata_:tag]:- #language-java 
 [_metadata_:tag]:- #tool-unavailable
 
 <!-- deno-fmt-ignore-end -->
@@ -36,6 +36,9 @@ The tool provided is impossible to understand how it works as no explanation is
 provided.
 
 https://github.com/RLLDLBF/FeatureTable
+
+Input: #source-code logic adapted to their requirements using Spring.
+Output: Correlation weight between the modules #other
 
 ## References
 

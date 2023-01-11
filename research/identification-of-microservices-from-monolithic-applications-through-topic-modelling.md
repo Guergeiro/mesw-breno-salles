@@ -38,6 +38,9 @@ services due to overall metrics' results.
 
 https://github.com/miguelfbrito/microservice-identification
 
+Input: #source-code 
+Output: #list-candidates 
+
 ## References
 
 - [Microservices migration patterns](./microservices-migration-patterns.md)

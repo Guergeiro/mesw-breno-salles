@@ -36,9 +36,7 @@ tool can effectively design microservice applications.
 ## Tool Notes
 
 This work proposes a creation of a tool, but it doesn't create one when this
-publication was done. From the authors, I can almost pin point that the tool
-that was created from this paper was
-[mono2micro](https://www.ibm.com/cloud/mono2micro).
+publication was done.
 
 ## References
 

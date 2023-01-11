@@ -30,6 +30,9 @@ method, better results when compared to the other methods.
 
 Tool not available.
 
+Input: #source-code 
+Output: #list-candidates
+
 ## References
 
 - [Microservices Identification Through Interface Analysis](./microservices-identification-through-interface-analysis.md)

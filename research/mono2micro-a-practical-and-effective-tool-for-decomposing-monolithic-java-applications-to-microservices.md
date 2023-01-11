@@ -39,6 +39,9 @@ microservice decompositions.
 
 https://www.ibm.com/cloud/mono2micro
 
+Input: #source-code 
+Output: #list-candidates 
+
 ## References
 
 - [Microservices Identification Through Interface Analysis](./microservices-identification-through-interface-analysis.md)

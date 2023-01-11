@@ -28,3 +28,7 @@ defining microservices.
 ## Tool Notes
 
 https://github.com/antbucc/Migration
+
+Input: #source-code 
+Output: #microservice (jolies files and docker)
+

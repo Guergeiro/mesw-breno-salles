@@ -31,6 +31,9 @@ over approaches that rely only on static analysis.
 
 https://github.com/tiagoCMatias/monoBreaker
 
+Input: #source-code 
+Output: #list-candidates 
+
 ## References
 
 - [Migrating Web Applications from Monolithic Structure to Microservices Architecture](./migrating-web-applications-from-monolithic-structure-to-microservices-architecture.md)

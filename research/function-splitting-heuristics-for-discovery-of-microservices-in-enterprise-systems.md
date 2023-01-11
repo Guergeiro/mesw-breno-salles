@@ -35,4 +35,7 @@ The tool doesn't provide any instructions for how to use it.
 
 https://github.com/AnuruddhaDeAlwis/Subtype
 
+Input: #other 
+Output: #other 
+
 ## References

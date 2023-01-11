@@ -4,7 +4,7 @@
 [_metadata_:tag]:- #approach-layer
 [_metadata_:tag]:- #approach-business
 [_metadata_:tag]:- #status-tool
-[_metadata_:tag]:- #language-unknown
+[_metadata_:tag]:- #language-java 
 [_metadata_:tag]:- #tool-unavailable
 
 <!-- deno-fmt-ignore-end -->
@@ -32,6 +32,9 @@ system modernization.
 ## Tool Notes
 
 Tool not available.
+
+Input: #source-code #business-domain
+Output: #list-candidates 
 
 ## References
 
