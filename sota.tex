@@ -5,6 +5,7 @@
 \usepackage{hyperref} % Hyperlinks
 \usepackage{indentfirst} % Indent first line section
 \usepackage{enumerate} % Ordered list
+\usepackage{cite} % Citations
 \usepackage{multibib} % Multiple bibliographies
 \usepackage{graphicx} % Allows for figures
 \graphicspath{ {./.assets/images/} }
@@ -13,12 +14,12 @@
 
 \title{Refactoring-assisted migration of monoliths to microservices}
 \author{
-  \IEEEauthorblockN{1\textsuperscript{st} Breno Salles}
+  \IEEEauthorblockN{Breno Salles}
   \IEEEauthorblockA{
     \textit{Faculty of Engineering} \\
     \textit{University of Porto}\\
-    Lisboa, Portugal \\
-    business@brenosalles.com
+    Porto, Portugal \\
+    up202103389@fe.up.pt
   }
 }
 \date{January 2023}
@@ -29,6 +30,10 @@
 
 \begin{abstract}
 
+Whats the problem?
+Why is it a problem?
+What is the solution?
+Why does the solution solve the problem? Talk about evaluation maybe.
   Lorem rem amet nesciunt voluptate ullam sapiente. Optio nemo alias nesciunt
   illo minima. Modi deleniti repellendus sint tempora quidem Eum quibusdam
   recusandae nostrum exercitationem dolores. Cum harum sapiente reiciendis
@@ -42,54 +47,62 @@
 
 \end{abstract}
 
-\section{Introduction}
+\section{Introduction} \label{sec:introduction}
 
 Microservices is an architectural style that evolved from Service Oriented
-Architecture (SOA). Just like SOA, microservices are a response to monolithic
-architecture. The main contrasts are that, while monolithic applications are
-software systems with a single, integrated codebase that includes all necessary
-components and features \cite{kazanavivcius2019migrating}, microservices tend
-to be separated and loosely coupled \cite{newman2021building}, and also that
-while monoliths tend to be easier to develop they may scale poorly and are
-harder do maintain when compared to microservices \cite{newman2019monolith}.
+Architecture (SOA). Just like SOA, microservices are an alternative to
+monolithic architecture. The main contrasts are that, while monolithic
+applications are software systems with a single, integrated codebase that
+includes all necessary components, and features
+\cite{kazanavivcius2019migrating}, microservices tend to be separated, and
+loosely coupled \cite{newman2021building}. Also while monoliths tend to be
+easier to develop they may scale poorly and are harder to maintain when
+compared to microservices \cite{newman2019monolith}.
 
 Microservices are increasingly being used in the development of modern
 applications, particularly in the areas of cloud computing and DevOps
 \cite{ren2018migrating}. Many organizations, including large enterprises and
 startups, are adopting microservices as a way to build and deploy applications
 more quickly and efficiently \cite{richardson-microservices}. Microservices are
-particularly well-suited to distributed, cloud-based environments, where they
+particularly well-suited for distributed, cloud-based environments, where they
 can take advantage of the flexibility and scalability of the cloud
 \cite{fowler-microservices-prerequisites}. This type of architecture is already
-being applied in multiple well known companies, like Uber, Netflix, Ebay
+being applied in multiple well-known companies, like Uber, Netflix, eBay
 \cite{microservices-users} and also being followed by the rest of the herd when
 compared to monolith architecture \cite{taibi2017processes}.
 
 Refactoring from monoliths to microservices is a heavily debated topic both in
 the academic world and the industry. The main takes from this debate is that
-refactoring is difficult and time consuming if a proper ways of migration are
-chosen. To help fight this, some tools were developed that help with the
-refactor \cite{brito2021identification} \cite{kalia2021mono2micro}
-\cite{freitas2021refactoring}, but in a world with more and more data and
-information, having a single place where architects, engineers and developers
-can find and use all these and future tools can be considered utopia.
+refactoring is difficult and time consuming and specially companies with
+limited resources struggle with migrating their already existing monolithic
+applications to microservices. To help address this, some tools were developed
+that help with the refactor \citeSLR{brito2021identification,
+kalia2021mono2micro, freitas2021refactoring}, but In today's world, where the
+amount of data and information is constantly increasing, it would be ideal to
+have a centralised location where architects, engineers, and developers can
+access and utilise all the tools that are currently available as well as those
+that will be developed in the future. Unfortunately, at the moment, no tool
+that offers multiple options of migrations with different possibilities,
+exists.
 
 The goal of this study is to structurally analyse the state of the art in
-regards of migration of monolithic applications to microservices architectural
-style, mainly how tools are helping architects, engineers and developers in
-this migration, and how automated they are. Furthermore, in the following
-thesis, the purpose is to develop a tool which aims to aggregate existing tools
-into a single platform, as well as provide the means to extend and incorporate
-new tools. This tool will offer a convenient and comprehensive way to access
-and use a variety of tools that help on the refactor from monolith to
-microservices.
+regards of the migration of monolithic applications to microservices
+architectural style, mainly how tools are helping architects, engineers and
+developers in this migration, and how automated they are. Furthermore, in the
+following thesis, the purpose is to develop a tool which aims to aggregate
+existing tools into a single platform, as well as provide the means to extend
+and incorporate new tools. This tool will offer a convenient and comprehensive
+way to access and use a variety of tools that help the refactor from monoliths
+to microservices as well as provide the with a perspective on several migration
+proposals, allowing for easily comparable and different combinations options.
 
 To achieve this, the guidelines presented by Kitchenham and Charters
-\citeSLR{kitchenham2007guidelines} were taken into account while performing a
-systematic literature review. The research protocol was defined at first and then followed to ensure all results could be reproduced.
+\cite{kitchenham2007guidelines} were followed while performing a systematic
+literature review. The research protocol was defined at first and then followed
+to ensure all results could be reproduced.
 
-According to Kitchenham and Charters \citeSLR{kitchenham2007guidelines},
-research questions should be specified as they will direct the entire review
+According to Kitchenham and Charters \cite{kitchenham2007guidelines}, research
+questions should be specified as they will direct the entire review
 methodology. The research questions formulated are as follows:
 
 \emph{
@@ -108,7 +121,7 @@ methodology. The research questions formulated are as follows:
 
 \section{Background}
 
-To give readers a foundational understanding of microservice architecture and
+To give readers a foundational understanding of microservices architecture and
 its key features, we will provide a brief overview of microservices and
 contrast them with traditional monolithic applications. This will allow readers
 to clearly understand the differences between the two architectures.
@@ -121,7 +134,8 @@ single, integrated codebase that includes all of the necessary components and
 features for the application to run \cite{kazanavivcius2019migrating}. This
 means that all of the different parts of the application, such as the user
 interface, business logic, and database access, are all contained within a
-single codebase and are not modularized or separated into distinct components.
+single codebase and are not modularized or separated into distinct components
+that are separately deployed and executed.
 
 Monolithic architecture is a traditional approach to software development that
 has been widely used for many years. It is generally characterized by a strong
@@ -154,7 +168,7 @@ system, as it is not necessary to redeploy the entire application every time a
 change is made. In addition, the modular nature of microservices allows for
 easier scaling, as individual services can be scaled up or down as needed to
 meet changing demand
-\cite{newman2019monolith}\cite{newman2021building}\cite{fowler-microservices}.
+\cite{newman2019monolith,newman2021building,fowler-microservices}.
 
 Another advantage of microservices is that they can be developed and maintained
 by small, autonomous teams \cite{chen2018microservices}. This can be beneficial
@@ -168,7 +182,7 @@ complexity of managing a distributed system, as there may be a larger number of
 moving parts to monitor and troubleshoot \cite{newman2021building}. In
 addition, the communication between microservices can add latency to the
 system, which may impact the performance of the overall application
-\cite{fowler-microservices-tradeoffs} \cite{pautasso2017microservices}.
+\cite{fowler-microservices-tradeoffs,pautasso2017microservices}.
 
 Overall, microservices can be an effective way to structure an application,
 particularly for large, complex systems that require a high degree of
@@ -180,23 +194,23 @@ microservices architecture are worth the added complexity
 \subsection{Refactoring}
 
 Refactoring is the process of modifying the internal structure of an existing
-codebase without changing its external behavior \cite{becker1999refactoring}.
+codebase without changing its external behaviour \cite{becker1999refactoring}.
 When migrating from a monolithic architecture to a microservices architecture,
-it may be necessary to refactor the existing codebase in order to break it up
-into independent microservices. This can be a complex and time-consuming
-process, particularly for large, complex systems \cite{newman2019monolith}.
+it may be necessary to refactor the existing codebase in order to break it into
+independent microservices. This can be a complex and time-consuming process,
+particularly for large, complex systems \cite{newman2019monolith}.
 
 There are several factors to consider when refactoring an existing codebase for
 a microservices architecture \cite{newman2019monolith}. One challenge is
-ensuring that the code is modular and loosely coupled, so that it can be
-developed and deployed independently as a microservice. This may require
-restructuring the code, introducing new abstractions and interfaces, and
-potentially even rewriting parts of the code.
+ensuring that the code is modular and loosely coupled so it can be developed
+and deployed independently as a microservice. This may require restructuring
+the code, introducing new abstractions and interfaces, and potentially even
+rewriting parts of the code.
 
-Another challenge is preserving the existing functionality of the application
-while making changes to the codebase. It is important to carefully plan and
-test the refactoring process to ensure that the application continues to work
-as expected after the changes are made.
+Another challenge is preserving the application's existing functionality while
+making changes to the codebase. It is important to carefully plan and test the
+refactoring process to ensure that the application continues to work as
+expected after the changes are made.
 
 Overall, refactoring an existing codebase for a microservices architecture can
 be a significant undertaking, and it is important to carefully evaluate the
@@ -206,17 +220,17 @@ resources and time required to complete the process \cite{newman2019monolith}.
 
 A systematic literature review is a type of review that aims to identify,
 evaluate, and summarize the results of all studies that address a specific
-research question or topic \citeSLR{kitchenham2007guidelines}
-\citeSLR{kitchenham2009systematic} \citeSLR{gough2017introduction}. It involves
-following a specific methodology to identify, analyse, and interpret all
-relevant evidence related to the research question being addressed. The purpose
-of a systematic literature review is to provide a comprehensive and up-to-date
-overview of the current state of knowledge on a specific research question or
-topic. It is a critical appraisal of the existing research, and it can help
-identify gaps in the literature and inform future research directions
-\citeSLR{kitchenham2007guidelines}.
+research question or topic
+\cite{kitchenham2007guidelines,kitchenham2009systematic,gough2017introduction}.
+It involves following a specific methodology to identify, analyse, and
+interpret all relevant evidence related to the research question being
+addressed. The purpose of a systematic literature review is to provide a
+comprehensive and up-to-date overview of the current state of knowledge on a
+specific research question or topic. It is a critical appraisal of the existing
+research, and it can help identify gaps in the literature and inform future
+research directions \cite{kitchenham2007guidelines}.
 
-As per Kitchenham and Charters guidelines \citeSLR{kitchenham2007guidelines}, a
+As per Kitchenham and Charters guidelines \cite{kitchenham2007guidelines}, a
 systematic literature review (SLR) involves three phases: planning, conducting,
 and reporting. The planning phase involves establishing the review protocol
 based on the research questions and the need for the review. The conducting
@@ -227,10 +241,10 @@ development of this review.
 
 \subsection{Research Methodology} \label{sub:research-methodology}
 
-To address the research questions posed in the Introduction, the appropriate
-research methods were utilised.
+To address the research questions posed in section \ref{sec:introduction}, the
+appropriate research methods were utilised.
 
-\subsubsection{Data sources and search strategy} \label{sub:search-strategy}
+\subsubsection{Data sources}
 
 To access relevant research and information in this field, it is advisable to
 search several databases that specialise in scientific literature. Table
@@ -257,8 +271,10 @@ latest developments in this field.
   \end{center}
 \end{table}
 
+\subsubsection{Search strategy}
+
 To ensure a thorough and comprehensive search for relevant publications in this
-field, we will utilise a breadth first search approach. This method involves
+field, we will utilise a breadth-first search approach. This method involves
 starting with a specific query string and selecting relevant publications from
 a given database. We will then use a technique called snowballing to expand the
 search and locate additional relevant publications. Snowballing involves
@@ -274,11 +290,11 @@ perform two levels of forward snowballing, in which we extract the references
 of the initially selected publications (level one) and then select the
 references of those references (level two).
 
-Backward snowballing involves searching for publications that have cited the
-initially selected publications. This technique can also be repeated multiple
-times, but for the purpose of this search, we will only perform one level of
-backward snowballing. This will include all previous publications found during
-the forward snowballing step.
+Backward snowballing involves searching for publications that have been cited
+by the initially selected publications. This technique can also be repeated
+multiple times, but for the purpose of this search, we will only perform one
+level of backward snowballing. This will include all previous publications
+found during the forward snowballing step.
 
 By utilising both forward and backward snowballing techniques, we aim to cast a
 wide net and identify as many relevant publications as possible.
@@ -291,17 +307,20 @@ searching multiple databases and using snowballing techniques, we can identify
 a large number of relevant publications and eliminate the need to analyse many
 of them in subsequent iterations.
 
+\subsubsection{Query definition}
+
 To identify relevant publications for this research, we will utilise a range of
 keywords related to the topic of microservices. These keywords will include
 various phrases and terms used to describe microservices. As for the practices
 that may help identification of microservices, keywords that help this
-architectural refactoring should be included, things like ``migration",
+architectural refactoring should be included, such as ``migration",
 ``refactor", ``identification". It could also be useful to use ``monolith" (and
 all its possible synonyms) to be the comparison against ``microservices",
 although this can result in some extra publications not related to
 microservices but instead related to ``service oriented architecture". An
 expected outcome or conclusion of the publication could be included,
-``approach" or even ``tool".
+``approach" or even ``tool". The main keywords that will be used are present in
+Table \ref{tab:keywords}.
 
 \begin{table}[!htb] \caption{Keywords} \label{tab:keywords}
   \begin{center}
@@ -313,57 +332,96 @@ expected outcome or conclusion of the publication could be included,
   \end{center}
 \end{table}
 
+\subsubsection*{First iteration} \label{subsub:first-iteration}
+
+The first iteration of the review, has the main purpose of figuring out how many
+tools exist that are able to solve this research question or, at the very
+least, help partially with it. In order to do this, one could not be limited to
+tools that are documented in academic databases therefore, in addition to the
+databases mentioned in Table \ref{tab:databases},
+\href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and even
+\href{https://duckduckgo.org}{DuckDuckGo} were searched for, even though they
+do not represent a scientific search engine.
+
+By using some keywords mentioned in Table \ref{tab:keywords} the following
+initial trial query was created:
+
+\begin{center}
+  \emph{(``microservice" OR ``micro-service") AND (``migration" OR
+  ``identification") AND (``monolithic" OR ``monolith") AND (``tool")}
+\end{center}
+
+\subsubsection*{Second iteration} \label{subsub:second-iteration}
+
+In the second iteration of the review process, the focus is on locating
+publications that describe alternative approaches for migrating from monolithic
+to microservices architectures that may not have been implemented in practice.
+This will allowed incresase understanding of the current state of the art in
+this area, identify any gaps or areas where further research is needed, and
+determine what can be improved upon. This information will be useful in guiding
+the development of our tool and abstraction.
+
+As this was the beginning of a new iteration of the review process, the results
+of the previous ``test run" were not considered when extracting literature.
+Only after this iteration was completed did we incorporate the previously
+analysed literature and exclude it from further analysis to avoid duplication
+of effort. This allowed us to focus on identifying new and potentially relevant
+publications for our purposes.
+
+Relying on the keywords identified in Table \ref{tab:keywords}, the following
+query was created:
+
+\begin{center}
+  \emph{(microservice* OR micro?service*) AND (migrat* OR identif*) AND
+  (monolith*) AND (migrat* NEAR/2 (process* OR approach*))}
+\end{center}
+
+In the event that the publications located through the snowballing approach are
+no longer adding significant value to ther overall understanding of the topic,
+a new search query should be applied to the remaining databases. In some
+instances, the query produced more than two thousand results, which would have
+been impractical to analyse within the given timeframe. Therefore, we modified
+the query to focus only on the titles and abstracts of the publications. The
+revised query that should be used is:
+
+\begin{center}
+  \emph{(microservice* OR "micro-service") AND (migrat* OR decompos* OR
+  identif* OR refactor* OR evolv* OR extract* OR discover* OR transition*)}
+\end{center}
 
 \subsubsection{Selection Criteria} \label{sub:selection-criteria}
 
 In order to filter the publications, the title and the abstract will be
-analysed and should mention some at least one of:
+analysed and should mention at least one of:
 
 \begin{enumerate}[{IC}1.]
-  \item A tool that automates process of migration of monoliths to
+  \item A tool that automates the process of migration of monoliths to
     microservices.
   \item Identification of microservices from monolith systems.
   \item Analysis of tools or approaches for migrating from monoliths to
     microservices.
 \end{enumerate}
 
-In cases of ambigous conclusions, further inspection of the publication may
-be done. When this happens, and if relevant publications apply, conclusions
-should also be taken into account.
+In cases of ambiguous abstracts, further inspection of the publication may be
+done. When this happens, and if relevant publications apply, conclusions should
+also be taken into account.
 
-As for more pratical approach for exclusion of publications, the criteria
-will be:
+As for more pratical approach for exclusion of publications, the criteria will
+be:
 
 \begin{enumerate}[{EC}1.]
   \item Publications that are not written in English or Portuguese.
-  \item For Portuguese publications, English must be the language used in
-    the
+  \item For Portuguese publications, English must be the language used in the
+    abstract.
   \item Publication is not accessible.
 \end{enumerate}
 
 \subsection{Research Results}
 
-In the first iteration of the review, the main purpose was figuring out how
-many tools exist that were able to solve this research question or, at the
-very least, help partially with it. In order to do this, one could not be
-limited to tools that are documented in academic databases therefore, in
-addition to the databases mentioned in Table \ref{tab:databases},
-\href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
-even \href{https://duckduckgo.org}{DuckDuckGo} were searched for, even
-though they do not represent a scientific search engine.
-
-By using some keywords mentioned in Table \ref{tab:keywords} we created an
-initial trial query:
-
-\begin{center}
-  \emph{("microservice" OR "micro-service") AND ("migration" OR
-  "identification") AND ("monolithic" OR "monolith") AND ("tool")}
-\end{center}
-
-
-The query was then applied to DB.1, DB.2 and DB.3 and after applying the
-selection criteria mentioned in subsection \ref{sub:selection-criteria},
-results were gathered and are presented in Table \ref{tab:tool-search}.
+The query mentioned in the first iteration \ref{subsub:first-iteration} was
+then applied to DB.1, DB.2 and DB.3 and after applying the selection criteria
+mentioned in subsection \ref{sub:selection-criteria}, results were gathered and
+are presented in Table \ref{tab:tool-search}.
 
 \begin{table}[!htb] \caption{Tool Search} \label{tab:tool-search}
   \begin{center}
@@ -377,9 +435,10 @@ results were gathered and are presented in Table \ref{tab:tool-search}.
   \end{center}
 \end{table}
 
-As for the not so scientific search, the query would be essentilly typed into
-their respective search engine and the results gathered are present in Table
-\ref{tab:search-engine-tool-search}.
+As for \href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
+\href{https://duckduckgo.org}{DuckDuckGo}, the query would be essentially typed
+into their respective search engine and the results gathered are presented in
+Table \ref{tab:search-engine-tool-search}.
 
 \begin{table}[!htb] \caption{Search Engine Tool Search}
   \label{tab:search-engine-tool-search}
@@ -402,7 +461,7 @@ their respective search engine and the results gathered are present in Table
       \hline
         DuckDuckGo &
         \url{https://duckduckgo.com/?q=monolith+to+microservices+tool} &
-        {Infinity} &
+        {Uncountable} &
         {2} \\
     \end{tabular}
   \end{center}
@@ -414,33 +473,10 @@ but only implemented a specific approach. This will help us to understand the
 context and origins of these tools and how they fit into the broader landscape
 of research in this area.
 
-During the second iteration of the review process, we focused on locating
-publications that describe alternative approaches for migrating from monolithic
-to microservices architectures that may not have been implemented in practice.
-This allowed us to gain a deeper understanding of the current state of the art
-in this area, identify any gaps or areas where further research is needed, and
-determine what can be improved upon. This information will be useful in guiding
-the development of our tool and abstraction.
-
-As this was the beginning of a new iteration of the review process, the results
-of the previous ``test run" were not considered when extracting literature.
-Only after this iteration was completed did we incorporate the previously
-analysed literature and exclude it from further analysis to avoid duplication
-of effort. This allowed us to focus on identifying new and potentially relevant
-publications for our purposes.
-
-Relying on the keywords identified in Table \ref{tab:keywords}, the following
-query was tried:
-
-\begin{center}
-  \emph{(microservice* OR micro?service*) AND (migrat* OR identif*) AND
-  (monolith*) AND (migrat* NEAR/2 (process* OR approach*))}
-\end{center}
-
-With this, we then proceed to apply the query and search the first database. As
-shown in Table \ref{tab:db1-search}, from four hundred and fifty results, only
-twelve passed the selection criteria defined in section
-\ref{sub:selection-criteria}.
+As for the second iteration mentioned in \ref{subsub:second-iteration}, we then
+proceeded to apply the query and search the first database. As shown in Table
+\ref{tab:db1-search}, from four hundred and fifty results, only twelve passed
+the selection criteria defined in section \ref{sub:selection-criteria}.
 
 \begin{table}[!htb] \caption{DB.1 Results} \label{tab:db1-search}
   \begin{center}
@@ -470,19 +506,6 @@ publications that we were able to consider in the next steps of the process.
   \end{center}
 \end{table}
 
-After a certain point, we found that the publications located through the
-snowballing approach were no longer adding significant value to our overall
-understanding of the topic. As a result, we decided to apply the search query
-to the remaining databases. In some instances, the query produced more than two
-thousand results, which would have been impractical to analyse within the given
-timeframe. Therefore, we modified the query to focus only on the titles and
-abstracts of the publications. The revised query that we used is as follows:
-
-\begin{center}
-  \emph{(microservice* OR "micro-service") AND (migrat* OR decompos* OR
-  identif* OR refactor* OR evolv* OR extract* OR discover* OR transition*)}
-\end{center}
-
 \begin{table}[!htb] \caption{Remaining DB Results} \label{tab:other-db-search}
   \begin{center}
     \begin{tabular}[c]{p{5em}|p{5em}|p{5em}}
@@ -504,15 +527,14 @@ two queries were done. The main reason for this is that Science Direct is
 limited to 7 \textit{OR} conditions, therefore it was necessary to split it
 into two queries where it does not affect the general condition. In the
 specific case, the \textit{``evolv"} keyword was moved into a separate query.
-Also, Scince Direct automatically accepts truncations without using the
-\textit{``*"} char.
+Also, Science Direct automatically accepts truncations without using the
+\textit{``*"} char. The two queries are:
 
 \begin{enumerate}
   \item \emph{(microservice OR "micro-service") AND ( migrat OR decompos OR
     identif OR refactor OR extract OR discover OR transition)}
   \item \emph{(microservice OR "micro-service") AND (evolv)}
 \end{enumerate}
-
 
 After iterating over the results and reviewing the references of the newly
 found publications, we did not identify any additional publications that were
@@ -523,13 +545,16 @@ publications.
 \subsection{Publications Grouping}
 
 Given the large number of publications that were identified as potential
-candidates for further analysis, it was necessary to further narrow down the
-list to a more manageable size. To accomplish this, we employed a
-categorization approach in order to better organize and prioritize the
-publications for later selection. This allowed us to more efficiently select
-and analyse the most relevant publications for our purposes. Through this
-process, we arrived at four main categories into which we could place each
-publication:
+candidates for further analysis, it was necessary to further reduce the list to
+a more manageable size. To accomplish this, we employed a categorization
+approach in order to better organize and prioritize the publications for later
+selection. This allowed us to more efficiently select and analyse the most
+relevant publications for our purposes. Through this process, we arrived at
+three main categories into which we could place each publication that were
+derived from RQ1. This will be specially relevant when creating the new tool,
+by enhancing the possibility of integrating various tools that employ different
+approaches, in order to provide the developer with multiple perspectives, which
+may facilitate the ability to make comparisons and informed decisions.
 
 \begin{itemize}
   \item The \textbf{approach} used for identifying microservices from
@@ -561,8 +586,11 @@ publication:
 
 The publications that were selected are grouped in Tables
 \ref{tab:approach-grouping}, \ref{tab:status-grouping}, and
-\ref{tab:language-grouping}. It is important to note that not all of the
-publications fit into these categories, so they are not included in the tables.
+\ref{tab:language-grouping}. It is important to note that the papers analysed
+in this study were classified into multiple categories, as opposed to a
+singular classification. To facilitate a more comprehensive understanding, the
+classified papers can be viewed on the online
+\href{https://example.com}{spreadsheet}.
 
 \begin{table}[!htb] \caption{Approach grouping} \label{tab:approach-grouping}
   \begin{center}
@@ -624,6 +652,18 @@ publications fit into these categories, so they are not included in the tables.
   \end{center}
 \end{table}
 
+\subsection{Selected Work}
+
+Having evaluated most of the literature in regards to tools that help on the
+migration of monoliths to microservices, we need to select those that are most
+relevant for the purpose of this thesis. Given our focus on tools and their
+implementation, we will prioritise works that have already developed a tool and
+made it available for free inspection and use. Therefore, if a publication does
+not provide a link to the tool or instructions for self-hosting or deploying
+it, it is not worth further consideration. This will help us to focus our
+efforts on publications that provide practical and useful information about
+tools and their implementation.
+
 \subsection{Publication Analysis}
 
 In the following sections, we will provide an analysis of the data collected
@@ -637,7 +677,9 @@ The first aspect to be analysed is the input requirements for the tool. Despite
 the growing interest in microservice migration using automated tools, the field
 is still in its infancy, and the existing solutions tend to address specific
 issues rather than being versatile. As a result, the inputs for these tools are
-often rigid and not easily adjustable.
+often rigid and not easily adjustable. For example, raw source code and OpenAPI
+specification were one of the possible ways tools use for identifying
+microservices from monoliths and will be further discussed.
 
 \subsubsection*{Source Code}
 
@@ -652,28 +694,28 @@ inversion of control \cite{gamma1995design}. Since the behaviour of the
 framework is kept intact, the tool can then safely analyse the overall code and
 even apply refactoring.
 
-Freitas, Ferreira and Cunha's \cite{freitas2021refactoring} tool,
-MicroRefact \footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}},
-utilizes a Java source code to extract structural information by relying on the
-Abstract Syntax Tree \cite{aho2007compilers}. This information is used to
-generate a list of candidate microservices. They then leverage Spring Boot
-decorators, particularly those utilizing the Java Persistence API (JPA), to
-infer the entities of the database and their relationships. This process then
-results in the output of working Java code for each identified microservice.
+For instance, Freitas et al. \citeSLR{freitas2021refactoring} tool, MicroRefact
+\footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}}, utilizes
+Java source code to extract structural information by relying on the Abstract
+Syntax Tree. This information is used to generate a list of candidate
+microservices. They then leverage Spring Boot decorators, particularly those
+utilizing the Java Persistence API (JPA), to infer the entities of the database
+and their relationships. This process then results in the output of working
+Java code for each identified microservice.
 
 \subsubsection*{OpenAPI}
 
-In Microservices architecture, one of the common solutions for communication
+In microservices architecture, one of the common solutions for communication
 between different microservices is through HTTP calls. Therefore, it is
 reasonable to assume that identifying microservices within a monolithic
 application could be done by examining their REST endpoints, since they will be
-exposed through http protocols. This inspection of REST endpoints can also
+exposed through HTTP protocols. This inspection of REST endpoints can also
 serve as a guide for decomposing the monolithic application into smaller,
-independent services. In fact, when programming language was not a determining
-factor, OpenAPI was commonly used as the standard for distinguishing
-microservices from monolithic systems.
+independent services. In fact, when the programming language was not a
+determining factor, OpenAPI was commonly used as the standard for
+distinguishing microservices from monolithic systems.
 
-The tool proposed by Al-Debagy and Martinek \cite{al2019new} utilizes the
+The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} utilizes the
 OpenAPI specification file to identify microservices within a monolithic
 application. The tool begins by extracting the operation names from the OpenAPI
 file, which are then input into the Affinity Propagation Algorithm
@@ -685,8 +727,8 @@ grouping of similar microservices, helping in the decomposition of the
 monolithic system.
 
 MsDecomposer \footnote{\url{https://github.com/HduDBSI/MsDecomposer}}
-\cite{sun2022expert} uses a similar approach to identify microservices
-within a monolithic application. The first step is calculating the similarity
+\citeSLR{sun2022expert} uses a similar approach to identify microservices
+within a monolithic application. The first step is to calculate the similarity
 of candidate topics and response messages among the APIs. Then, it constructs a
 graph that represents the similarity between different APIs, where the APIs are
 represented as nodes and the similarity score is the weight. Finally, it
@@ -701,9 +743,9 @@ architecture of software systems.
 Besides the input types that have been previously mentioned, there are other
 types that may not be able to create a new category but are still relevant to
 the microservices identification process. For example, using a specific system
-model as input \cite{staffa2021pangaea} or utilizing the history of changes to
-understand in addition to common artifacts like classes and methods
-\cite{santos2021microservice}.
+model as input \citeSLR{staffa2021pangaea} or utilizing the history of changes
+to understand in addition to common artifacts like classes and methods
+\citeSLR{santos2021microservice}.
 
 \subsubsection{Microservices as an output for the tool}
 
@@ -712,7 +754,9 @@ tools output their identified microservices in order to cater to the needs of
 users. The ideal outcome would be a full functional code ready to be deployed,
 as it makes the migration process smoother, ensuring that the resulting
 microservices have all the necessary components and reducing the effort needed
-for manual migration.
+for manual migration. From the work that was analysed, tools that output a list
+of candidates and tools that output source code are more relevant to take into
+consideration and will be further discussed.
 
 \subsubsection*{Candidates List}
 
@@ -720,14 +764,14 @@ A prevalent approach for identifying microservices in a monolithic system is by
 producing a candidate list. This approach is used in most of the publications
 and tools found, and it is a way of providing an organized and structured
 output of the microservices that can be derived from the monolithic
-application, in order to facilitate the migration process. The Candidate list
+application, in order to facilitate the migration process. The candidate list
 is commonly used as a guide or check list for architects, engineers, and
 developers to assist in the actual partitioning of the application. It
 typically includes, but is not limited to, data entities, interfaces, methods,
 and other relevant system components that are used as references to guide the
 migration process.
 
-The tool proposed by Al-Debagy and Martinek \cite{al2019new} uses OpenAPI as
+The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} uses OpenAPI as
 input to identify microservices within a monolithic application. One of the
 limitations of their output is that it only provides a list of candidates,
 which may not include information about the relationships and interactions
@@ -742,12 +786,11 @@ microservices identification. Even though they still output candidate lists,
 where no migration is done yet, these tools provide more detailed information
 about the relationships and connections between microservices, some of them
 even including visual feedback such as clusters and call context tree diagrams
-\cite{krishna2021transforming} \cite{kalia2021mono2micro}
-\cite{kalia2020mono2micro} \cite{nakazawa2018visualization}. This additional
-information can be very beneficial for architects and developers, as it makes
-it easier for them to understand the connections and dependencies between
-microservices, and make informed decisions about how to proceed with
-the migration process.
+\citeSLR{krishna2021transforming, kalia2021mono2micro, kalia2020mono2micro,
+nakazawa2018visualization}. This additional information can be very beneficial
+for architects and developers, as it makes it easier for them to understand the
+connections and dependencies between microservices, and make informed decisions
+about how to proceed with the migration process.
 
 \subsubsection*{Source Code}
 
@@ -755,42 +798,28 @@ Generating the final output of the migration process as source code that is
 ready to be deployed would be the ideal outcome for most cases, as it would
 lessen the efforts needed to migrate, but it is not yet commonly used in
 current literature. Out of the tools that were analysed, only two of them
-employ this method. One of them is the work of Freitas, Ferreira and Cunha
-\cite{freitas2021refactoring}, and another is Mono2Micro
-\cite{krishna2021transforming} \cite{kalia2021mono2micro}
-\cite{kalia2020mono2micro} that in an update explained in a YouTube video
+employ this method. One of them is the work of Freitas et al.
+\citeSLR{freitas2021refactoring}, and another is Mono2Micro
+\citeSLR{krishna2021transforming, kalia2021mono2micro, kalia2020mono2micro,
+nakazawa2018visualization} that in an update explained in a YouTube video
 \footnote{\url{https://youtu.be/NXno1fUoC8U}} they now output Java code.
 
 \subsubsection{Tool target language}
 
 The majority of works utilized Java as their primary programming language for
-input \cite{al2021microservice} \cite{bucchiarone2020model}
-\cite{assunccao2022analysis} \cite{zhao2021applying} \cite{nitin2022cargo}
-\cite{kalia2021mono2micro} \cite{kalia2020mono2micro}
-\cite{agarwal2021monolith} \cite{pigazzini2019tool}
-\cite{krishna2021transforming}. This may be attributed to the language's strict
-syntax rules, which facilitate the examination of source code during the
-inspection process. Additionally, some of them utilized the Spring Boot
-framework in conjunction with Java \cite{wei2020feature}
-\cite{nunes2019monolith} \cite{brito2021identification}
-\cite{santos2021microservice} \cite{freitas2021refactoring}
-\cite{pigazzini2019tool}, which further enforces structure through the
-utilization of decorators. In contrast, those who employed programming
-languages other than Java, such as Python, utilized corresponding frameworks
-like Django, to compensate for the language's more lenient syntax constraints
-\cite{matias2020determining} \cite{asseldonk2021monolith}.
-
-\subsection{Selected Work}
-
-Having evaluated most of the literature in regards to tools that help on the
-migration of monoliths to microservices, we need to select those that are most
-relevant for the purpose of this thesis. Given our focus on tools and their
-implementation, we will prioritise works that have already developed a tool and
-made it available for free inspection and use. Therefore, if a publication does
-not provide a link to the tool or instructions for self-hosting or deploying
-it, it is not worth further consideration. This will help us to focus our
-efforts on publications that provide practical and useful information about
-tools and their implementation.
+input \citeSLR{al2021microservice, bucchiarone2020model, assunccao2022analysis,
+  zhao2021applying, nitin2022cargo, kalia2021mono2micro, kalia2020mono2micro,
+agarwal2021monolith, pigazzini2019tool, krishna2021transforming}. This may be
+attributed to the language's strict syntax rules, which facilitate the
+examination of source code during the inspection process. Additionally, some of
+them utilized the Spring Boot framework in conjunction with Java
+\citeSLR{wei2020feature, nunes2019monolith, brito2021identification,
+santos2021microservice, freitas2021refactoring, pigazzini2019tool}, which
+further enforces structure through the utilization of decorators. In contrast,
+those who employed programming languages other than Java, such as Python,
+utilized corresponding frameworks like Django, to compensate for the language's
+more lenient syntax constraints \citeSLR{matias2020determining,
+asseldonk2021monolith}.
 
 \section{Tool Design}
 
@@ -799,20 +828,19 @@ yet finalised. We have only developed initial ideas about how we will approach
 the problem and have created a sketch of the proposed tool architecture, which
 is shown in Figure \ref{fig:tool-architecture}.
 
-\begin{figure}[!htb]
+\begin{figure*}[!htb]
   \caption{Candidate tool architecture}
   \label{fig:tool-architecture}
   \centering
-  \includegraphics[width=\columnwidth]{thesis-architecture.drawio}
-\end{figure}
+  \includegraphics[width=\textwidth]{thesis-architecture.drawio}
+\end{figure*}
 
-The proposed tool architecture, as depicted in the sketch shown in Figure
-\ref{fig:tool-architecture}, consists of three distinct components. The
+The proposed tool architecture consists of three distinct components. The
 frontend is responsible for the interface between the tool logic and the user.
-The tools domain contains adapters for individual tools and the tool runtime,
+The tool domain contains adapters for each individual tool and the tool runtime,
 which receives the monolithic input and generates the candidate microservices.
 The backend serves as a bridge between the frontend, the database of available
-tools, and the tools domain.
+tools, and the tool domain.
 
 The main role of the backend component in the proposed tool architecture is to
 initiate jobs and notify the frontend when a given job has completed. A job
@@ -822,17 +850,16 @@ microservices is produced. To avoid potential bottlenecks when multiple jobs
 are run concurrently, the backend does not perform these tasks directly but
 rather delegates them to the individual tools, therefore acting like a bridge.
 
-The tools domain in the proposed tool architecture includes the tool runtime,
-which contains the tool itself, and an adapter for the tool. The purpose of the
-adapter is to provide a consistent interface for interacting with the tool,
-regardless of the specific input and output formats that it uses. This is
-important because different tools may accept different inputs and produce
-different outputs, such as JSON or raw code. By using an adapter to translate
-between these formats, it becomes easier to process the inputs and outputs of
-the tool and integrate it with the overall tool logic. The tool runtime
-receives the monolithic input and generates the candidate microservices, while
-the adapter serves as a "middleman" between the tool runtime and the other
-components of the architecture.
+In the tool domain, the purpose of the adapter is to provide a consistent
+interface for interacting with the tool runtime, regardless of the specific
+input and output formats that it uses. This is important because different
+tools may accept different inputs and produce different outputs, such as JSON
+or raw code. By using an adapter to translate between these formats, it becomes
+easier to process the inputs and outputs of the tool and integrate it with the
+overall tool logic. The tool runtime receives the monolithic input and
+generates the candidate microservices, while the adapter serves as a
+``middleman'' between the tool runtime and the other components of the
+architecture.
 
 One of the first decisions that we have considered is which target platform the
 tool should support. There are three major platforms that are relevant for this
@@ -879,3 +906,4 @@ tool runtime and the backend.
 \bibliographySLR{slr}
 
 \end{document}
+
