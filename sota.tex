@@ -2,12 +2,14 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{url} % Urls
-\usepackage{hyperref} % Hyperlinks
+\usepackage[hidelinks]{hyperref} % Hyperlinks
 \usepackage{indentfirst} % Indent first line section
 \usepackage{enumerate} % Ordered list
 \usepackage{cite} % Citations
 \usepackage{multibib} % Multiple bibliographies
 \usepackage{graphicx} % Allows for figures
+\usepackage{balance}
+\usepackage{cleveref}
 \graphicspath{ {./.assets/images/} }
 
 \newcites{SLR}{Systematic Literature Review References}
@@ -35,7 +37,7 @@
 
  In the world of software development, the concept of microservices is gaining
  popularity. This architectural style has received a lot of attention in both
- business and academia, and converting a monolithic program into a
+ business and academia, and converting a monolithic application into a
  microservice-based application has become a regular practice. Companies with
  limited resources struggle with migrating their already existing monolithic
  applications to microservices and software architects and developers
@@ -43,7 +45,7 @@
  alternative migration methodologies making the refactoring process even
  harder. The goal of this study is to structurally analyse the state of the
  art in regards to the migration of monolithic applications to microservices
- architectural style, mainly how tools are helping architects, engineers and
+ architectural style, mainly how tools are helping architects, engineers, and
  developers in this migration and how automated they are. To address this
  challenge, a systematic literature review was conducted, resulting in the
  identification of one hundred and six relevant publications. These
@@ -85,7 +87,7 @@ refactoring is difficult and time-consuming, especially for companies with
 limited resources who struggle with migrating their already existing monolithic
 applications to microservices. To help address this, some tools were developed
 that help with the refactor \citeSLR{brito2021identification,
-kalia2021mono2micro, freitas2021refactoring}, but In today's world, where the
+kalia2021mono2micro, freitas2021refactoring}, but in today's world, where the
 amount of data and information is constantly increasing, it would be ideal to
 have a centralised location where architects, engineers, and developers can
 access and utilise all the tools that are currently available as well as those
@@ -141,7 +143,7 @@ self-contained unit. In other words, monolithic applications are composed of a
 single, integrated codebase that includes all of the necessary components and
 features for the application to run \cite{kazanavivcius2019migrating}. This
 means that all of the different parts of the application, such as the user
-interface, business logic, and database access, are all contained within a
+interface, business logic, and database access are all contained within a
 single codebase and are not modularized or separated into distinct components
 that are separately deployed and executed.
 
@@ -235,7 +237,7 @@ interpret all relevant evidence related to the research question being
 addressed. The purpose of a systematic literature review is to provide a
 comprehensive and up-to-date overview of the current state of knowledge on a
 specific research question or topic. It is a critical appraisal of the existing
-research, and it can help identify gaps in the literature and inform future
+research and it can help identify gaps in the literature and inform future
 research directions \cite{kitchenham2007guidelines}.
 
 As per Kitchenham and Charters guidelines \cite{kitchenham2007guidelines}, a
@@ -249,14 +251,24 @@ development of this review.
 
 \subsection{Research Methodology} \label{sub:research-methodology}
 
-To address the research questions posed in section \ref{sec:introduction}, the
-appropriate research methods were utilised.
+To address the research questions posed in \Cref{sec:introduction}, the
+appropriate research methods were utilised as means to properly investigate the
+current state of the art. To give guidance,
+\Cref{fig:review-iterations} shows a diagram of the review iterations that will
+be explained in the following sections.
+
+\begin{figure*}[!htb]
+  \caption{Review iterations}
+  \label{fig:review-iterations}
+  \centering
+  \includegraphics[width=\textwidth]{thesis-review-iterations.drawio}
+\end{figure*}
 
 \subsubsection{Data sources}
 
 To access relevant research and information in this field, it is advisable to
-search several databases that specialise in scientific literature. Table
-\ref{tab:databases} presents a list of several such databases, including the
+search several databases that specialise in scientific literature.
+\Cref{tab:databases} presents a list of several such databases, including the
 ACM Digital Library, Science Direct, IEEE Xplore, Wiley, Springer Link,
 Engineering Village, and Google Scholar. These databases contain a wealth of
 knowledge and resources, including journal articles, conference proceedings,
@@ -293,14 +305,14 @@ There are two types of snowballing that we will employ in this search: forward
 snowballing and backward snowballing. Forward snowballing involves searching
 for citations and publications using Google Scholar for the initially selected
 publications. This process can be repeated multiple times, with each iteration
-referred to as a level of snowballing. For the purpose of this search, we will
+referred to as a level of snowballing. For this search, we will
 perform two levels of forward snowballing, in which we extract the references
 of the initially selected publications (level one) and then select the
 references of those references (level two).
 
 Backward snowballing involves searching for publications that have been cited
 by the initially selected publications. This technique can also be repeated
-multiple times, but for the purpose of this search, we will only perform one
+multiple times, but for this search, we will only perform one
 level of backward snowballing. This will include all previous publications
 found during the forward snowballing step.
 
@@ -328,7 +340,7 @@ although this can result in some extra publications not related to
 microservices but instead related to ``service-oriented architecture". An
 expected outcome or conclusion of the publication could be included,
 ``approach" or even ``tool". The main keywords that will be used are present in
-Table \ref{tab:keywords}.
+\Cref{tab:keywords}.
 
 \begin{table}[!htb] \caption{Keywords} \label{tab:keywords}
   \begin{center}
@@ -342,16 +354,16 @@ Table \ref{tab:keywords}.
 
 \subsubsection*{First iteration} \label{subsub:first-iteration}
 
-The first iteration of the review has the main purpose of figuring out how many
+The first iteration of the review has the main purpose of determining how many
 tools exist that are able to solve this research question or, at the very
 least, help partially with it. In order to do this, one could not be limited to
 tools that are documented in academic databases therefore, in addition to the
-databases mentioned in Table \ref{tab:databases},
+databases mentioned in \Cref{tab:databases},
 \href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and even
 \href{https://duckduckgo.org}{DuckDuckGo} were searched for, even though they
 do not represent a scientific search engine.
 
-By using some keywords mentioned in Table \ref{tab:keywords} the following
+By using some keywords mentioned in \Cref{tab:keywords} the following
 initial trial query was created:
 
 \begin{center}
@@ -376,7 +388,7 @@ analysed literature and exclude it from further analysis to avoid duplication
 of effort. This allowed us to focus on identifying new and potentially relevant
 publications for our purposes.
 
-Relying on the keywords identified in Table \ref{tab:keywords}, the following
+Relying on the keywords identified in \Cref{tab:keywords}, the following
 query was created:
 
 \begin{center}
@@ -426,10 +438,10 @@ be:
 
 \subsection{Research Results}
 
-The query mentioned in the first iteration \ref{subsub:first-iteration} was
+The query mentioned in the first iteration \Cref{subsub:first-iteration} was
 then applied to DB.1, DB.2 and DB.3 and after applying the selection criteria
-mentioned in subsection \ref{sub:selection-criteria}, results were gathered and
-are presented in Table \ref{tab:tool-search}.
+mentioned in \Cref{sub:selection-criteria}, results were gathered and
+are presented in \Cref{tab:tool-search}.
 
 \begin{table}[!htb] \caption{Tool Search} \label{tab:tool-search}
   \begin{center}
@@ -445,13 +457,13 @@ are presented in Table \ref{tab:tool-search}.
 
 As for \href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
 \href{https://duckduckgo.org}{DuckDuckGo}, the query would be essentially typed
-into their respective search engine and the results gathered are presented in
-Table \ref{tab:search-engine-tool-search}.
+into their respective search engine and the results gathered as well as the
+query are presented in \Cref{tab:search-engine-tool-search}.
 
 \begin{table}[!htb] \caption{Search Engine Tool Search}
   \label{tab:search-engine-tool-search}
   \begin{center}
-    \begin{tabular}[c]{p{5.5em}|p{10em}|p{4em}|p{5em}}
+    \begin{tabular}[c]{p{5.5em}|p{10em}|p{5em}|p{4em}}
       \textbf{Search\newline Engine} &
       \textbf{Query} &
       \textbf{Total\newline number\newline of results} &
@@ -481,10 +493,10 @@ but only implemented a specific approach. This will help us to understand the
 context and origins of these tools and how they fit into the broader landscape
 of research in this area.
 
-As for the second iteration mentioned in \ref{subsub:second-iteration}, we then
-proceeded to apply the query and search the first database. As shown in Table
-\ref{tab:db1-search}, from four hundred and fifty results, only twelve passed
-the selection criteria defined in section \ref{sub:selection-criteria}.
+As for the second iteration mentioned in \Cref{subsub:second-iteration}, we
+then proceeded to apply the query and search the first database. As shown in
+\Cref{tab:db1-search}, from four hundred and fifty results, only twelve passed
+the selection criteria defined in \Cref{sub:selection-criteria}.
 
 \begin{table}[!htb] \caption{DB.1 Results} \label{tab:db1-search}
   \begin{center}
@@ -497,8 +509,8 @@ the selection criteria defined in section \ref{sub:selection-criteria}.
 
 After reviewing the references of the identified papers and applying forward
 and backward snowballing techniques, we were able to locate additional related
-publications and expand the scope of our search as demonstrated in Table
-\ref{tab:db1-snowballing}. This helped us to increase the number of relevant
+publications and expand the scope of our search as demonstrated in
+\Cref{tab:db1-snowballing}. This helped us to increase the number of relevant
 publications that we were able to consider in the next steps of the process.
 
 \begin{table}[!htb] \caption{DB.1 Snowballing Results} \label{tab:db1-snowballing}
@@ -530,7 +542,7 @@ publications that we were able to consider in the next steps of the process.
   \end{center}
 \end{table}
 
-In the case of Science Direct, as presented in Table \ref{tab:other-db-search},
+In the case of Science Direct, as presented in \Cref{tab:other-db-search},
 two queries were done. The main reason for this is that Science Direct is
 limited to 7 \textit{OR} conditions, therefore it was necessary to split it
 into two queries where it does not affect the general condition. In the
@@ -566,23 +578,23 @@ the ability to make comparisons and informed decisions.
 
 \begin{itemize}
   \item The \textbf{approach} used for identifying microservices from
-    monoliths, Table \ref{tab:approach-grouping}.
+    monoliths, \Cref{tab:approach-grouping}.
   \begin{itemize}
     \item \textit{Data flow}.
     \item \textit{Dependency analysis}.
     \item \textit{Execution log}.
     \item \textit{etc}.
   \end{itemize}
-  \item The current \textbf{status} of the publication, Table
-    \ref{tab:status-grouping}.
+  \item The current \textbf{status} of the publication,
+    \Cref{tab:status-grouping}.
   \begin{itemize}
     \item It only explains the \textit{method} at a high level.
     \item Has implementation details with the \textit{algorithm} on how to
       identify.
     \item Already has a working \textit{tool}.
   \end{itemize}
-  \item The \textbf{language} in which that it targets, Table
-    \ref{tab:language-grouping}.
+  \item The \textbf{language} in which that it targets,
+    \Cref{tab:language-grouping}.
   \begin{itemize}
     \item \textit{Java}.
     \item \textit{Cpp}.
@@ -592,13 +604,13 @@ the ability to make comparisons and informed decisions.
   \end{itemize}
 \end{itemize}
 
-The publications that were selected are grouped in Tables
-\ref{tab:approach-grouping}, \ref{tab:status-grouping}, and
-\ref{tab:language-grouping}. It is important to note that the papers analysed
-in this study were classified into multiple categories, as opposed to a
-singular classification. To facilitate a more comprehensive understanding, the
-classified papers can be viewed on the online
-\href{https://example.com}{spreadsheet}.
+The publications that were selected are grouped in
+\Cref{tab:approach-grouping,tab:status-grouping,,tab:language-grouping}. It is
+important to note that the papers analysed in this study were classified into
+multiple categories, as opposed to a singular classification. To facilitate a
+more comprehensive understanding, the classified papers can be viewed on the
+online
+\href{https://docs.google.com/spreadsheets/d/1gKHAR6ggxMLMIDDGYsydCoVd2uOGkT6tsFIOKlr_Wos/edit?usp=share_link}{spreadsheet}.
 
 \begin{table}[!htb] \caption{Approach grouping} \label{tab:approach-grouping}
   \begin{center}
@@ -691,7 +703,7 @@ monoliths and will be further discussed.
 
 \subsubsection*{Source Code}
 
-One potential method for providing input to a tool is by utilizing source code
+One potential method for providing input to a tool is by utilising source code
 directly. My research revealed that eighteen of the contributions analysed use
 source code as input for their tools with multiple using Spring Boot or other
 equivalent frameworks to help in understanding the overall code structure. One
@@ -703,11 +715,11 @@ framework is kept intact, the tool can then safely analyse the overall code and
 even apply the refactoring.
 
 For instance, Freitas et al. \citeSLR{freitas2021refactoring} tool, MicroRefact
-\footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}}, utilizes
+\footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}}, utilises
 Java source code to extract structural information by relying on the Abstract
 Syntax Tree. This information is used to generate a list of candidate
 microservices. They then leverage Spring Boot decorators, particularly those
-utilizing the Java Persistence API (JPA), to infer the entities of the database
+utilising the Java Persistence API (JPA), to infer the entities of the database
 and their relationships. This process then results in the output of working
 Java code for each identified microservice.
 
@@ -723,13 +735,13 @@ independent services. In fact, when the programming language was not a
 determining factor, OpenAPI was commonly used as the standard for
 distinguishing microservices from monolithic systems.
 
-The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} utilizes the
+The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} utilises the
 OpenAPI specification file to identify microservices within a monolithic
 application. The tool begins by extracting the operation names from the OpenAPI
 file, which are then input into the Affinity Propagation Algorithm
 \cite{frey2007clustering}. This algorithm calculates the number of
 microservices by analyzing the messages exchanged between data points.
-Afterwards, clustering is performed by utilizing the Silhouette coefficient
+Afterwards, clustering is performed by utilising the Silhouette coefficient
 \cite{rousseeuw1987silhouettes} which results in the identification and
 grouping of similar microservices, helping in the decomposition of the
 monolithic system.
@@ -751,7 +763,7 @@ architecture of software systems.
 Besides the input types that have been previously mentioned, there are other
 types that may not be able to create a new category but are still relevant to
 the microservices identification process. For example, using a specific system
-model as input \citeSLR{staffa2021pangaea} or utilizing the history of changes
+model as input \citeSLR{staffa2021pangaea} or utilising the history of changes
 to understand in addition to common artefacts like classes and methods
 \citeSLR{santos2021microservice}.
 
@@ -814,18 +826,18 @@ nakazawa2018visualization} that in an update explained in a YouTube video
 
 \subsubsection{Tool target language}
 
-The majority of works utilized Java as their primary programming language for
+The majority of works utilised Java as their primary programming language for
 input \citeSLR{al2021microservice, bucchiarone2020model, assunccao2022analysis,
   zhao2021applying, nitin2022cargo, kalia2021mono2micro, kalia2020mono2micro,
 agarwal2021monolith, pigazzini2019tool, krishna2021transforming}. This may be
 attributed to the language's strict syntax rules, which facilitate the
 examination of source code during the inspection process. Additionally, some of
-them utilized the Spring Boot framework in conjunction with Java
+them utilised the Spring Boot framework in conjunction with Java
 \citeSLR{wei2020feature, nunes2019monolith, brito2021identification,
 santos2021microservice, freitas2021refactoring, pigazzini2019tool}, which
-further enforces structure through the utilization of decorators. In contrast,
+further enforces structure through the utilisation of decorators. In contrast,
 those who employed programming languages other than Java, such as Python,
-utilized corresponding frameworks like Django, to compensate for the language's
+utilised corresponding frameworks like Django, to compensate for the language's
 more lenient syntax constraints \citeSLR{matias2020determining,
 asseldonk2021monolith}.
 
@@ -834,7 +846,7 @@ asseldonk2021monolith}.
 As of the time of writing this paper, the design of the proposed tool is not
 yet finalised. We have only developed initial ideas about how we will approach
 the problem and have created a sketch of the proposed tool architecture, which
-is shown in Figure \ref{fig:tool-architecture}.
+is shown in \Cref{fig:tool-architecture}.
 
 \begin{figure*}[!htb]
   \caption{Candidate tool architecture}
@@ -948,8 +960,9 @@ communication between the tool runtime and the backend.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
-
+\balance
 \bibliographystyleSLR{IEEEtran}
 \bibliographySLR{slr}
+
 
 \end{document}
