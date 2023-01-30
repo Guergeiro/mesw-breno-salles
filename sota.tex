@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{url} % Urls
-\usepackage[hidelinks]{hyperref} % Hyperlinks
+\usepackage[hidelinks,pdftex]{hyperref} % Hyperlinks
 \usepackage{indentfirst} % Indent first line section
 \usepackage{enumerate} % Ordered list
 \usepackage{cite} % Citations
@@ -26,14 +26,19 @@
 }
 \date{January 2023}
 
+\makeatletter
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle = {\@title},
+  }
+}
+\makeatother
+
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-
-  % Whats the problem? Why is it a problem? What is the solution? Why does the
-  % solution solve the problem? Talk about evaluation maybe.
 
  In the world of software development, the concept of microservices is gaining
  popularity. This architectural style has received a lot of attention in both
@@ -103,8 +108,9 @@ following thesis, the purpose is to develop a tool which aims to aggregate
 existing tools into a single platform, as well as provide the means to extend
 and incorporate new tools. This tool will offer a convenient and comprehensive
 way to access and use a variety of tools that help the refactor from monoliths
-to microservices as well as provide the with a perspective on several migration
-proposals, allowing for easily comparable and different combinations options.
+to microservices as well as provide them with a perspective on several
+migration proposals, allowing for easily comparable and different combinations
+options.
 
 To achieve this, the guidelines presented by Kitchenham and Charters
 \cite{kitchenham2007guidelines} were followed while performing a systematic
@@ -609,8 +615,7 @@ The publications that were selected are grouped in
 important to note that the papers analysed in this study were classified into
 multiple categories, as opposed to a singular classification. To facilitate a
 more comprehensive understanding, the classified papers can be viewed on the
-online
-\href{https://docs.google.com/spreadsheets/d/1gKHAR6ggxMLMIDDGYsydCoVd2uOGkT6tsFIOKlr_Wos/edit?usp=share_link}{spreadsheet}.
+online spreadsheet \footnote{\url{https://bit.ly/publication-grouping}}.
 
 \begin{table}[!htb] \caption{Approach grouping} \label{tab:approach-grouping}
   \begin{center}
@@ -684,7 +689,7 @@ deploying it, it is not worth further consideration. This will help us to focus
 our efforts on publications that provide practical and useful information about
 tools and their implementation.
 
-\subsection{Publication Analysis}
+\subsection{Publication Analysis} \label{sub:publication-analysis}
 
 In the following sections, we will provide an analysis of the data collected
 during the knowledge extraction process from the selected publications. This
@@ -704,12 +709,12 @@ monoliths and will be further discussed.
 \subsubsection*{Source Code}
 
 One potential method for providing input to a tool is by utilising source code
-directly. My research revealed that eighteen of the contributions analysed use
+directly. Our research revealed that eighteen of the contributions analysed use
 source code as input for their tools with multiple using Spring Boot or other
 equivalent frameworks to help in understanding the overall code structure. One
 reason for the use of frameworks is that they provide building blocks for
 developers, meaning the core functionality of the framework is already in place
-and developers simply fill in the gaps allowing the for the framework to apply
+and developers simply fill in the gaps allowing for the framework to apply
 inversion of control \cite{gamma1995design}. Since the behaviour of the
 framework is kept intact, the tool can then safely analyse the overall code and
 even apply the refactoring.
@@ -843,6 +848,11 @@ asseldonk2021monolith}.
 
 \section{Tool Design}
 
+During our analysis described in \Cref{sub:publication-analysis}, it was
+impossible to locate any relevant works that could address the second research
+question (RQ2). As a result, it will be necessary to tackle this question and
+strive to answer it.
+
 As of the time of writing this paper, the design of the proposed tool is not
 yet finalised. We have only developed initial ideas about how we will approach
 the problem and have created a sketch of the proposed tool architecture, which
@@ -927,13 +937,13 @@ deliver applications more rapidly and efficiently
 distributed, cloud-based systems, where they may benefit from the cloud's
 flexibility and scalability \cite{fowler-microservices-prerequisites}.
 
-I performed a literature review on the subject of refactoring architecture from
-monolithic applications to microservices for this study. A total of one hundred
-and six primary research contributions were chosen, categorised, and analysed
-using a clear research protocol in order to collect pertinent migration data. A
-tool's target programming languages, the processes it uses to convert
-monolithic inputs into microservices, and the output of these identified
-microservices are the subject of analysis in this study.
+We performed a literature review on the subject of refactoring architecture
+from monolithic applications to microservices for this study. A total of one
+hundred and six primary research contributions were chosen, categorised, and
+analysed using a clear research protocol in order to collect pertinent
+migration data. A tool's target programming languages, the processes it uses to
+convert monolithic inputs into microservices, and the output of these
+identified microservices are the subject of analysis in this study.
 
 Tool input needs were examined first. Despite increased interest in
 microservice migration using automated tools, the topic is still young, and
