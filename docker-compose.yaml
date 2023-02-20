@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: password
+  redis:
+    image: redis
+    container_name: mesw-breno-salles_redis
+    restart: always
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    container_name: mesw-breno-salles_backend
+    restart: always
+    environment:
+      PORT: 50000
+    volumes:
+      - ./backend/src:/usr/src/app/backend/src
+    ports:
+      - "3000:50000"
+  microservice-identification:
+    build:
+      context: .
+      dockerfile: tools/microservice-identification/Dockerfile.dev
+    container_name: mesw-breno-salles_microservice-identification
+    restart: always
+    volumes:
+      - ./tools/microservice-identification/src:/usr/src/app/tools/microservice-identification/src

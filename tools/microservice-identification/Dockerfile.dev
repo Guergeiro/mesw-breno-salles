@@ -1,0 +1,73 @@
+FROM ubuntu:latest as git
+RUN apt-get update
+RUN apt-get install git -y
+
+FROM git as tool_clone
+WORKDIR /usr/src/app
+RUN git clone https://github.com/miguelfbrito/microservice-identification.git tool
+
+FROM git as mallet_clone
+WORKDIR /usr/src/app
+RUN git clone https://github.com/mimno/Mallet.git mallet
+
+FROM git as project_clone
+WORKDIR /usr/src/app
+RUN git clone https://github.com/mybatis/jpetstore-6.git project
+
+FROM maven:latest as mvn_install
+COPY --from=tool_clone /usr/src/app/tool/symbolsolver /usr/src/app/tool/symbolsolver
+WORKDIR /usr/src/app/tool/symbolsolver
+RUN export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+RUN mvn package -DskipTests
+
+FROM eclipse-temurin:latest as ant_install
+RUN apt-get update
+RUN apt-get install ant -y
+COPY --from=mallet_clone /usr/src/app/mallet /usr/src/app/mallet
+WORKDIR /usr/src/app/mallet
+RUN export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+RUN ant
+
+FROM python:3.7 as pip_install
+RUN apt-get update
+RUN apt-get install python3-matplotlib -y
+COPY --from=tool_clone /usr/src/app/tool/app/requirements.txt /usr/src/app/tool/app/requirements.txt
+WORKDIR /usr/src/app/tool/app
+RUN pip3 install -r requirements.txt
+
+FROM guergeiro/pnpm:18-7 as node_install
+WORKDIR /usr/src/app
+COPY pnpm-lock.yaml .
+RUN pnpm fetch
+ADD . ./
+RUN pnpm install --offline
+RUN rm -rdf backend
+
+FROM ubuntu:focal
+RUN apt-get update
+ENV TZ="Europe/Lisbon"
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get install software-properties-common -y
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN apt-get install python3.7 -y
+RUN apt-get install python3-pip -y
+RUN apt-get install default-jre -y
+RUN apt-get install python3-matplotlib -y
+RUN apt-get install curl -y
+ENV SHELL="/bin/bash"
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install nodejs -y
+RUN npm install --global pnpm
+
+WORKDIR /usr/src/app
+COPY --from=pip_install /root/.cache/pip /root/.cache/pip
+COPY --from=tool_clone /usr/src/app/tool tool
+RUN pip3 install -r tool/app/requirements.txt
+RUN pip3 install -U scikit-learn
+COPY --from=project_clone /usr/src/app/project project
+COPY --from=mvn_install /usr/src/app/tool/symbolsolver tool/symbolsolver
+COPY --from=ant_install /usr/src/app/mallet /root/.mallet
+COPY --from=node_install /usr/src/app .
+
+WORKDIR /usr/src/app/tools/microservice-identification
+CMD pnpm dev
