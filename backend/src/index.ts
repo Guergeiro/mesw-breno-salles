@@ -1,7 +1,8 @@
 import { environment } from "@configs/environment";
 import { NestFactory } from "@nestjs/core";
-import { RedisOptions, Transport } from "@nestjs/microservices";
+import { RedisOptions } from "@nestjs/microservices";
 import { NestExpressApplication } from "@nestjs/platform-express";
+import { RedisOptionsFactory } from "shared-nestjs";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
@@ -16,21 +17,14 @@ async function bootstrap() {
 
   app.enableShutdownHooks();
 
-  const options: RedisOptions["options"] = {
-    host: env.redis.HOST,
-    port: env.redis.PORT,
-  };
-  if (env.redis.USER != null) {
-    options.username = env.redis.USER;
-  }
-  if (env.redis.PASSWORD != null) {
-    options.password = env.redis.PASSWORD;
-  }
-
-  app.connectMicroservice<RedisOptions>({
-    transport: Transport.REDIS,
-    options: options,
-  });
+  app.connectMicroservice<RedisOptions>(
+    RedisOptionsFactory.getRedisOptions({
+      HOST: env.redis.HOST,
+      PORT: env.redis.PORT,
+      USER: env.redis.USER,
+      PASSWORD: env.redis.PASSWORD,
+    })
+  );
 
   await app.startAllMicroservices();
 

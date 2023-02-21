@@ -1,14 +1,12 @@
 import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import {
-    ClientsModule
-} from "@nestjs/microservices";
+import { ClientsModule } from "@nestjs/microservices";
 import { RedisClientConfigService } from "shared-nestjs";
-import { ToolsController } from "./tools.controller";
-import { ToolsEventListener } from "./tools.event-listener";
+import { JobsController } from "./jobs.controller";
+import {JobsService} from "./jobs.service"
 
 @Module({
-  controllers: [ToolsController],
+  controllers: [JobsController],
   imports: [
     ClientsModule.registerAsync([
       {
@@ -18,6 +16,6 @@ import { ToolsEventListener } from "./tools.event-listener";
       },
     ]),
   ],
-  providers: [ToolsEventListener],
+  providers: [JobsService]
 })
-export class ToolsModule {}
+export class JobsModule {}

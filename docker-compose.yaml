@@ -25,11 +25,11 @@ services:
       - ./backend/src:/usr/src/app/backend/src
     ports:
       - "3000:50000"
-  microservice-identification:
+  miguel-brito:
     build:
       context: .
-      dockerfile: tools/microservice-identification/Dockerfile.dev
-    container_name: mesw-breno-salles_microservice-identification
+      dockerfile: tools/miguel-brito/Dockerfile.dev
+    container_name: mesw-breno-salles_miguel-brito
     restart: always
     volumes:
-      - ./tools/microservice-identification/src:/usr/src/app/tools/microservice-identification/src
+      - ./tools/miguel-brito/src:/usr/src/app/tools/miguel-brito/src
