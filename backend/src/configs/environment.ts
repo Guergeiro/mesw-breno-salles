@@ -44,8 +44,6 @@ function redis() {
 
 function database() {
   return {
-    URI:
-      process.env.POSTGRES_URI ||
-      "postgres://app_user:password@postgres:5432/app_db",
+    URI: process.env.POSTGRES_URI,
   };
 }

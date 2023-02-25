@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import {
   MikroOrmOptionsFactory,
@@ -10,6 +10,7 @@ import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 @Injectable()
 export class MikroOrmConfigService implements MikroOrmOptionsFactory {
   private readonly configService: ConfigService;
+  private readonly logger = new Logger("MikroORM");
 
   public constructor(configService: ConfigService) {
     this.configService = configService;
@@ -22,8 +23,8 @@ export class MikroOrmConfigService implements MikroOrmOptionsFactory {
       type: "postgresql",
       clientUrl: uri,
       debug: this.configService.get<string>("NODE_ENV") === "development",
-      entities: ["dist/entities"],
-      entitiesTs: ["src/entities"],
+      entities: ["dist/domain/entities"],
+      entitiesTs: ["src/domain/entities"],
       metadataProvider: TsMorphMetadataProvider,
       forceUtcTimezone: true,
       findOneOrFailHandler: function (entityName) {
@@ -33,6 +34,15 @@ export class MikroOrmConfigService implements MikroOrmOptionsFactory {
       forceUndefined: true,
       validate: true,
       strict: true,
+      logger: this.logger.log.bind(this.logger),
+      seeder: {
+        path: "dist/seeders",
+        pathTs: "src/seeders",
+        defaultSeeder: "DatabaseSeeder",
+        glob: "!(*.d).{js,ts}",
+        emit: "ts",
+        fileName: (className: string) => className,
+      },
     };
   }
 }

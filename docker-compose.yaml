@@ -20,11 +20,18 @@ services:
     container_name: mesw-breno-salles_backend
     restart: always
     environment:
+      POSTGRES_URI: postgres://app_user:password@postgres:5432/app_db
       PORT: 50000
       REDIS_HOST: broker
       REDIS_PORT: 6379
     volumes:
-      - ./backend/src:/usr/src/app/backend/src
+      - ./backend:/usr/src/app/backend
+      - /usr/src/app/backend/temp
+      - /usr/src/app/backend/node_modules
+
+      - ./shared:/usr/src/app/shared
+      - /usr/src/app/shared/nestjs/node_modules
+      - /usr/src/app/shared/tools/node_modules
     ports:
       - "3000:50000"
   tool-queue:
@@ -44,3 +51,8 @@ services:
       QUEUE_PORT: 6379
     volumes:
       - ./tools/miguel-brito/src:/usr/src/app/tools/miguel-brito/src
+      - /usr/src/app/tools/miguel-brito/node_modules
+
+      - ./shared:/usr/src/app/shared
+      - /usr/src/app/shared/nestjs/node_modules
+      - /usr/src/app/shared/tools/node_modules

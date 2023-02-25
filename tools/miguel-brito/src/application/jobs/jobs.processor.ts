@@ -79,8 +79,6 @@ export class JobsProcessor {
       prompt.push(`--${key}`, `${value}`);
     }
     await exec(prompt.join(" "));
-    const {stdout }=await exec("cat /usr/src/app/tool/projects.json");
-    console.log(stdout)
   }
 
   private async parseData() {

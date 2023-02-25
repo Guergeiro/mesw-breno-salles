@@ -4,14 +4,22 @@ import {
   MakeToolControllerOutputSchema,
 } from "./base-schema";
 
+const parameters = z.union([
+  z.object({
+    k_topics: z.number(),
+  }),
+  z.object({
+    resolution: z.number(),
+  }),
+  z.object({
+    k_topics: z.number(),
+    resolution: z.number(),
+  }),
+]);
+
 export const ToolControllerInputSchema = MakeToolControllerInputSchema(
   z.object({
-    parameters: z
-      .object({
-        k_topics: z.number(),
-        resolution: z.number(),
-      })
-      .optional(),
+    parameters: parameters.optional(),
   })
 );
 

@@ -1,8 +1,9 @@
+import { ResultRepository } from "@domain/repositories/result.repository";
 import { Entity, Enum, ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "./base.entity";
 import { Tool } from "./tool.entity";
 
-@Entity()
+@Entity({ customRepository: () => ResultRepository })
 export class Result extends BaseEntity {
   @ManyToOne()
   public tool!: Tool;

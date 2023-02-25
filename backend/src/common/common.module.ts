@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { ClientsModule } from "@nestjs/microservices";
 import { RedisClientConfigService } from "shared-nestjs";
 import { JobsService } from "./jobs/jobs.service";
+import { PaginatorService } from "./paginator/paginator.service";
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { JobsService } from "./jobs/jobs.service";
       },
     ]),
   ],
-  providers: [JobsService],
-  exports: [JobsService],
+  providers: [JobsService, PaginatorService],
+  exports: [JobsService, PaginatorService],
 })
 export class CommonModule {}

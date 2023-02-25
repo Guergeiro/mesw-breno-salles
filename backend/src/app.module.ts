@@ -2,9 +2,11 @@ import { ZodValidationPipe } from "@anatine/zod-nestjs";
 import { ToolsModule } from "@application/tools/tools.module";
 import { environment } from "@configs/environment";
 import { MikroOrmConfigService } from "@configs/MikroOrmConfigService";
-import { MikroOrmModule } from "@mikro-orm/nestjs";
-import { Module } from "@nestjs/common";
+import { MikroORM } from "@mikro-orm/core";
+import { MikroOrmMiddleware, MikroOrmModule } from "@mikro-orm/nestjs";
+import { MiddlewareConsumer, Module, NestModule, OnModuleInit } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { DatabaseSeeder } from "@seeders/database.seeder";
 
 @Module({
   imports: [
@@ -26,4 +28,23 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule, OnModuleInit {
+  private readonly orm: MikroORM;
+
+  public constructor(orm: MikroORM) {
+    this.orm = orm;
+  }
+
+  public async onModuleInit() {
+    const generator = this.orm.getSchemaGenerator();
+    await generator.ensureDatabase();
+    await generator.dropSchema();
+    await generator.createSchema();
+    await generator.updateSchema();
+    await this.orm.getSeeder().seed(DatabaseSeeder)
+  }
+
+  public configure(consumer: MiddlewareConsumer) {
+    consumer.apply(MikroOrmMiddleware).forRoutes("*");
+  }
+}
