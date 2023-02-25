@@ -1,23 +1,15 @@
+import { CommonModule } from "@common/common.module";
+import { Result } from "@entities/result.entity";
+import { Tool } from "@entities/tool.entity";
+import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import {
-    ClientsModule
-} from "@nestjs/microservices";
-import { RedisClientConfigService } from "shared-nestjs";
 import { ToolsController } from "./tools.controller";
-import { ToolsEventListener } from "./tools.event-listener";
+import { StartDecompositionService } from "./use-cases/start-decomposition/start-decomposition.service";
+import { TestService } from "./use-cases/test/test.service";
 
 @Module({
   controllers: [ToolsController],
-  imports: [
-    ClientsModule.registerAsync([
-      {
-        name: "REDIS_CLIENT",
-        useClass: RedisClientConfigService,
-        inject: [ConfigService],
-      },
-    ]),
-  ],
-  providers: [ToolsEventListener],
+  imports: [MikroOrmModule.forFeature([Tool, Result]), CommonModule],
+  providers: [StartDecompositionService, TestService],
 })
 export class ToolsModule {}

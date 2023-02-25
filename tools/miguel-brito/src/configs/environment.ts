@@ -16,6 +16,7 @@ export async function environment() {
   env["NODE_ENV"] = NODE_ENV;
   env["host"] = host();
   env["redis"] = redis();
+  env["queue"] = queue();
   return env;
 }
 
@@ -30,9 +31,18 @@ function host() {
 
 function redis() {
   return {
-    HOST: process.env.REDIS_HOST || "redis",
+    HOST: process.env.REDIS_HOST,
     PORT: parseInt(process.env.REDIS_PORT || "6379"),
     USER: process.env.REDIS_USER,
     PASSWORD: process.env.REDIS_PASSWORD,
+  };
+}
+
+function queue() {
+  return {
+    HOST: process.env.QUEUE_HOST,
+    PORT: parseInt(process.env.QUEUE_PORT || "6379"),
+    USER: process.env.QUEUE_USER,
+    PASSWORD: process.env.QUEUE_PASSWORD,
   };
 }

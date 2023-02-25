@@ -9,9 +9,9 @@ services:
       POSTGRES_DB: app_db
       POSTGRES_USER: app_user
       POSTGRES_PASSWORD: password
-  redis:
+  broker:
     image: redis
-    container_name: mesw-breno-salles_redis
+    container_name: mesw-breno-salles_broker
     restart: always
   backend:
     build:
@@ -21,15 +21,26 @@ services:
     restart: always
     environment:
       PORT: 50000
+      REDIS_HOST: broker
+      REDIS_PORT: 6379
     volumes:
       - ./backend/src:/usr/src/app/backend/src
     ports:
       - "3000:50000"
+  tool-queue:
+    image: redis
+    container_name: mesw-breno-salles_tool-queue
+    restart: always
   miguel-brito:
     build:
       context: .
       dockerfile: tools/miguel-brito/Dockerfile.dev
     container_name: mesw-breno-salles_miguel-brito
     restart: always
+    environment:
+      REDIS_HOST: broker
+      REDIS_PORT: 6379
+      QUEUE_HOST: tool-queue
+      QUEUE_PORT: 6379
     volumes:
       - ./tools/miguel-brito/src:/usr/src/app/tools/miguel-brito/src

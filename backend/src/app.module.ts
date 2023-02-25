@@ -1,10 +1,10 @@
+import { ZodValidationPipe } from "@anatine/zod-nestjs";
 import { ToolsModule } from "@application/tools/tools.module";
 import { environment } from "@configs/environment";
 import { MikroOrmConfigService } from "@configs/MikroOrmConfigService";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { EventEmitterModule } from "@nestjs/event-emitter";
 
 @Module({
   imports: [
@@ -17,8 +17,13 @@ import { EventEmitterModule } from "@nestjs/event-emitter";
       useClass: MikroOrmConfigService,
       inject: [ConfigService],
     }),
-    EventEmitterModule.forRoot(),
     ToolsModule,
+  ],
+  providers: [
+    {
+      provide: "APP_PIPE",
+      useClass: ZodValidationPipe,
+    },
   ],
 })
 export class AppModule {}

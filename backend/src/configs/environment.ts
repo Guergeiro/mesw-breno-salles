@@ -1,6 +1,8 @@
 import { ConfigObject } from "@nestjs/config";
 
 const NODE_ENV = process.env.NODE_ENV || "development";
+const VERSION = process.env.npm_package_version || NODE_ENV;
+const NAME = process.env.npm_package_name || NODE_ENV;
 
 const env: ConfigObject = {};
 
@@ -14,6 +16,8 @@ export async function environment() {
   }
 
   env["NODE_ENV"] = NODE_ENV;
+  env["VERSION"] = VERSION;
+  env["NAME"] = NAME;
   env["host"] = host();
   env["database"] = database();
   env["redis"] = redis();
@@ -31,7 +35,7 @@ function host() {
 
 function redis() {
   return {
-    HOST: process.env.REDIS_HOST || "redis",
+    HOST: process.env.REDIS_HOST,
     PORT: parseInt(process.env.REDIS_PORT || "6379"),
     USER: process.env.REDIS_USER,
     PASSWORD: process.env.REDIS_PASSWORD,

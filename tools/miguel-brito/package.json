@@ -1,16 +1,21 @@
 {
   "name": "miguel-brito",
+  "version": "1.0.0",
   "dependencies": {
+    "@nestjs/bull": "^0.6.3",
     "@nestjs/common": "^9.3.9",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.3.9",
     "@nestjs/microservices": "^9.3.9",
+    "bull": "^4.10.4",
     "ioredis": "^5.3.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "shared-nestjs": "workspace:shared-nestjs*"
+    "shared-nestjs": "workspace:shared-nestjs*",
+    "shared-tools": "workspace:shared-tools*"
   },
   "devDependencies": {
+    "@total-typescript/ts-reset": "^0.3.7",
     "@types/node": "^18.13.0",
     "dotenv": "^16.0.3",
     "node-dev": "^8.0.0",

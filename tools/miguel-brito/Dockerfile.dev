@@ -69,5 +69,5 @@ COPY --from=mvn_install /usr/src/app/tool/symbolsolver tool/symbolsolver
 COPY --from=ant_install /usr/src/app/mallet /root/.mallet
 COPY --from=node_install /usr/src/app .
 
-WORKDIR /usr/src/app/tools/microservice-identification
+WORKDIR /usr/src/app/tools/miguel-brito
 CMD pnpm dev

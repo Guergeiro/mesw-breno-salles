@@ -1,3 +1,4 @@
+import "@total-typescript/ts-reset";
 import { environment } from "@configs/environment";
 import { NestFactory } from "@nestjs/core";
 import { RedisOptions } from "@nestjs/microservices";

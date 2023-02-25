@@ -1,0 +1,6 @@
+{
+  "name": "shared-tools",
+  "dependencies": {
+    "zod": "^3.20.6"
+  }
+}

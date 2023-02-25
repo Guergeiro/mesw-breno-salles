@@ -1,7 +1,9 @@
-import { JobsModule } from '@application/jobs/jobs.module';
-import { environment } from '@configs/environment';
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { JobsModule } from "@application/jobs/jobs.module";
+import { environment } from "@configs/environment";
+import { BullModule } from "@nestjs/bull";
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { QueueConfigService } from "shared-nestjs";
 
 @Module({
   imports: [
@@ -10,8 +12,11 @@ import { ConfigModule } from '@nestjs/config';
       cache: true,
       load: [environment],
     }),
-    JobsModule
+    BullModule.forRootAsync({
+      useClass: QueueConfigService,
+      inject: [ConfigService],
+    }),
+    JobsModule,
   ],
 })
 export class AppModule {}
-
