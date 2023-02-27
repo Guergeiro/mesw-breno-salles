@@ -2,17 +2,21 @@ import {
   OnQueueActive,
   OnQueueCompleted,
   OnQueueFailed,
+  OnQueueProgress,
   Process,
   Processor,
 } from "@nestjs/bull";
 import { Job } from "bull";
 import { JobsService } from "./jobs.service";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { promisify } from "node:util";
 import { exec as e } from "node:child_process";
 import { MiguelBritoInput, MiguelBritoOutput } from "shared-tools";
 import { RpcException } from "@nestjs/microservices";
 import { Logger } from "@nestjs/common";
+import { S3ClientService } from "shared-nestjs";
+import { Readable } from "node:stream";
+import AdmZip from "adm-zip";
 const exec = promisify(e);
 
 type ProcessResult = Extract<
@@ -22,23 +26,42 @@ type ProcessResult = Extract<
 
 @Processor("miguel-brito")
 export class JobsProcessor {
-  private readonly jobsService: JobsService;
   private readonly logger = new Logger(JobsProcessor.name);
 
-  public constructor(jobsService: JobsService) {
+  private readonly jobsService: JobsService;
+  private readonly s3ClientService: S3ClientService;
+
+  public constructor(
+    jobsService: JobsService,
+    s3ClientService: S3ClientService
+  ) {
     this.jobsService = jobsService;
+    this.s3ClientService = s3ClientService;
   }
 
   @Process()
   public async process(job: Job<MiguelBritoInput["parameters"]>) {
-    await this.calculateMicroservices(job.data);
+    const path = await this.downloadProject(job.id as string);
+    await job.progress(20);
+    await this.decompressProject(path);
+    await job.progress(40);
+    await this.calculateMicroservices(path, job.data);
+    await job.progress(60);
     const projects = await this.parseData();
-    return this.getDecomposition(projects);
+    await job.progress(80);
+    const decomposition = this.getDecomposition(projects);
+    await job.progress(100);
+    return decomposition;
+  }
+
+  @OnQueueProgress()
+  public async onProgress(job: Job<MiguelBritoInput["parameters"]>, progress: number) {
+    this.logger.log(`Job ${job.id} ${progress}% processed`)
   }
 
   @OnQueueActive()
   public async onStart(job: Job<MiguelBritoInput["parameters"]>) {
-    this.logger.log(`Started processing job ${job.id}`)
+    this.logger.log(`Started processing job ${job.id}`);
   }
 
   @OnQueueCompleted()
@@ -46,7 +69,7 @@ export class JobsProcessor {
     job: Job<MiguelBritoInput["parameters"]>,
     result: ProcessResult
   ) {
-    this.logger.log(`Finished processing job ${job.id}`)
+    this.logger.log(`Finished processing job ${job.id}`);
     await this.jobsService.endJob({
       id: job.id as string,
       status: "success",
@@ -56,7 +79,7 @@ export class JobsProcessor {
 
   @OnQueueFailed()
   public async onFail(job: Job<MiguelBritoInput["parameters"]>, error: Error) {
-    this.logger.log(`Failed processing job ${job.id}`)
+    this.logger.log(`Failed processing job ${job.id}`);
     await this.jobsService.endJob({
       id: job.id as string,
       status: "failed",
@@ -64,7 +87,27 @@ export class JobsProcessor {
     });
   }
 
+  private async downloadProject(id: string) {
+    const { Body } = await this.s3ClientService.getObject(id);
+    const path = `/usr/src/app/tool/app/${id}`;
+    await writeFile(`${path}.zip`, Body as Readable);
+    return path;
+  }
+
+  private async decompressProject(path: string) {
+    const zip = new AdmZip(`${path}.zip`);
+    return await new Promise<void>(function (resolve, reject) {
+      zip.extractAllToAsync(path, true, false, function (error) {
+        if (error != null) {
+          return reject(error);
+        }
+        return resolve();
+      });
+    });
+  }
+
   private async calculateMicroservices(
+    projectPath: string,
     parameters?: MiguelBritoInput["parameters"]
   ) {
     const prompt = [
@@ -74,7 +117,7 @@ export class JobsProcessor {
       "python3",
       "/usr/src/app/tool/app/main.py",
     ];
-    prompt.push("--project", "/usr/src/app/project");
+    prompt.push("--project", projectPath);
     for (const [key, value] of Object.entries(parameters || {})) {
       prompt.push(`--${key}`, `${value}`);
     }

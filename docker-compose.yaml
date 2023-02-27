@@ -9,6 +9,40 @@ services:
       POSTGRES_DB: app_db
       POSTGRES_USER: app_user
       POSTGRES_PASSWORD: password
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    restart: always
+    environment:
+      SERVICES: s3,sqs
+      DEBUG: ${DEBUG-1}
+      DATA_DIR: ${DATA_DIR-}
+      HOST_TMP_FOLDER: ${TMPDIR:-/opt/}localstack
+      LAMBDA_EXECUTOR: ${LAMBDA_EXECUTOR-}
+      LAMBDA_DOCKER_NETWORK: gdrive_default
+      DOCKER_HOST: unix:///var/run/docker.sock
+      HOSTNAME: 0.0.0.0
+      HOSTNAME_EXTERNAL: 0.0.0.0
+    volumes:
+      - ${TMPDIR:-/opt}/localstack:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3001:4566"
+  localstack-setup:
+    image: mesosphere/aws-cli
+    container_name: localstack-setup
+    environment:
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_DEFAULT_REGION: us-east-1
+    entrypoint: /bin/sh -c
+    command: >
+      "
+      sleep 10;
+      aws --endpoint-url=http://localstack:4566 s3api create-bucket --bucket projects --acl private;
+      "
+    depends_on:
+      - localstack
   broker:
     image: redis
     container_name: mesw-breno-salles_broker
@@ -20,10 +54,14 @@ services:
     container_name: mesw-breno-salles_backend
     restart: always
     environment:
-      POSTGRES_URI: postgres://app_user:password@postgres:5432/app_db
       PORT: 50000
+      POSTGRES_URI: postgres://app_user:password@postgres:5432/app_db
       REDIS_HOST: broker
       REDIS_PORT: 6379
+      S3_ENDPOINT: http://localstack:4566
+      S3_REGION: us-east-1
+      S3_ACCESS_KEY: test
+      S3_SECRET_KEY: test
     volumes:
       - ./backend:/usr/src/app/backend
       - /usr/src/app/backend/temp
@@ -49,6 +87,10 @@ services:
       REDIS_PORT: 6379
       QUEUE_HOST: tool-queue
       QUEUE_PORT: 6379
+      S3_ENDPOINT: http://localstack:4566
+      S3_REGION: us-east-1
+      S3_ACCESS_KEY: test
+      S3_SECRET_KEY: test
     volumes:
       - ./tools/miguel-brito/src:/usr/src/app/tools/miguel-brito/src
       - /usr/src/app/tools/miguel-brito/node_modules

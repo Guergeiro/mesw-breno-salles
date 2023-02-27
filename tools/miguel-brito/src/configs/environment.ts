@@ -17,6 +17,7 @@ export async function environment() {
   env["host"] = host();
   env["redis"] = redis();
   env["queue"] = queue();
+  env["s3"] = s3();
   return env;
 }
 
@@ -44,5 +45,13 @@ function queue() {
     PORT: parseInt(process.env.QUEUE_PORT || "6379"),
     USER: process.env.QUEUE_USER,
     PASSWORD: process.env.QUEUE_PASSWORD,
+  };
+}
+function s3() {
+  return {
+    ENDPOINT: process.env.S3_ENDPOINT,
+    ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    SECRET_KEY: process.env.S3_SECRET_KEY,
+    REGION: process.env.S3_REGION,
   };
 }

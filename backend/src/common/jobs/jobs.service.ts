@@ -4,7 +4,13 @@ import { MiguelBritoInput } from "shared-tools";
 
 type SlugObject = { slug: string };
 
-type InputUnion = MiguelBritoInput;
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+type PartialExcept<T, K extends keyof T> = RecursivePartial<T> & Pick<T, K>;
+
+type InputUnion = PartialExcept<MiguelBritoInput, "id">;
 
 type StartJobDto = InputUnion & SlugObject;
 
@@ -16,7 +22,7 @@ export class JobsService {
     this.redisClient = redisClient;
   }
 
-  public start({ slug, ...rest }: StartJobDto) {
+  public async start({ slug, ...rest }: StartJobDto) {
     this.redisClient.emit<void, InputUnion>(`start_${slug}`, rest);
   }
 }

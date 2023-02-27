@@ -1,6 +1,7 @@
 {
   "name": "shared-nestjs",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.279.0",
     "@nestjs/bull": "^0.6.3",
     "@nestjs/common": "^9.3.9",
     "@nestjs/config": "^2.3.1",

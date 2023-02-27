@@ -9,16 +9,4 @@ export abstract class BaseEntity {
 
   @Property({ onUpdate: () => new Date() })
   public updatedAt = new Date();
-
-  public constructor(props?: BaseProps) {
-    if (props != null) {
-      if (props.id != null) {
-        this.id = props.id;
-      }
-    }
-  }
-}
-
-export type BaseProps = {
-  id?: string;
 }

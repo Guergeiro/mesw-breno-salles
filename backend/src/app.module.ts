@@ -1,10 +1,15 @@
 import { ZodValidationPipe } from "@anatine/zod-nestjs";
-import { ToolsModule } from "@application/tools/tools.module";
+import { ApplicationModule } from "@application/application.module";
 import { environment } from "@configs/environment";
 import { MikroOrmConfigService } from "@configs/MikroOrmConfigService";
 import { MikroORM } from "@mikro-orm/core";
 import { MikroOrmMiddleware, MikroOrmModule } from "@mikro-orm/nestjs";
-import { MiddlewareConsumer, Module, NestModule, OnModuleInit } from "@nestjs/common";
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  OnModuleInit,
+} from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DatabaseSeeder } from "@seeders/database.seeder";
 
@@ -19,7 +24,7 @@ import { DatabaseSeeder } from "@seeders/database.seeder";
       useClass: MikroOrmConfigService,
       inject: [ConfigService],
     }),
-    ToolsModule,
+    ApplicationModule,
   ],
   providers: [
     {
@@ -41,7 +46,7 @@ export class AppModule implements NestModule, OnModuleInit {
     await generator.dropSchema();
     await generator.createSchema();
     await generator.updateSchema();
-    await this.orm.getSeeder().seed(DatabaseSeeder)
+    await this.orm.getSeeder().seed(DatabaseSeeder);
   }
 
   public configure(consumer: MiddlewareConsumer) {

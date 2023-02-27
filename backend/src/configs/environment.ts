@@ -18,10 +18,17 @@ export async function environment() {
   env["NODE_ENV"] = NODE_ENV;
   env["VERSION"] = VERSION;
   env["NAME"] = NAME;
-  env["host"] = host();
   env["database"] = database();
+  env["host"] = host();
   env["redis"] = redis();
+  env["s3"] = s3();
   return env;
+}
+
+function database() {
+  return {
+    URI: process.env.POSTGRES_URI,
+  };
 }
 
 function host() {
@@ -42,8 +49,11 @@ function redis() {
   };
 }
 
-function database() {
+function s3() {
   return {
-    URI: process.env.POSTGRES_URI,
+    ENDPOINT: process.env.S3_ENDPOINT,
+    ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    SECRET_KEY: process.env.S3_SECRET_KEY,
+    REGION: process.env.S3_REGION,
   };
 }

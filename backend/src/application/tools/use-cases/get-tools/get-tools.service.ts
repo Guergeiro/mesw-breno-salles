@@ -1,8 +1,6 @@
 import { PaginatorQueryDto } from "@common/paginator/paginator-query.dto";
 import { PaginatorService } from "@common/paginator/paginator.service";
-import { Tool } from "@domain/entities/tool.entity";
 import { ToolRepository } from "@domain/repositories/tool.repository";
-import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -11,7 +9,7 @@ export class GetToolsService {
   private readonly paginatorService: PaginatorService;
 
   public constructor(
-    @InjectRepository(Tool) toolsRepository: ToolRepository,
+    toolsRepository: ToolRepository,
     paginatorService: PaginatorService
   ) {
     this.toolRepository = toolsRepository;
