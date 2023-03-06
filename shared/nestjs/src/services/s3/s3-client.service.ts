@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3, S3ClientConfig } from "@aws-sdk/client-s3";
+import { S3, S3ClientConfig } from "@aws-sdk/client-s3";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
@@ -16,12 +16,19 @@ export class S3ClientService {
   public constructor(configService: ConfigService) {
     const accessKeyId = configService.get<string>("s3.ACCESS_KEY");
     const secretAccessKey = configService.get<string>("s3.SECRET_KEY");
-    if (accessKeyId == null || secretAccessKey == null) {
+    const region = configService.get<string>("s3.REGION");
+    const endpoint = configService.get<string>("s3.ENDPOINT");
+    if (
+      accessKeyId == null ||
+      secretAccessKey == null ||
+      region == null ||
+      endpoint == null
+    ) {
       throw new Error();
     }
     const s3Config: S3ClientConfig = {
-      region: configService.get<string>("s3.REGION"),
-      endpoint: configService.get<string>("s3.ENDPOINT"),
+      region,
+      endpoint,
       credentials: {
         accessKeyId,
         secretAccessKey,

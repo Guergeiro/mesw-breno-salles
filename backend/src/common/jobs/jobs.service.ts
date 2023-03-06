@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientRedis } from "@nestjs/microservices";
-import { MiguelBritoInput } from "shared-tools";
+import { ToolControllerInput } from "shared-tools";
 
 type SlugObject = { slug: string };
 
@@ -10,7 +10,7 @@ type RecursivePartial<T> = {
 
 type PartialExcept<T, K extends keyof T> = RecursivePartial<T> & Pick<T, K>;
 
-type InputUnion = PartialExcept<MiguelBritoInput, "id">;
+type InputUnion = PartialExcept<ToolControllerInput, "id">;
 
 type StartJobDto = InputUnion & SlugObject;
 

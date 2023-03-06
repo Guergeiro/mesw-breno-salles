@@ -17,15 +17,15 @@ const parameters = z.union([
   }),
 ]);
 
-export const ToolControllerInputSchema = MakeToolControllerInputSchema(
+export const ToolControllerInput = MakeToolControllerInputSchema(
   z.object({
     parameters: parameters.optional(),
   })
 );
 
-export type ToolControllerInput = z.infer<typeof ToolControllerInputSchema>;
+export type ToolControllerInput = z.infer<typeof ToolControllerInput>
 
-export const ToolControllerOutputSchema = MakeToolControllerOutputSchema(
+export const ToolControllerOutput = MakeToolControllerOutputSchema(
   z
     .object({
       metadata: z.object({
@@ -42,4 +42,4 @@ export const ToolControllerOutputSchema = MakeToolControllerOutputSchema(
     .array()
 );
 
-export type ToolControllerOutput = z.infer<typeof ToolControllerOutputSchema>;
+export type ToolControllerOutput = z.infer<typeof ToolControllerOutput>

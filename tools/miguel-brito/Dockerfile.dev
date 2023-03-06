@@ -4,15 +4,15 @@ RUN apt-get install git -y
 
 FROM git as tool_clone
 WORKDIR /usr/src/app
-RUN git clone https://github.com/miguelfbrito/microservice-identification.git tool
+RUN git clone --single-branch --branch develop https://github.com/miguelfbrito/microservice-identification.git tool
 
 FROM git as mallet_clone
 WORKDIR /usr/src/app
-RUN git clone https://github.com/mimno/Mallet.git mallet
+RUN git clone --single-branch https://github.com/mimno/Mallet.git mallet
 
 FROM git as project_clone
 WORKDIR /usr/src/app
-RUN git clone https://github.com/mybatis/jpetstore-6.git project
+RUN git clone --single-branch https://github.com/mybatis/jpetstore-6.git project
 
 FROM maven:latest as mvn_install
 COPY --from=tool_clone /usr/src/app/tool/symbolsolver /usr/src/app/tool/symbolsolver
@@ -42,6 +42,7 @@ RUN pnpm fetch
 ADD . ./
 RUN pnpm install --offline
 RUN rm -rdf backend
+RUN rm -rdf frontend
 
 FROM ubuntu:focal
 RUN apt-get update
@@ -62,12 +63,12 @@ RUN npm install --global pnpm
 WORKDIR /usr/src/app
 COPY --from=pip_install /root/.cache/pip /root/.cache/pip
 COPY --from=tool_clone /usr/src/app/tool tool
-RUN pip3 install -r tool/app/requirements.txt
-RUN pip3 install -U scikit-learn
 COPY --from=project_clone /usr/src/app/project project
 COPY --from=mvn_install /usr/src/app/tool/symbolsolver tool/symbolsolver
 COPY --from=ant_install /usr/src/app/mallet /root/.mallet
-COPY --from=node_install /usr/src/app .
+WORKDIR /usr/src/app/tool/app
+RUN pip3 install -r requirements.txt
+COPY --from=node_install /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app/tools/miguel-brito
 CMD pnpm dev

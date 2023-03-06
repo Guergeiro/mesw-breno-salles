@@ -1,9 +1,9 @@
 import { createZodDto } from "@anatine/zod-nestjs";
-import { ToolControllerInputSchema } from "shared-tools";
+import { ToolControllerInput } from "shared-tools";
 import { z } from "zod";
 
+const tool = z.object({ tool: z.string().uuid() });
+
 export class CreateResultRequestDto extends createZodDto(
-  ToolControllerInputSchema.omit({ id: true }).merge(
-    z.object({ tool: z.string().uuid() })
-  )
+  z.union([tool, tool.and(ToolControllerInput.shape.parameters)])
 ) {}

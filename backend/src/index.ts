@@ -1,18 +1,19 @@
-import "@total-typescript/ts-reset";
+import { patchNestjsSwagger } from "@anatine/zod-nestjs";
 import { environment } from "@configs/environment";
 import { NestFactory } from "@nestjs/core";
 import { RedisOptions } from "@nestjs/microservices";
 import { NestExpressApplication } from "@nestjs/platform-express";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import "@total-typescript/ts-reset";
+import helmet from "helmet";
 import { RedisOptionsFactory } from "shared-nestjs";
 import { AppModule } from "./app.module";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { patchNestjsSwagger } from "@anatine/zod-nestjs";
-import helmet from "helmet";
 
 async function bootstrap() {
   const env = await environment();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    forceCloseConnections: true,
     logger:
       env.NODE_ENV === "production"
         ? ["error", "warn"]

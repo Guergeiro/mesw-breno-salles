@@ -22,6 +22,6 @@ export class JobsService {
   }
 
   public async endJob(output: MiguelBritoOutput) {
-    this.redisClient.emit<void, MiguelBritoOutput>("end_miguel-brito", output);
+    this.redisClient.emit<void, MiguelBritoOutput>("end", output);
   }
 }
