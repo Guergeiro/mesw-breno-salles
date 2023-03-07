@@ -11,8 +11,8 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "format": "prettier --write \"{backend,frontend}/**/*.{ts,tsx,css,html}\"",
-    "format:check": "prettier --check \"{backend,frontend}/**/*.{ts,tsx,css,html}\"",
+    "format": "prettier --write \"{backend,frontend}/**/*.{ts,tsx,css,html,astro}\"",
+    "format:check": "prettier --check \"{backend,frontend}/**/*.{ts,tsx,css,html,astro}\"",
     "lint": "eslint \"{backend,frontend}/**/*.{ts,tsx}\" --fix",
     "lint:check": "eslint \"{backend,frontend}/**/*.{ts,tsx}\"",
     "sync:format": "syncpack format",

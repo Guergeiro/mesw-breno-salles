@@ -11,6 +11,6 @@ import { ReceiveResultService } from "./use-cases/receive-result/receive-result.
 @Module({
   controllers: [ResultsController],
   imports: [MikroOrmModule.forFeature([Tool, Result]), CommonModule],
-  providers: [CreateResultService,ReceiveResultService, S3ClientService],
+  providers: [CreateResultService, ReceiveResultService, S3ClientService],
 })
 export class ResultsModule {}
