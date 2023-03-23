@@ -2,7 +2,9 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
+  Param,
   ParseFilePipeBuilder,
   Post,
   Sse,
@@ -15,20 +17,29 @@ import { ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { ToolControllerOutput } from "shared-tools";
 import { CreateResultRequestDto } from "./use-cases/create-result/create-result-request.dto";
 import { CreateResultService } from "./use-cases/create-result/create-result.service";
+import { GetResultService } from "./use-cases/get-result/get-result.service";
 import { ReceiveResultService } from "./use-cases/receive-result/receive-result.service";
 
 @Controller("results")
 @ApiTags("results")
 export class ResultsController {
+  private readonly getResultService: GetResultService;
   private readonly createResultService: CreateResultService;
   private readonly receiveResultService: ReceiveResultService;
 
   public constructor(
+    getResultService: GetResultService,
     createResultService: CreateResultService,
     receiveResultService: ReceiveResultService
   ) {
+    this.getResultService = getResultService;
     this.createResultService = createResultService;
     this.receiveResultService = receiveResultService;
+  }
+
+  @Get(":id")
+  public async getResult(@Param("id") id: string) {
+    return await this.getResultService.execute(id);
   }
 
   @Post()
