@@ -1,0 +1,11 @@
+---
+import Button from "@components/Button.tsx";
+import Movie from "@components/Movie.tsx";
+import Tools from "./tools/Tools.astro";
+---
+
+<main>
+  <Tools />
+</main>
+<Button>Foo</Button>
+<Movie client:only="solid-js" />

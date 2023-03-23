@@ -2,6 +2,8 @@ import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 import solidJs from "@astrojs/solid-js";
 
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
@@ -12,5 +14,5 @@ export default defineConfig({
     host: true,
     port: 3000
   },
-  integrations: [solidJs()]
+  integrations: [solidJs(), tailwind()]
 });

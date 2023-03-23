@@ -1,17 +1,10 @@
-import {
-  Component,
-  createEffect,
-  createMemo,
-  For,
-  Match,
-  Show,
-  splitProps,
-  Switch,
-} from "solid-js";
+import { API_URL } from "@env";
 import { createEventSignal } from "@solid-primitives/event-listener";
 import { ToolControllerOutput } from "shared-tools";
+import { Component, createMemo, For, Show, splitProps } from "solid-js";
+import Button from "./Button";
 
-const source = new EventSource("http://0.0.0.0:3000/results");
+const source = new EventSource(new URL("results", API_URL));
 
 const Results: Component<{ results: ToolControllerOutput }> = (props) => {
   const [{ results }] = splitProps(props, ["results"]);
@@ -26,7 +19,7 @@ const Results: Component<{ results: ToolControllerOutput }> = (props) => {
   return (
     <>
       <h1>Success</h1>
-      <p>parsedData().id</p>
+      <p>results.id</p>
       <For each={results.results}>
         {(result) => {
           return (

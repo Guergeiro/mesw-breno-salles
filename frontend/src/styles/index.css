@@ -1,0 +1,11 @@
+.rotate-center {
+	animation: rotate-center 0.7s ease-in-out infinite both;
+}
+@keyframes rotate-center {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

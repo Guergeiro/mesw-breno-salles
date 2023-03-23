@@ -1,8 +1,8 @@
 ---
-import Movie from "@components/Movie.tsx";
-import Layout from "@layout/Layout.astro";
+import Page from "@components/Page.astro";
+import HomePage from "@layout/home-page/HomePage.astro";
 ---
 
-<Layout title="Home Page">
-  <Movie client:only="solid-js" />
-</Layout>
+<Page title="Home Page">
+  <HomePage />
+</Page>
