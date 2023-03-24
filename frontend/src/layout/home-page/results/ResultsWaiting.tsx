@@ -12,23 +12,20 @@ import {
   Component,
   createEffect,
   createMemo,
-  createSignal,
   For,
   Match,
   Show,
   Switch,
-  untrack,
 } from "solid-js";
-import { createStore } from "solid-js/store";
 import { z } from "zod";
-import { PromiseResults, ResultsStore, ValidPromise } from "../ResultsStore";
+import { ResultsStore, ValidPromise } from "../ResultsStore";
 import { Step, StepsStore } from "../StepsStore";
 
 type ResultSchema = z.infer<typeof ResultSchema>;
 
 const NotificationSchema = ResultSchema.omit({ tool: true });
 
-const sseSource = new EventSource(new URL("results", API_URL));
+const sseSource = new EventSource(new URL("results/sse", API_URL));
 
 function isShowing(currentPage: Step) {
   switch (currentPage) {
@@ -55,10 +52,10 @@ const ResultsWaiting: Component = () => {
     const results = resultsStore().filter(function ({ status }) {
       return status === "fulfilled";
     }) as ValidPromise[];
-    return results.map(function ({value}) {
+    return results.map(function ({ value }) {
       return JSON.parse(JSON.stringify(value)) as ResultSchema;
-    })
-  })
+    });
+  });
 
   const resultsNotifications = createMemo(() => {
     const parsedData = NotificationSchema.safeParse(
@@ -71,17 +68,19 @@ const ResultsWaiting: Component = () => {
   });
 
   const results = createMemo(() => {
-    const newResult = resultsNotifications()
+    const newResult = resultsNotifications();
     if (newResult == null) {
       return [...fulfilledResults()];
     }
-    return [...fulfilledResults().map(function (result) {
-      if (result.id !== newResult.id) {
-        return result;
-      }
-      return {...result, status: newResult.status};
-    })]
-  })
+    return [
+      ...fulfilledResults().map(function (result) {
+        if (result.id !== newResult.id) {
+          return result;
+        }
+        return { ...result, status: newResult.status };
+      }),
+    ];
+  });
 
   const allFinished = createMemo(() => {
     for (const { status } of results()) {
@@ -94,9 +93,9 @@ const ResultsWaiting: Component = () => {
 
   createEffect(() => {
     if (allFinished() === true && results().length !== 0) {
-      StepsStore.set(Step.FINISHED)
+      StepsStore.set(Step.FINISHED);
     }
-  })
+  });
 
   const currentPage = useStore(StepsStore);
 
@@ -133,6 +132,7 @@ const ResultsWaiting: Component = () => {
         New Decomposition
       </Button>
       <Button
+        variant="default"
         disabled={allFinished() === false}
         onClick={() => {
           console.log("viewing results");
@@ -148,7 +148,6 @@ export default ResultsWaiting;
 const TableRow: Component<{ name: string; status: ResultSchema["status"] }> = (
   props
 ) => {
-
   return (
     <>
       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">

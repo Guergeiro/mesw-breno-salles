@@ -1,12 +1,12 @@
 import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
+import { ResultSchema } from "@schemas/result.schema";
 import { Component, createMemo, Show } from "solid-js";
 import { PromiseResults, ResultsStore } from "../ResultsStore";
-import { ProjectUploadStore } from "./form-steps/ProjectUpload/ProjectUploadStore";
-import FormSteps from "./form-steps/FormSteps";
-import { ToolsSelectionStore } from "./form-steps/ToolsSelection/ToolsSelectionStore";
 import { Step, StepsStore } from "../StepsStore";
-import { ResultSchema } from "@schemas/result.schema";
+import FormSteps from "./form-steps/FormSteps";
+import { ProjectUploadStore } from "./form-steps/ProjectUpload/ProjectUploadStore";
+import { ToolsSelectionStore } from "./form-steps/ToolsSelection/ToolsSelectionStore";
 
 async function submitForms(forms: FormData[]) {
   const promises = forms.map(function (form) {
@@ -28,7 +28,7 @@ async function submitForm(form: FormData) {
 }
 
 function inForm(step: Step) {
-  switch(step) {
+  switch (step) {
     case Step.TOOLS_SELECTION:
     case Step.FILE_INPUT:
       return true;
@@ -40,7 +40,7 @@ function inForm(step: Step) {
 const Form: Component = () => {
   const toolsSelectedStore = useStore(ToolsSelectionStore);
 
-  const currentPage = useStore(StepsStore)
+  const currentPage = useStore(StepsStore);
 
   const selectedTools = createMemo(() => {
     const selected: string[] = [];
@@ -66,12 +66,11 @@ const Form: Component = () => {
     for (const tool of selectedTools()) {
       const form = new FormData();
       form.append("tool", tool);
-      form.append("file", projectUploadStore()!);
+      form.append("file", projectUploadStore() || "");
       forms.push(form);
     }
     return forms;
   }
-
 
   return (
     <Show when={inForm(currentPage())}>
@@ -80,7 +79,7 @@ const Form: Component = () => {
           e.preventDefault();
           const response = await onSubmit();
           ResultsStore.set(response);
-          StepsStore.set(Step.RESULTS_WAITING)
+          StepsStore.set(Step.RESULTS_WAITING);
         }}
       >
         <FormSteps />

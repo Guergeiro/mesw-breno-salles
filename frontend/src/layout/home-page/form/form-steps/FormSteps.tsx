@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import { useStore } from "@nanostores/solid";
-import { Component, createEffect, createMemo, createSignal, Match, Switch } from "solid-js";
-import { GetStepIndex, GetStepKey, GetStepValue, SetStepByKey, Step, StepsStore } from "../../StepsStore";
+import { Component, createMemo, Match, Switch } from "solid-js";
+import { SetStepByKey, Step, StepsStore } from "../../StepsStore";
 import ProjectUpload from "./ProjectUpload/ProjectUpload";
 import { ProjectUploadStore } from "./ProjectUpload/ProjectUploadStore";
 import ToolsSelection from "./ToolsSelection/ToolsSelection";
@@ -39,6 +39,7 @@ const FormSteps: Component = () => {
         <Match when={currentStep() === Step.TOOLS_SELECTION}>
           <ToolsSelection />
           <Button
+            variant="default"
             disabled={hasToolSelected() === false}
             onClick={() => {
               SetStepByKey(Step.FILE_INPUT);
@@ -58,6 +59,7 @@ const FormSteps: Component = () => {
             Previous
           </Button>
           <Button
+            variant="default"
             type="submit"
             disabled={hasFileSelected() === false}
           >

@@ -5,13 +5,11 @@ import { Injectable } from "@nestjs/common";
 export class GetResultService {
   private readonly resultRepository: ResultRepository;
 
-  public constructor(
-    resultRepository: ResultRepository,
-  ) {
+  public constructor(resultRepository: ResultRepository) {
     this.resultRepository = resultRepository;
   }
 
   public async execute(id: string) {
-    return await this.resultRepository.findOneOrFail({id: id});
+    return await this.resultRepository.findOneOrFail({ id: id });
   }
 }

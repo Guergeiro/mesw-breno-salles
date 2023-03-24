@@ -1,6 +1,7 @@
 ---
+const incomingClasses = Astro.props.class?.split(" ") || [];
 ---
 
-<section class="container mx-auto px-2">
+<section class:list={["container", "mx-auto", "px-2", ...incomingClasses]}>
   <slot />
 </section>

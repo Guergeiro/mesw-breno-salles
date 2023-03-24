@@ -9,16 +9,14 @@ export const ValidPromise = z.object({
 export type ValidPromise = z.infer<typeof ValidPromise>;
 
 export const InvalidPromise = z.object({
- status: z.literal("rejected"), reason: z.instanceof(Error)
-})
+  status: z.literal("rejected"),
+  reason: z.instanceof(Error),
+});
 export type InvalidPromise = z.infer<typeof InvalidPromise>;
 
 export const PromiseResults = z
-  .discriminatedUnion("status", [
-    ValidPromise,
-    InvalidPromise
-  ])
+  .discriminatedUnion("status", [ValidPromise, InvalidPromise])
   .array();
-export type PromiseResults = z.infer<typeof PromiseResults>
+export type PromiseResults = z.infer<typeof PromiseResults>;
 
 export const ResultsStore = atom<PromiseResults>([]);

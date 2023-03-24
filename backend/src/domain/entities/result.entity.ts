@@ -23,7 +23,7 @@ export class Parameters {
 export type MetadataProps = {
   resolution: number;
   modularity: number;
-}
+};
 
 @Embeddable()
 export class Metadata {
@@ -33,7 +33,7 @@ export class Metadata {
   @Property()
   public modularity!: number;
 
-  public constructor({resolution, modularity}: MetadataProps) {
+  public constructor({ resolution, modularity }: MetadataProps) {
     this.resolution = resolution;
     this.modularity = modularity;
   }
@@ -41,8 +41,8 @@ export class Metadata {
 
 export type ServiceProps = {
   name: string;
-  modules: string[]
-}
+  modules: string[];
+};
 
 @Embeddable()
 export class Service {
@@ -52,7 +52,7 @@ export class Service {
   @Property({ type: ArrayType })
   public modules: string[] = [];
 
-  public constructor({name, modules}: ServiceProps) {
+  public constructor({ name, modules }: ServiceProps) {
     this.name = name;
     this.modules = modules;
   }
@@ -60,7 +60,7 @@ export class Service {
 
 export type ResultDataProps = {
   metadata: MetadataProps;
-}
+};
 
 @Embeddable()
 export class ResultData {
@@ -70,7 +70,7 @@ export class ResultData {
   @Embedded()
   public services: Service[] = [];
 
-  public constructor({metadata}: ResultDataProps) {
+  public constructor({ metadata }: ResultDataProps) {
     this.metadata = new Metadata(metadata);
   }
 }

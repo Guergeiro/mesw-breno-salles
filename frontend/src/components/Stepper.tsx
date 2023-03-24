@@ -26,7 +26,7 @@ const LabelSpan: Component<{ label: string }> = (props) => {
   return (
     <>
       {first}{" "}
-      <span class="hidden sm:inline-flex sm:ml-2">{rest.join(" ")}</span>
+      <span class="hidden lg:inline-flex lg:ml-2">{rest.join(" ")}</span>
     </>
   );
 };
@@ -54,7 +54,9 @@ const Line: ParentComponent<{
           {props.children}
         </li>
       </Match>
-      <Match when={props.step() > props.currentStep() || props.lastStepOverride()}>
+      <Match
+        when={props.step() > props.currentStep() || props.lastStepOverride()}
+      >
         <li class="flex items-center">
           <span class="flex items-center justify-center w-5 h-5 mr-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
             {props.step() + 1}
@@ -69,17 +71,21 @@ const Line: ParentComponent<{
 const Stepper: Component<StepperProps> = (props) => {
   return (
     <>
-      <ol class="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4">
+      <ol class="flex items-center w-full p-3 space-x-2 text-lg font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 lg:text-base dark:bg-gray-800 dark:border-gray-700 lg:p-4 lg:space-x-4">
         <For each={props.steps}>
           {(step, index) => {
             return (
               <>
-                <Line step={index} currentStep={props.currentStep} lastStepOverride={props.lastStepOverride}>
+                <Line
+                  step={index}
+                  currentStep={props.currentStep}
+                  lastStepOverride={props.lastStepOverride}
+                >
                   <LabelSpan label={step.label} />
                   <Show when={index() !== props.steps.length - 1}>
                     <svg
                       aria-hidden="true"
-                      class="w-4 h-4 ml-2 sm:ml-4"
+                      class="w-4 h-4 ml-2 lg:ml-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"

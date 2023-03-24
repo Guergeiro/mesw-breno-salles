@@ -2,12 +2,12 @@
 import Page from "@components/Page.astro";
 import Footer from "@components/Footer.astro";
 import Sidebar from "@components/Sidebar.tsx";
-import HomePage from "@layout/home-page/HomePage.astro";
+import Results from "@layout/results/Results.astro";
 ---
 
-<Page title="Home Page">
+<Page title="Results">
   <Sidebar client:load>
-    <HomePage />
+    <Results />
   </Sidebar>
   <Footer slot="footer" />
 </Page>

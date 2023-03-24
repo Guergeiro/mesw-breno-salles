@@ -6,11 +6,13 @@ export const ResultSchema = z.object({
   status: z.enum(["started", "finished", "failed"]),
   tool: ToolSchema,
 });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ExtendResultsSchema<InputSchema extends z.ZodObject<any>>(
   input: InputSchema
 ) {
   return ResultSchema.merge(input);
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function InjectResultsSchema<InputSchema extends z.ZodObject<any>>(
   input: InputSchema
 ) {

@@ -1,11 +1,13 @@
 ---
-import Button from "@components/Button.tsx";
-import Movie from "@components/Movie.tsx";
-import Tools from "./tools/Tools.astro";
+import Section from "@components/Section.astro";
+import Steps from "./Steps.tsx";
+import Form from "./form/Form.tsx";
+import ResultsWaiting from "./results/ResultsWaiting.tsx";
 ---
 
-<main>
-  <Tools />
-</main>
-<Button>Foo</Button>
-<Movie client:only="solid-js" />
+<Section>
+  <Steps client:load>
+    <Form client:load />
+    <ResultsWaiting client:only="solid-js" />
+  </Steps>
+</Section>

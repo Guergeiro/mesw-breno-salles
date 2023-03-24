@@ -4,7 +4,7 @@ export const Step = {
   TOOLS_SELECTION: "tools_selection",
   FILE_INPUT: "file_input",
   RESULTS_WAITING: "results_waiting",
-  FINISHED: "finished"
+  FINISHED: "finished",
 } as const;
 export type Step = (typeof Step)[keyof typeof Step];
 
@@ -29,13 +29,15 @@ export function GetStepIndex(key: Step) {
   return possibleOptions.indexOf(key);
 }
 export function GetSteps() {
-  const steps: Array<{label: string}> = [];
+  const steps: Array<{ label: string }> = [];
   for (const value of Object.values(Step)) {
-    const prettyString = value.split("_").map(function (part) {
-      return part.replace(/^./, str => str.toUpperCase())
-    }).join(" ")
-    steps.push({label: prettyString});
-
+    const prettyString = value
+      .split("_")
+      .map(function (part) {
+        return part.replace(/^./, (str) => str.toUpperCase());
+      })
+      .join(" ");
+    steps.push({ label: prettyString });
   }
   return steps;
 }
