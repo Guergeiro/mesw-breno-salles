@@ -4,6 +4,7 @@ export type FileInputProps = {
   inputId: string;
   label: string;
   text: string;
+  accept?: string;
   onInput?: ((event: InputEvent) => void) | (() => void);
 };
 
@@ -22,6 +23,7 @@ const FileInput: Component<FileInputProps> = (props) => {
         id={props.inputId}
         type="file"
         onInput={props.onInput}
+        accept={props.accept}
       />
       <p
         class="mt-1 text-sm text-gray-500 dark:text-gray-300"

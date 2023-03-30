@@ -1,9 +1,9 @@
-FROM guergeiro/pnpm:18-7 as cache
+FROM guergeiro/pnpm:18-8 as cache
 WORKDIR /usr/src/app
 COPY pnpm-lock.yaml .
 RUN pnpm fetch
 ADD . ./
-RUN pnpm install --offline
+RUN pnpm install --prefer-offline
 RUN rm -rdf backend
 RUN rm -rdf tools
 WORKDIR /usr/src/app/frontend

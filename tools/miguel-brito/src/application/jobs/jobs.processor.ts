@@ -55,8 +55,11 @@ export class JobsProcessor {
   }
 
   @OnQueueProgress()
-  public async onProgress(job: Job<MiguelBritoInput["parameters"]>, progress: number) {
-    this.logger.log(`Job ${job.id} ${progress}% processed`)
+  public async onProgress(
+    job: Job<MiguelBritoInput["parameters"]>,
+    progress: number
+  ) {
+    this.logger.log(`Job ${job.id} ${progress}% processed`);
   }
 
   @OnQueueActive()

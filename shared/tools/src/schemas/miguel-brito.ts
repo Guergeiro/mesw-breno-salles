@@ -23,7 +23,7 @@ export const ToolControllerInput = MakeToolControllerInputSchema(
   })
 );
 
-export type ToolControllerInput = z.infer<typeof ToolControllerInput>
+export type ToolControllerInput = z.infer<typeof ToolControllerInput>;
 
 export const ToolControllerOutput = MakeToolControllerOutputSchema(
   z
@@ -42,4 +42,4 @@ export const ToolControllerOutput = MakeToolControllerOutputSchema(
     .array()
 );
 
-export type ToolControllerOutput = z.infer<typeof ToolControllerOutput>
+export type ToolControllerOutput = z.infer<typeof ToolControllerOutput>;

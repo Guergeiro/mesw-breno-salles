@@ -1,14 +1,16 @@
 import { ResultRepository } from "@domain/repositories/result.repository";
 import {
-  ArrayType,
+  Collection,
   Embeddable,
   Embedded,
   Entity,
   Enum,
   ManyToOne,
+  OneToMany,
   Property,
 } from "@mikro-orm/core";
 import { BaseEntity } from "./base.entity";
+import { Decomposition } from "./decomposition.entity";
 import { Tool } from "./tool.entity";
 
 @Embeddable()
@@ -18,61 +20,6 @@ export class Parameters {
 
   @Property()
   public resolution?: number;
-}
-
-export type MetadataProps = {
-  resolution: number;
-  modularity: number;
-};
-
-@Embeddable()
-export class Metadata {
-  @Property()
-  public resolution!: number;
-
-  @Property()
-  public modularity!: number;
-
-  public constructor({ resolution, modularity }: MetadataProps) {
-    this.resolution = resolution;
-    this.modularity = modularity;
-  }
-}
-
-export type ServiceProps = {
-  name: string;
-  modules: string[];
-};
-
-@Embeddable()
-export class Service {
-  @Property()
-  public name!: string;
-
-  @Property({ type: ArrayType })
-  public modules: string[] = [];
-
-  public constructor({ name, modules }: ServiceProps) {
-    this.name = name;
-    this.modules = modules;
-  }
-}
-
-export type ResultDataProps = {
-  metadata: MetadataProps;
-};
-
-@Embeddable()
-export class ResultData {
-  @Embedded()
-  public metadata: Metadata;
-
-  @Embedded()
-  public services: Service[] = [];
-
-  public constructor({ metadata }: ResultDataProps) {
-    this.metadata = new Metadata(metadata);
-  }
 }
 
 @Entity({ customRepository: () => ResultRepository })
@@ -86,8 +33,8 @@ export class Result extends BaseEntity {
   @Embedded()
   public parameters?: Parameters;
 
-  @Embedded()
-  public results: ResultData[] = [];
+  @OneToMany(() => Decomposition, (decomposition) => decomposition.result)
+  public decompositions = new Collection<Decomposition>(this);
 }
 
 export const Status = {

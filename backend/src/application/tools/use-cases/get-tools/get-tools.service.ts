@@ -20,7 +20,7 @@ export class GetToolsService {
     const { offset, limit } = this.paginatorService.paginate(query);
     const [tools, count] = await this.toolRepository.findAndCount(
       {},
-      { offset, limit }
+      { offset, limit, populate: ["languages"] }
     );
     return {
       data: tools,

@@ -4,6 +4,7 @@ type Props = {
 };
 
 import Head from "./Head.astro";
+import PendingResultsUpdater from "./PendingResultsUpdater.astro";
 const { title } = Astro.props;
 import "../styles/index.css";
 ---
@@ -14,5 +15,6 @@ import "../styles/index.css";
   <body>
     <slot />
     <slot name="footer" />
+    <PendingResultsUpdater />
   </body>
 </html>

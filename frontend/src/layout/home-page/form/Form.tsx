@@ -1,12 +1,29 @@
 import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
-import { ResultSchema } from "@schemas/result.schema";
+import { SetPendingResult } from "@stores/pending-results.store";
+import { ResultSchema } from "shared-schemas";
 import { Component, createMemo, Show } from "solid-js";
-import { PromiseResults, ResultsStore } from "../ResultsStore";
+import { z } from "zod";
 import { Step, StepsStore } from "../StepsStore";
 import FormSteps from "./form-steps/FormSteps";
 import { ProjectUploadStore } from "./form-steps/ProjectUpload/ProjectUploadStore";
 import { ToolsSelectionStore } from "./form-steps/ToolsSelection/ToolsSelectionStore";
+
+const ValidPromise = z.object({
+  status: z.literal("fulfilled"),
+  value: ResultSchema,
+});
+type ValidPromise = z.infer<typeof ValidPromise>;
+
+const InvalidPromise = z.object({
+  status: z.literal("rejected"),
+  reason: z.instanceof(Error),
+});
+
+const PromiseResults = z
+  .discriminatedUnion("status", [ValidPromise, InvalidPromise])
+  .array();
+export type PromiseResults = z.infer<typeof PromiseResults>;
 
 async function submitForms(forms: FormData[]) {
   const promises = forms.map(function (form) {
@@ -20,6 +37,8 @@ async function submitForms(forms: FormData[]) {
 async function submitForm(form: FormData) {
   const url = new URL("results", API_URL);
   const res = await fetch(url, { method: "POST", body: form });
+  ProjectUploadStore.set(null);
+
   if (res.ok === false) {
     throw new Error(res.statusText);
   }
@@ -34,6 +53,21 @@ function inForm(step: Step) {
       return true;
     default:
       return false;
+  }
+}
+
+function getFulfilledResults(promises: PromiseResults) {
+  const fulfilled = promises.filter(function (promise) {
+    return promise.status === "fulfilled";
+  }) as ValidPromise[];
+  return fulfilled.map(function ({ value }) {
+    return value;
+  });
+}
+
+function setPendingResults(results: ResultSchema[]) {
+  for (const result of results) {
+    SetPendingResult(JSON.parse(JSON.stringify(result)));
   }
 }
 
@@ -78,7 +112,8 @@ const Form: Component = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           const response = await onSubmit();
-          ResultsStore.set(response);
+          const fulfilled = getFulfilledResults(response);
+          setPendingResults(fulfilled);
           StepsStore.set(Step.RESULTS_WAITING);
         }}
       >

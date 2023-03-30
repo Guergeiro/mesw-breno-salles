@@ -20,7 +20,7 @@ export class GetResultsService {
     const { offset, limit } = this.paginatorService.paginate(query);
     const [results, count] = await this.resultRepository.findAndCount(
       {},
-      { offset, limit, populate: ["tool"] }
+      { offset, limit, populate: ["tool", "tool.languages"] }
     );
     return {
       data: results,

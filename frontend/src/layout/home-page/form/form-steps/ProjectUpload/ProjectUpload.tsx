@@ -22,6 +22,7 @@ const ProjectUpload: Component = () => {
         text="ZIP"
         label={"Upload project"}
         onInput={handleFileInput}
+        accept=".zip"
       />
     </>
   );

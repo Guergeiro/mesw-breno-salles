@@ -1,9 +1,5 @@
-import {
-  Result,
-  ResultData,
-  Service,
-  Status,
-} from "@domain/entities/result.entity";
+import { Decomposition, Service } from "@domain/entities/decomposition.entity";
+import { Result, Status } from "@domain/entities/result.entity";
 import { MikroORM, UseRequestContext } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
 import { map, Subject } from "rxjs";
@@ -27,7 +23,7 @@ export class ReceiveResultService {
     const result = await resultRepository.findOneOrFail({ id: output.id });
     if (this.isSuccess(output)) {
       result.status = Status.FINISHED;
-      this.updateResults(result, output);
+      result.decompositions.add(this.createDecompositions(output));
     }
     if (this.isFailed(output)) {
       result.status = Status.FAILED;
@@ -37,15 +33,16 @@ export class ReceiveResultService {
     this.subject.next({ id: result.id, status: result.status });
   }
 
-  private updateResults(dbResult: Result, { results }: SuccessStatus) {
-    dbResult.results = results.map(function (res) {
-      const resultData = new ResultData(res);
-      resultData.services = res.services.map(function (service) {
-        const s = new Service(service);
-        return s;
+  private createDecompositions({ results }: SuccessStatus) {
+    const decompositions = results.map(function ({ metadata, services }) {
+      const decomposition = new Decomposition(metadata);
+      decomposition.services = services.map(function (service) {
+        return new Service(service);
       });
-      return resultData;
+
+      return decomposition;
     });
+    return decompositions;
   }
 
   private isSuccess(output: ToolControllerOutput): output is SuccessStatus {

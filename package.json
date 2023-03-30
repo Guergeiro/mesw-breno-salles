@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.0.1",
-    "prettier": "^2.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.37.0",
+    "prettier": "^2.8.7",
     "syncpack": "^8.5.14",
-    "typescript": "^4.7.4"
+    "typescript": "^4.9.5"
   },
   "scripts": {
-    "format": "prettier --write \"{backend,frontend}/**/*.{ts,tsx,css,html,astro}\"",
-    "format:check": "prettier --check \"{backend,frontend}/**/*.{ts,tsx,css,html,astro}\"",
-    "lint": "eslint \"{backend,frontend}/**/*.{ts,tsx}\" --fix",
-    "lint:check": "eslint \"{backend,frontend}/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"{backend,frontend,shared,tools}/**/*.{ts,tsx,css,html,astro}\"",
+    "format:check": "prettier --check \"{backend,frontend,shared,tools}/**/*.{ts,tsx,css,html,astro}\"",
+    "lint": "eslint \"{backend,frontend,shared,tools}/**/*.{ts,tsx}\" --fix",
+    "lint:check": "eslint \"{backend,frontend,shared,tools}/**/*.{ts,tsx}\"",
     "sync:format": "syncpack format",
     "sync:mismatches": "syncpack fix-mismatches",
     "sync:set-semver": "syncpack set-semver-ranges --semver-range ^",
