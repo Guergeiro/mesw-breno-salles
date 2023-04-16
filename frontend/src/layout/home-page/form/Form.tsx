@@ -4,7 +4,7 @@ import { SetPendingResult } from "@stores/pending-results.store";
 import { ResultSchema } from "shared-schemas";
 import { Component, createMemo, Show } from "solid-js";
 import { z } from "zod";
-import { Step, StepsStore } from "../StepsStore";
+import { HomePageStep, HomePageStepsStore } from "../home-page-steps.store.ts";
 import FormSteps from "./form-steps/FormSteps";
 import { ProjectUploadStore } from "./form-steps/ProjectUpload/ProjectUploadStore";
 import { ToolsSelectionStore } from "./form-steps/ToolsSelection/ToolsSelectionStore";
@@ -46,10 +46,10 @@ async function submitForm(form: FormData) {
   return ResultSchema.parse(data);
 }
 
-function inForm(step: Step) {
+function inForm(step: HomePageStep) {
   switch (step) {
-    case Step.TOOLS_SELECTION:
-    case Step.FILE_INPUT:
+    case HomePageStep.TOOLS_SELECTION:
+    case HomePageStep.FILE_INPUT:
       return true;
     default:
       return false;
@@ -74,7 +74,7 @@ function setPendingResults(results: ResultSchema[]) {
 const Form: Component = () => {
   const toolsSelectedStore = useStore(ToolsSelectionStore);
 
-  const currentPage = useStore(StepsStore);
+  const currentPage = useStore(HomePageStepsStore);
 
   const selectedTools = createMemo(() => {
     const selected: string[] = [];
@@ -114,7 +114,7 @@ const Form: Component = () => {
           const response = await onSubmit();
           const fulfilled = getFulfilledResults(response);
           setPendingResults(fulfilled);
-          StepsStore.set(Step.RESULTS_WAITING);
+          HomePageStepsStore.set(HomePageStep.RESULTS_WAITING);
         }}
       >
         <FormSteps />

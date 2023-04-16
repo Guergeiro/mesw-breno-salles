@@ -39,8 +39,8 @@ FROM guergeiro/pnpm:18-8 as node_install
 WORKDIR /usr/src/app
 COPY pnpm-lock.yaml .
 RUN pnpm fetch
-ADD . ./
-RUN pnpm install --prefer-offline
+COPY . ./
+RUN pnpm install --prefer-offline --recursive
 RUN rm -rdf backend
 RUN rm -rdf frontend
 

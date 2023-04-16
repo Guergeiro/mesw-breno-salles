@@ -7,6 +7,7 @@ import {
   ManyToOne,
   Property,
 } from "@mikro-orm/core";
+import { randomUUID } from "node:crypto";
 import { BaseEntity } from "./base.entity";
 import { Result } from "./result.entity";
 
@@ -36,16 +37,24 @@ export type ServiceProps = {
 
 @Embeddable()
 export class Service {
+  @Property({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  public id;
+
   @Property()
-  public name!: string;
+  public name: string;
 
   @Property({ type: ArrayType })
   public modules: string[] = [];
 
   public constructor({ name, modules }: ServiceProps) {
+    this.id = randomUUID()
     this.name = name;
     this.modules = modules;
   }
+}
+
+export type DecompositionProps = {
+  metadata: Metadata;
 }
 
 @Entity({ customRepository: () => DecompositionRepository })
@@ -59,8 +68,8 @@ export class Decomposition extends BaseEntity {
   @ManyToOne()
   public result!: Result;
 
-  public constructor(props: MetadataProps) {
+  public constructor({metadata}: DecompositionProps) {
     super();
-    this.metadata = props;
+    this.metadata = metadata;
   }
 }

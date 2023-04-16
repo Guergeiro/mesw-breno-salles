@@ -1,14 +1,14 @@
 import Button from "@components/Button";
 import { useStore } from "@nanostores/solid";
 import { Component, createMemo, Match, Switch } from "solid-js";
-import { SetStepByKey, Step, StepsStore } from "../../StepsStore";
+import { SetStepByKey, HomePageStep, HomePageStepsStore } from "../../home-page-steps.store.ts";
 import ProjectUpload from "./ProjectUpload/ProjectUpload";
 import { ProjectUploadStore } from "./ProjectUpload/ProjectUploadStore";
 import ToolsSelection from "./ToolsSelection/ToolsSelection";
 import { ToolsSelectionStore } from "./ToolsSelection/ToolsSelectionStore";
 
 const FormSteps: Component = () => {
-  const currentStep = useStore(StepsStore);
+  const currentStep = useStore(HomePageStepsStore);
 
   const toolsSelectedStore = useStore(ToolsSelectionStore);
 
@@ -36,24 +36,24 @@ const FormSteps: Component = () => {
   return (
     <>
       <Switch>
-        <Match when={currentStep() === Step.TOOLS_SELECTION}>
+        <Match when={currentStep() === HomePageStep.TOOLS_SELECTION}>
           <ToolsSelection />
           <Button
             variant="default"
             disabled={hasToolSelected() === false}
             onClick={() => {
-              SetStepByKey(Step.FILE_INPUT);
+              SetStepByKey(HomePageStep.FILE_INPUT);
             }}
           >
             Next
           </Button>
         </Match>
-        <Match when={currentStep() === Step.FILE_INPUT}>
+        <Match when={currentStep() === HomePageStep.FILE_INPUT}>
           <ProjectUpload />
           <Button
             variant={"alternative"}
             onClick={() => {
-              SetStepByKey(Step.TOOLS_SELECTION);
+              SetStepByKey(HomePageStep.TOOLS_SELECTION);
             }}
           >
             Previous

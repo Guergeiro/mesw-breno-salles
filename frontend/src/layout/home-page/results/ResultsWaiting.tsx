@@ -18,12 +18,12 @@ import {
   Show,
   Switch,
 } from "solid-js";
-import { Step, StepsStore } from "../StepsStore";
+import { HomePageStep, HomePageStepsStore } from "../home-page-steps.store";
 
-function isShowing(currentPage: Step) {
+function isShowing(currentPage: HomePageStep) {
   switch (currentPage) {
-    case Step.RESULTS_WAITING:
-    case Step.FINISHED:
+    case HomePageStep.RESULTS_WAITING:
+    case HomePageStep.FINISHED:
       return true;
     default:
       return false;
@@ -35,7 +35,7 @@ function addToSelectedResultsStore(results: ResultSchema[]) {
     return result.status === "finished";
   });
   for (const { id } of finished) {
-    ResultsSelectedStore.setKey(id, true);
+    ResultsSelectedStore.setKey(id, "true");
   }
 }
 
@@ -62,7 +62,7 @@ const ResultsWaiting: Component = () => {
     }
   });
 
-  const currentPage = useStore(StepsStore);
+  const currentPage = useStore(HomePageStepsStore);
 
   return (
     <Show when={isShowing(currentPage())}>
@@ -84,7 +84,7 @@ const ResultsWaiting: Component = () => {
       <Button
         variant="alternative"
         onClick={() => {
-          StepsStore.set(Step.TOOLS_SELECTION);
+          HomePageStepsStore.set(HomePageStep.TOOLS_SELECTION);
         }}
       >
         New Decomposition

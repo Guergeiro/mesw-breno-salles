@@ -35,7 +35,7 @@ export class ReceiveResultService {
 
   private createDecompositions({ results }: SuccessStatus) {
     const decompositions = results.map(function ({ metadata, services }) {
-      const decomposition = new Decomposition(metadata);
+      const decomposition = new Decomposition({metadata});
       decomposition.services = services.map(function (service) {
         return new Service(service);
       });

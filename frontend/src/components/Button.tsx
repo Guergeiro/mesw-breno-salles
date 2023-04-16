@@ -130,16 +130,26 @@ const Button: ParentComponent<ButtonProps> = (props) => {
   const classList = createMemo(() => {
     return { ...variantClassList(), ...disabledClassList() };
   });
+  const finalProps = mergeProps(
+    {
+      onClick: (e: MouseEvent) => {
+        if (mergedProps.disabled) {
+          e.preventDefault();
+        }
+      },
+    },
+    mergedProps
+  );
   return (
     <Dynamic
-      type={mergedProps.type}
+      type={finalProps.type}
       component="button"
-      disabled={mergedProps.disabled}
-      class={mergedProps.class}
+      disabled={finalProps.disabled}
+      class={finalProps.class}
       classList={classList()}
-      style={mergedProps.style}
-      onClick={mergedProps.onClick}
-      children={mergedProps.children}
+      style={finalProps.style}
+      onClick={finalProps.onClick}
+      children={finalProps.children}
     />
   );
 };

@@ -1,0 +1,13 @@
+---
+import Page from "@components/Page.astro";
+import Footer from "@components/Footer.astro";
+import Sidebar from "@components/Sidebar.tsx";
+import Comparison from "@layout/comparison/Comparison.astro";
+---
+
+<Page title="Compare">
+  <Sidebar client:load>
+    <Comparison />
+  </Sidebar>
+  <Footer slot="footer" />
+</Page>

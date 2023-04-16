@@ -3,14 +3,23 @@
   "version": "1.0.0",
   "dependencies": {
     "@astrojs/node": "^5.0.4",
+    "@astrojs/react": "^2.1.1",
     "@astrojs/solid-js": "^2.0.2",
     "@astrojs/tailwind": "^3.1.0",
+    "@nanostores/persistent": "^0.7.0",
+    "@nanostores/react": "^0.4.1",
     "@nanostores/solid": "^0.3.2",
+    "@react-hook/resize-observer": "^1.2.6",
     "@solid-primitives/event-listener": "^2.2.7",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
     "astro": "^2.1.0",
-    "d3": "^7.8.2",
     "flowbite": "^1.6.3",
     "nanostores": "^0.7.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-force-graph": "^1.42.1",
+    "react-force-graph-2d": "^1.24.2",
     "shared-schemas": "workspace:shared-schemas*",
     "shared-tools": "workspace:shared-tools*",
     "solid-icons": "^1.0.4",
@@ -19,7 +28,6 @@
     "zod": "^3.20.6"
   },
   "devDependencies": {
-    "@types/d3": "^7.4.0",
     "prettier": "^2.8.7",
     "prettier-plugin-astro": "^0.8.0"
   },

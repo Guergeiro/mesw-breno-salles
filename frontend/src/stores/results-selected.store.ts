@@ -1,3 +1,6 @@
-import { map } from "nanostores";
+import { persistentMap } from "@nanostores/persistent";
 
-export const ResultsSelectedStore = map<Record<string, boolean>>({});
+export const ResultsSelectedStore = persistentMap<Record<string, string>>(
+  "results-selected",
+  {}
+);

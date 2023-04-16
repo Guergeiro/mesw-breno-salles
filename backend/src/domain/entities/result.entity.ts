@@ -5,6 +5,7 @@ import {
   Embedded,
   Entity,
   Enum,
+  Formula,
   ManyToOne,
   OneToMany,
   Property,
@@ -35,6 +36,13 @@ export class Result extends BaseEntity {
 
   @OneToMany(() => Decomposition, (decomposition) => decomposition.result)
   public decompositions = new Collection<Decomposition>(this);
+
+  @Formula((alias) => {
+    const decomposition = Decomposition.name.toLowerCase();
+    const result = Result.name.toLowerCase();
+    return `(SELECT COUNT(*) FROM ${decomposition} WHERE ${decomposition}.${result}_id=${alias}.id)`;
+  })
+  public decompositionsCount?: number;
 }
 
 export const Status = {

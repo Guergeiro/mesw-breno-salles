@@ -1,16 +1,16 @@
 import Stepper from "@components/Stepper";
 import { useStore } from "@nanostores/solid";
 import { createMemo, ParentComponent } from "solid-js";
-import { GetStepIndex, GetSteps, Step, StepsStore } from "./StepsStore";
+import { GetStepIndex, GetSteps, HomePageStep, HomePageStepsStore } from "./home-page-steps.store.ts";
 
 const Steps: ParentComponent = (props) => {
-  const steps = useStore(StepsStore);
+  const steps = useStore(HomePageStepsStore);
   const currentStepIndex = createMemo(() => {
     return GetStepIndex(steps());
   });
 
   const lastStepOverride = createMemo(() => {
-    return steps() === Step.FINISHED;
+    return steps() === HomePageStep.FINISHED;
   });
 
   const allSteps = GetSteps();
