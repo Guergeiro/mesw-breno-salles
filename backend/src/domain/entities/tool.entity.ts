@@ -21,6 +21,6 @@ export class Tool extends BaseEntity {
   @OneToMany(() => Result, (result) => result.tool)
   public results = new Collection<Result>(this);
 
-  @ManyToMany()
+  @ManyToMany(() => Language, (language) => language.tools, { owner: true })
   public languages = new Collection<Language>(this);
 }

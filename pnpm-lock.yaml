@@ -185,6 +185,9 @@ importers:
       react-force-graph-2d:
         specifier: ^1.24.2
         version: 1.24.2(react@18.2.0)
+      react-force-graph-3d:
+        specifier: ^1.22.2
+        version: 1.22.2(react@18.2.0)
       shared-schemas:
         specifier: workspace:shared-schemas*
         version: link:../shared/schemas
@@ -6501,6 +6504,18 @@ packages:
       react: '*'
     dependencies:
       force-graph: 1.43.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-kapsule: 2.4.0(react@18.2.0)
+    dev: false
+
+  /react-force-graph-3d@1.22.2(react@18.2.0):
+    resolution: {integrity: sha512-UjFOSZBOR3H8bj/jOwSb6U2HqZC6LENFqiQI3lt/k7A3BgZkfcqtOjbDIn4XeB5VGydMbXzbkug9TzKN9DsdCw==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      3d-force-graph: 1.71.2
       prop-types: 15.8.1
       react: 18.2.0
       react-kapsule: 2.4.0(react@18.2.0)

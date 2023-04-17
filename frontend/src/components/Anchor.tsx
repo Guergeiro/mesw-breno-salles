@@ -36,9 +36,7 @@ function setVariantClassList(
       "rounded-lg": true,
       "text-sm": true,
       "px-5": true,
-      "py-2.5": true,
-      "mr-2": true,
-      "mb-2": true,
+      "py-2.5": true
     };
   }
   switch (variant) {

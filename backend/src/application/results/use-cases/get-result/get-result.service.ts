@@ -10,6 +10,16 @@ export class GetResultService {
   }
 
   public async execute(id: string) {
-    return await this.resultRepository.findOneOrFail({ id: id }, {populate: ["tool", "tool.languages", "decompositions.id"]});
+    return await this.resultRepository.findOneOrFail(
+      { id: id },
+      {
+        populate: [
+          "tool",
+          "tool.languages",
+          "decompositions",
+          "decompositions.services.relationships",
+        ],
+      }
+    );
   }
 }

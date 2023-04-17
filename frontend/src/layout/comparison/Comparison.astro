@@ -5,7 +5,7 @@ import Chart from "./Chart.tsx"
 ---
 
 <Section>
-  <Wrapper client:load>
+  <Wrapper client:only="solid-js">
     <Chart client:only="react" />
   </Wrapper>
 </Section>

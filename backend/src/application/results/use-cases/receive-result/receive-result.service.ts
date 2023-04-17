@@ -1,5 +1,6 @@
-import { Decomposition, Service } from "@domain/entities/decomposition.entity";
+import { Decomposition } from "@domain/entities/decomposition.entity";
 import { Result, Status } from "@domain/entities/result.entity";
+import { Service } from "@domain/entities/service.entity";
 import { MikroORM, UseRequestContext } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
 import { map, Subject } from "rxjs";
@@ -36,9 +37,9 @@ export class ReceiveResultService {
   private createDecompositions({ results }: SuccessStatus) {
     const decompositions = results.map(function ({ metadata, services }) {
       const decomposition = new Decomposition({metadata});
-      decomposition.services = services.map(function (service) {
+      decomposition.services.add(services.map(function (service) {
         return new Service(service);
-      });
+      }));
 
       return decomposition;
     });

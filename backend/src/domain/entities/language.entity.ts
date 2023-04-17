@@ -11,6 +11,6 @@ export class Language extends BaseEntity {
   @Property()
   public slug = "";
 
-  @ManyToMany()
+  @ManyToMany(() => Tool, (tool) => tool.languages)
   public tools = new Collection<Tool>(this);
 }

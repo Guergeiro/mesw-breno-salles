@@ -20,6 +20,7 @@
     "react-dom": "^18.0.0",
     "react-force-graph": "^1.42.1",
     "react-force-graph-2d": "^1.24.2",
+    "react-force-graph-3d": "^1.22.2",
     "shared-schemas": "workspace:shared-schemas*",
     "shared-tools": "workspace:shared-tools*",
     "solid-icons": "^1.0.4",

@@ -37,8 +37,6 @@ function setVariantClassList(
       "text-sm": true,
       "px-5": true,
       "py-2.5": true,
-      "mr-2": true,
-      "mb-2": true,
     };
   }
   switch (variant) {

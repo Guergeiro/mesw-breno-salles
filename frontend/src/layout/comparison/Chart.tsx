@@ -6,18 +6,18 @@
 import { useStore } from "@nanostores/react";
 import useResizeObserver from "@react-hook/resize-observer";
 import { DecompositionsSelectedStore } from "@stores/decompositions-selected.store";
+import { ForcedGraphMode } from "@stores/forced-graph-mode.store";
 import { ResultsSelectedStore } from "@stores/results-selected.store";
 import { computed } from "nanostores";
 import { RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D, {NodeObject, GraphData} from "react-force-graph-2d"
-import { DecompositionSchema } from "shared-schemas";
+import ForceGraph3D from 'react-force-graph-3d';
+import { DecompositionSchema, ServiceSchema } from "shared-schemas";
 import colors from 'tailwindcss/colors';
+import { DecompositionsColoursStore, getRandomColor } from "./decompositions-colours.store";
+import { DecompositionsShowingStore } from "./decompositions-showing.store";
 
-function getRandomColor(colours: string[]) {
-  return colours[Math.floor(Math.random() * colours.length)];
-}
-
-const NODE_R = 8;
+const NODE_R = 4;
 
 function genRandomTree(N = 300, reverse = false) {
   return {
@@ -31,41 +31,24 @@ function genRandomTree(N = 300, reverse = false) {
   };
 }
 
-type Colour = {
-  [key: string]: string | Colour;
-}
-
-const excludedPallets = ["50", "100", "200", "300"]
-
-function extractAllTailwindColours(obj: Colour) {
-  const colours: string[] =[]
-
-  for (const [key, value] of Object.entries(obj)) {
-    if (excludedPallets.includes(key)) {
-      continue;
-    }
-    if (typeof value === "string") {
-      colours.push(value);
-    }
-    if (typeof value === "object") {
-      colours.push(...extractAllTailwindColours(value));
-    }
-  }
-
-  return colours;
-}
-
-function generateGraphData(decompositions: Map<string, DecompositionSchema>): GraphData {
+function generateGraphData(services: Map<string, ServiceSchema>): GraphData {
   // 1st get all Nodes
   const nodes: {id: string}[] = [];
-  for (const {services} of decompositions.values()) {
-    for (const {id} of services) {
-      nodes.push({id});
-    }
+  for (const {id} of services.values()) {
+    nodes.push({id});
   }
 
   // 2nd make Connections
   const links: {[source: string]: string}[] = []
+  for (const {id, relationships} of services.values()) {
+    for (const relation of relationships || []) {
+      links.push({
+        ["source"]: id,
+        ["target"]: relation.id
+      })
+    }
+  }
+
   return {
     nodes,
     links
@@ -94,79 +77,9 @@ function useSize(target?: RefObject<HTMLElement>) {
 }
 
 const Chart = () => {
-  const data = useMemo(() => {
-    const gData = genRandomTree(80);
+  const decompositionColours = useStore(DecompositionsColoursStore);
 
-    // cross-link node objects
-    gData.links.forEach((link) => {
-      const a = gData.nodes[link.source];
-      const b = gData.nodes[link.target];
-      !a.neighbors && (a.neighbors = []);
-      !b.neighbors && (b.neighbors = []);
-      a.neighbors.push(b);
-      b.neighbors.push(a);
-
-      !a.links && (a.links = []);
-      !b.links && (b.links = []);
-      a.links.push(link);
-      b.links.push(link);
-    });
-
-    return gData;
-  }, []);
-
-  const [highlightNodes, setHighlightNodes] = useState(new Set());
-  const [highlightLinks, setHighlightLinks] = useState(new Set());
-  const [hoverNode, setHoverNode] = useState<NodeObject | null>(null);
-
-  const updateHighlight = () => {
-    setHighlightNodes(highlightNodes);
-    setHighlightLinks(highlightLinks);
-  };
-
-  const handleNodeHover = (node: NodeObject) => {
-    highlightNodes.clear();
-    highlightLinks.clear();
-    if (node) {
-      highlightNodes.add(node);
-      node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor));
-      node.links.forEach((link) => highlightLinks.add(link));
-    }
-
-    setHoverNode(node || null);
-    updateHighlight();
-  };
-
-  const handleLinkHover = (link) => {
-    highlightNodes.clear();
-    highlightLinks.clear();
-
-    if (link) {
-      highlightLinks.add(link);
-      highlightNodes.add(link.source);
-      highlightNodes.add(link.target);
-    }
-
-    updateHighlight();
-  };
-
-  const paintRing = useCallback(
-     (node: NodeObject, ctx: CanvasRenderingContext2D) => {
-      // add ring just for highlighted nodes
-      ctx.beginPath();
-      ctx.arc(node.x!, node.y!, NODE_R * 1.4, 0, 2 * Math.PI, false);
-      ctx.fillStyle = node === hoverNode ? "red" : "orange";
-      ctx.fill();
-    },
-    [hoverNode]
-  );
-
-  const tailwindColours = useMemo(() => {
-    const colours = extractAllTailwindColours(colors as unknown as Colour);
-    return colours
-  }, []);
-
-  const decompositionMap = useStore(computed(DecompositionsSelectedStore, (store) =>{
+  const decompositionMap = useStore(computed(DecompositionsShowingStore, (store) =>{
     const map = new Map<string, DecompositionSchema>()
 
     for (const [key, value] of Object.entries(store)) {
@@ -180,8 +93,11 @@ const Chart = () => {
   }))
 
   const serviceMap = useMemo(() => {
-    const map = new Map<string, DecompositionSchema["services"][number]>()
+    const map = new Map<string, ServiceSchema>()
     for (const {services} of decompositionMap.values()) {
+      if (services == null) {
+        continue;
+      }
       for (const service of services) {
         const previous = map.get(service.id) ?? service;
         map.set(service.id, previous);
@@ -190,43 +106,39 @@ const Chart = () => {
     return map;
   }, [decompositionMap]);
 
-  const serviceColours = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const key of serviceMap.keys()) {
-      const colour = map.get(key) ?? getRandomColor(tailwindColours);
-      map.set(key, colour);
-    }
-    return map
-  }, [serviceMap]);
-
-  const decompositionColours = useMemo(() => {
-    const map = new Map<string, string>();
-
-    for (const key of decompositionMap.keys()) {
-      const colour = map.get(key) ?? getRandomColor(tailwindColours);
-      map.set(key, colour);
-    }
-    return map;
-  }, [decompositionMap])
 
   const graphData = useMemo(() => {
-    return generateGraphData(decompositionMap)
-  }, [decompositionMap])
+    return generateGraphData(serviceMap)
+  }, [serviceMap])
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {width, height} = useSize(containerRef);
 
+  const graphMode = useStore(ForcedGraphMode)
+
+  const slate100 = useMemo(() => {
+    return colors.slate[100]
+  }, [])
+
   return (
     <div ref={containerRef} className="border border-gray-200 rounded-lg">
+    {graphMode === "false" ?
+      (
       <ForceGraph2D
         width={width}
+        backgroundColor={slate100}
         height={height}
         graphData={graphData}
         nodeRelSize={NODE_R}
         autoPauseRedraw={false}
         nodeColor={({id}) => {
-          return serviceColours.get(id as string) ?? getRandomColor(tailwindColours)
+          const service = serviceMap.get(id as string)!;
+          if (typeof service.decomposition === "object") {
+            return getRandomColor()
+          }
+          const decomposition = decompositionMap.get(service.decomposition)!;
+          return decompositionColours.get(decomposition.id)!;
         }}
         nodeVal={({id}) => {
           const service = serviceMap.get(id as string);
@@ -235,16 +147,38 @@ const Chart = () => {
           }
           return service.modules.length
         }}
-        linkWidth={(link) => (highlightLinks.has(link) ? 5 : 1)}
-        linkDirectionalParticles={4}
-        linkDirectionalParticleWidth={(link) =>
-          highlightLinks.has(link) ? 4 : 0
-        }
-        nodeCanvasObjectMode={(node) =>
-          highlightNodes.has(node) ? "before" : undefined
-        }
-        nodeCanvasObject={paintRing}
+        linkWidth={(link) => {
+          return 3;
+        }}
       />
+    ) : (
+      <ForceGraph3D
+        width={width}
+        backgroundColor={slate100}
+        height={height}
+        graphData={graphData}
+        nodeRelSize={NODE_R}
+        nodeColor={({id}) => {
+          const service = serviceMap.get(id as string)!;
+          if (typeof service.decomposition === "object") {
+            return getRandomColor()
+          }
+          const decomposition = decompositionMap.get(service.decomposition)!;
+          return decompositionColours.get(decomposition.id)!;
+        }}
+        nodeVal={({id}) => {
+          const service = serviceMap.get(id as string);
+          if (service == null) {
+            return 1;
+          }
+          return service.modules.length
+        }}
+        linkWidth={(link) => {
+          return 3;
+        }}
+      />
+    )
+    }
     </div>
   );
 };

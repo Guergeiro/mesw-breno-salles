@@ -123,6 +123,7 @@ const ResultsSelection: Component = () => {
         </For>
       </Table>
       <Button
+        class="mr-2"
         variant="alternative"
         disabled={resultsSelected().length === 0}
         onClick={() => {

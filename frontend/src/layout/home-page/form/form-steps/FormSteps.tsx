@@ -51,6 +51,7 @@ const FormSteps: Component = () => {
         <Match when={currentStep() === HomePageStep.FILE_INPUT}>
           <ProjectUpload />
           <Button
+            class="mr-2"
             variant={"alternative"}
             onClick={() => {
               SetStepByKey(HomePageStep.TOOLS_SELECTION);
