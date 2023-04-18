@@ -9,7 +9,7 @@ const Sidebar: ParentComponent = (props) => {
 
   return (
     <>
-      <div class="bg-gray-50 dark:bg-gray-800 z-40">
+      <div class="bg-gray-50 fixed top-0 left-0 right-0 w-full dark:bg-gray-800 z-40">
         <Button
           onClick={() => {
             setSidebarOpen(sidebarOpen() === false);
@@ -23,7 +23,6 @@ const Sidebar: ParentComponent = (props) => {
             "text-sm": true,
             "text-gray-500": true,
             "rounded-lg": true,
-            "md:hidden": true,
             "hover:bg-gray-100": true,
             "focus:outline-none": true,
             "focus:ring-2": true,
@@ -55,11 +54,9 @@ const Sidebar: ParentComponent = (props) => {
           "w-64": true,
           "h-screen": true,
           "mt-14": true,
-          "sm:mt-0": true,
           "transition-transform": true,
           "-translate-x-full": sidebarOpen() === false,
           "transform-none": sidebarOpen(),
-          "sm:translate-x-0": true,
         }}
         aria-label="Sidebar"
       >
@@ -90,7 +87,7 @@ const Sidebar: ParentComponent = (props) => {
       <main
         classList={{
           "p-4": true,
-          "sm:ml-64": true,
+          "mt-14": true
         }}
       >
         {props.children}
@@ -100,7 +97,7 @@ const Sidebar: ParentComponent = (props) => {
           onClick={() => {
             setSidebarOpen(false);
           }}
-          class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30 mt-14 sm:hidden"
+          class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30 mt-14"
         ></div>
       </Show>
     </>
