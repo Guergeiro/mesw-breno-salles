@@ -4,7 +4,7 @@ import { DecompositionsSelectedStore } from "@stores/decompositions-selected.sto
 import { ResultsSelectedStore } from "@stores/results-selected.store";
 import { computed } from "nanostores";
 import { DecompositionSchema } from "shared-schemas";
-import { createMemo, For, ParentComponent } from "solid-js";
+import { createEffect, createMemo, For, ParentComponent } from "solid-js";
 import { DecompositionsColoursStore } from "./decompositions-colours.store";
 import { DecompositionsShowingStore } from "./decompositions-showing.store";
 import { HiSolidCubeTransparent } from "solid-icons/hi";
@@ -12,7 +12,9 @@ import colors from "tailwindcss/colors";
 import { ForcedGraphMode } from "@stores/forced-graph-mode.store";
 import { TbZoomReset } from 'solid-icons/tb'
 import Button from "@components/Button";
-import { DecompositionsZoomResetStore } from "./decompositions-zoom-reset.store";
+import { CanZoomResetStore } from "./can-zoom-reset.store";
+import { ServicesFocusedStore } from "./services-focused.store";
+import ServiceCard from "./ServiceCard";
 
 const Wrapper: ParentComponent = (props) => {
   const decompositions = useStore(
@@ -29,13 +31,17 @@ const Wrapper: ParentComponent = (props) => {
 
   const decompositionShowing = useStore(DecompositionsShowingStore);
   const decompositionColours = useStore(DecompositionsColoursStore);
-  const zoomReset = useStore(DecompositionsZoomResetStore);
+  const canZoomReset = useStore(CanZoomResetStore);
   const graphMode = useStore(ForcedGraphMode);
+  const servicesFocused = useStore(ServicesFocusedStore)
+  const hasServicesFocused = createMemo(() => {
+    return servicesFocused().length !== 0;
+  })
 
   return (
-    <div class="flex flex-col md:flex-row">
-      <div class="w-full md:w-1/3 mx-auto md:mr-1">
-        <div class="flex flex-col">
+    <div class="flex flex-col lg:flex-row">
+      <div class="w-full lg:w-3/12 mx-auto">
+        <div class="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col">
           <For each={decompositions()}>
             {(item) => {
               const isShowing = createMemo(() => {
@@ -48,7 +54,7 @@ const Wrapper: ParentComponent = (props) => {
                 return gray200();
               });
               return (
-                <>
+                <div class="h-full">
                   <label class="relative inline-flex items-center m-2 py-4 cursor-pointer">
                     <input
                       type="checkbox"
@@ -71,16 +77,24 @@ const Wrapper: ParentComponent = (props) => {
                       {item.id}
                     </span>
                   </label>
-                </>
+                </div>
               );
             }}
           </For>
         </div>
       </div>
 
-      <div class="w-full md:w-2/3 mx-auto md:mr-1">
+      <div
+        classList={{
+          "w-full": true,
+          'mx-auto': true,
+          "lg:w-9/12": hasServicesFocused() === false,
+          "lg:w-6/12": hasServicesFocused(),
+          "lg:transition-all": true
+        }}
+      >
         <div class="my-2 mb-5">{props.children}</div>
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 gap-3">
           <div class="text-left">
             <Anchor
               variant={"alternative"}
@@ -95,16 +109,22 @@ const Wrapper: ParentComponent = (props) => {
           </div>
           <div class="text-center">
             <Button
-              disabled={zoomReset() === false}
+              variant="light"
+              classList={{
+                "px-5": false,
+                "py-2.5": false,
+                "p-1":true
+              }}
+              disabled={canZoomReset() === false}
               onClick={() => {
-                DecompositionsZoomResetStore.set(false)
+                CanZoomResetStore.set(false)
               }}
             >
               <TbZoomReset size={24} />
             </Button>
           </div>
           <div class="relative text-right">
-            <label class="relative inline-flex items-center cursor-pointer">
+            <label class="relative inline-flex h-full items-center cursor-pointer">
               <input
                 type="checkbox"
                 class="sr-only peer"
@@ -113,7 +133,7 @@ const Wrapper: ParentComponent = (props) => {
                   ForcedGraphMode.set(`${e.currentTarget.checked}`);
                 }}
               />
-              <div class="mr-3 w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 bg-gray-200 dark:bg-gray-700 peer-checked:bg-blue-600"></div>
+              <div class="mr-3 w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-2 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 bg-gray-200 dark:bg-gray-700 peer-checked:bg-blue-600"></div>
               <HiSolidCubeTransparent size={24} />
               <span class="text-sm font-medium text-gray-900 dark:text-gray-300">
                 3D toggle
@@ -121,6 +141,19 @@ const Wrapper: ParentComponent = (props) => {
             </label>
           </div>
         </div>
+      </div>
+
+      <div classList={{
+        "w-full": true,
+        "mx-auto": true,
+        "lg:w-3/12": hasServicesFocused(),
+        "hidden": hasServicesFocused() === false
+        }}>
+        <For each={servicesFocused()}>
+          {(item) => {
+            return <ServiceCard service={item} />
+          }}
+        </For>
       </div>
     </div>
   );

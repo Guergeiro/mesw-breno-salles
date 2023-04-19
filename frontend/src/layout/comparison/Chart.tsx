@@ -35,7 +35,8 @@ import {
   getRandomColor,
 } from "./decompositions-colours.store";
 import { DecompositionsShowingStore } from "./decompositions-showing.store";
-import { DecompositionsZoomResetStore } from "./decompositions-zoom-reset.store";
+import { CanZoomResetStore } from "./can-zoom-reset.store";
+import { addService, ServicesFocusedStore } from "./services-focused.store";
 
 const NODE_R = 4;
 
@@ -173,10 +174,11 @@ const Chart = () => {
       if (fg2DRef?.current != null) {
         fg2DRef.current.centerAt(node.x!, node.y!, 1000);
         fg2DRef.current.zoom(distance, 1000);
-        DecompositionsZoomResetStore.set(true);
+        CanZoomResetStore.set(true);
+        addService(serviceMap.get(node.id as string)!)
       }
     },
-    [fg2DRef]
+    [fg2DRef, serviceMap]
   );
 
   const handle3DNodeClick = useCallback(
@@ -198,13 +200,14 @@ const Chart = () => {
           },
           1000
         );
-        DecompositionsZoomResetStore.set(true);
+        CanZoomResetStore.set(true);
+        addService(serviceMap.get(node.id as string)!)
       }
     },
-    [fg3DRef]
+    [fg3DRef, serviceMap]
   );
 
-  const zoomReset = useStore(DecompositionsZoomResetStore);
+  const zoomReset = useStore(CanZoomResetStore);
   const fitZoom2D = useCallback(() => {
     if (zoomReset === false) {
       if (fg2DRef?.current != null) {

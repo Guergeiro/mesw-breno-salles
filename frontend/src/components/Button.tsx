@@ -29,7 +29,9 @@ function setVariantClassList(
   classList?: ButtonProps["classList"]
 ): Required<ButtonProps["classList"]> {
   if (classList == null) {
-    classList = {
+    classList = {};
+  }
+  classList = {
       "focus:outline-none": true,
       "focus:ring-4": true,
       "font-medium": true,
@@ -37,7 +39,7 @@ function setVariantClassList(
       "text-sm": true,
       "px-5": true,
       "py-2.5": true,
-    };
+      ...classList
   }
   switch (variant) {
     case Variant.DEFAULT:
