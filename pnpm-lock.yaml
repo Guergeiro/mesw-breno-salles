@@ -170,6 +170,9 @@ importers:
       flowbite:
         specifier: ^1.6.3
         version: 1.6.3
+      hex-rgb:
+        specifier: ^5.0.0
+        version: 5.0.0
       nanostores:
         specifier: ^0.7.4
         version: 0.7.4
@@ -188,6 +191,9 @@ importers:
       react-force-graph-3d:
         specifier: ^1.22.2
         version: 1.22.2(react@18.2.0)
+      rgb-hex:
+        specifier: ^4.0.1
+        version: 4.0.1
       shared-schemas:
         specifier: workspace:shared-schemas*
         version: link:../shared/schemas
@@ -4751,6 +4757,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: false
 
+  /hex-rgb@5.0.0:
+    resolution: {integrity: sha512-NQO+lgVUCtHxZ792FodgW0zflK+ozS9X9dwGp9XvvmPlH7pyxd588cn24TD3rmPm/N0AIRXF10Otah8yKqGw4w==}
+    engines: {node: '>=12'}
+    dev: false
+
   /html-entities@2.3.3:
     resolution: {integrity: sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==}
     dev: false
@@ -6766,6 +6777,11 @@ packages:
   /reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
+
+  /rgb-hex@4.0.1:
+    resolution: {integrity: sha512-HcNmN4252k7YgL1tlMatonEAJQlDrc1lt6UPjMO6xFD/DO6gX+NJz4EKRRZ9/I9nYUzVel6zhTJ5y3wdfSgJEQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}

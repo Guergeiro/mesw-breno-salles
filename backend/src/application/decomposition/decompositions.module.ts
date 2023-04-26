@@ -1,3 +1,4 @@
+import { CommonModule } from "@common/common.module";
 import { Decomposition } from "@domain/entities/decomposition.entity";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
@@ -6,7 +7,7 @@ import { GetDecompositionsService } from "./use-cases/get-decompositions/get-dec
 
 @Module({
   controllers: [DecompositionsController],
-  imports: [MikroOrmModule.forFeature([Decomposition])],
+  imports: [MikroOrmModule.forFeature([Decomposition]), CommonModule],
   providers: [GetDecompositionsService]
 })
 export class DecompositionsModule {}

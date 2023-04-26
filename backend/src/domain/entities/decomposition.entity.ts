@@ -5,6 +5,7 @@ import {
   Embedded,
   Entity,
   FloatType,
+  Formula,
   ManyToOne,
   OneToMany,
   Property,
@@ -41,11 +42,18 @@ export class Decomposition extends BaseEntity {
   @Embedded()
   public metadata: Metadata;
 
-  @OneToMany(() => Service, (service) => service.decomposition, {eager: true})
+  @OneToMany(() => Service, (service) => service.decomposition)
   public services = new Collection<Service>(this);
 
   @ManyToOne()
   public result!: Result;
+
+  @Formula((alias) => {
+    const service = Service.name.toLowerCase();
+    const decomposition = Decomposition.name.toLowerCase();
+    return `(SELECT COUNT(*) FROM ${service} WHERE ${service}.${decomposition}_id=${alias}.id)`;
+  })
+  public servicesCount?: number;
 
   public constructor({ metadata }: DecompositionProps) {
     super();

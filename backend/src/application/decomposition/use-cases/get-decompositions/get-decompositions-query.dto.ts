@@ -2,8 +2,22 @@ import { createZodDto } from "@anatine/zod-nestjs";
 import { PaginatorSchema } from "@common/paginator/paginator-query.dto";
 import { z } from "zod";
 
-const getDecompositionsSchema = z.object({
-  result: z.string().uuid()
-}).merge(PaginatorSchema);
+const id = z.string().uuid();
 
-export class GetDecompositionsQueryDto extends createZodDto(getDecompositionsSchema) {}
+const getDecompositionsSchema = z
+  .object({
+    id: z
+      .union([id, id.array()])
+      .transform((val) => {
+        if (Array.isArray(val)) {
+          return val;
+        }
+        return [val];
+      })
+      .optional(),
+  })
+  .merge(PaginatorSchema);
+
+export class GetDecompositionsQueryDto extends createZodDto(
+  getDecompositionsSchema
+) {}

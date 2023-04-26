@@ -438,7 +438,7 @@ const ExpandableTableRow: Component<{
         {props.item.id}
       </th>
       <td class="p-4">{metadata()}</td>
-      <td class="p-4">{props.item.services.length}</td>
+      <td class="p-4">{props.item.servicesCount}</td>
       <td class="w-4 p-4">
         <div class="flex items-center">
           <input

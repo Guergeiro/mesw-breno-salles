@@ -17,7 +17,6 @@ export class GetResultService {
           "tool",
           "tool.languages",
           "decompositions",
-          "decompositions.services.relationships",
         ],
       }
     );

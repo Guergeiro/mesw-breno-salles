@@ -1,4 +1,6 @@
-import { persistentMap } from "@nanostores/persistent";
+import {
+  persistentMap,
+} from "@nanostores/persistent";
 import { DecompositionSchema } from "shared-schemas";
 
 export const DecompositionsSelectedStore = persistentMap<
