@@ -40,6 +40,7 @@ import { DecompositionsShowingStore } from "./decompositions-showing.store";
 import { CanZoomResetStore } from "./can-zoom-reset.store";
 import { addService, ServicesFocusedStore } from "./services-focused.store";
 import { ShowModulesStore } from "./show-modules.store";
+import { BoxGeometry, Mesh, MeshLambertMaterial, SphereGeometry } from "three";
 
 const NODE_R = 4;
 
@@ -313,9 +314,8 @@ const Chart = () => {
             const [type] = (node.id as string).split("_")
             ctx.fillStyle = handleNodeColor(node);
             if (type === "module") {
-              ctx.fillRect(node.x! - 2, node.y! - 2, 4, 4)
+              ctx.fillRect(node.x! - NODE_R / 2, node.y! - NODE_R / 2, NODE_R, NODE_R)
             } else {
-
               const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
               ctx.beginPath();
               ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI)
@@ -335,11 +335,24 @@ const Chart = () => {
           backgroundColor={slate100}
           height={height}
           graphData={graphData}
-          nodeRelSize={NODE_R}
-          nodeColor={handleNodeColor}
-          nodeOpacity={1}
+          nodeThreeObject={(node) => {
+            const [type] = (node.id as string).split("_")
+            const color = handleNodeColor(node);
+            const mesh = new Mesh()
+            mesh.material = new MeshLambertMaterial({
+              color,
+              transparent: false,
+              opacity: 1
+            })
+            if (type === "module") {
+              mesh.geometry = new BoxGeometry(NODE_R, NODE_R, NODE_R)
+            } else {
+              const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
+              mesh.geometry = new SphereGeometry(size)
+            }
+            return mesh;
+          }}
           nodeResolution={64}
-          nodeVal={handleNodeVal}
           nodeLabel={handleNodeLabel}
           linkWidth={handleLinkWidth}
           onNodeClick={handle3DNodeClick}
