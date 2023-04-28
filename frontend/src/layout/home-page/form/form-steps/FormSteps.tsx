@@ -1,7 +1,11 @@
 import Button from "@components/Button";
 import { useStore } from "@nanostores/solid";
 import { Component, createMemo, Match, Switch } from "solid-js";
-import { SetStepByKey, HomePageStep, HomePageStepsStore } from "../../home-page-steps.store.ts";
+import {
+  SetStepByKey,
+  HomePageStep,
+  HomePageStepsStore,
+} from "../../home-page-steps.store.ts";
 import ProjectUpload from "./ProjectUpload/ProjectUpload";
 import { ProjectUploadStore } from "./ProjectUpload/ProjectUploadStore";
 import ToolsSelection from "./ToolsSelection/ToolsSelection";

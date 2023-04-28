@@ -66,7 +66,7 @@ export class DatabaseSeeder extends Seeder {
           name: "service4",
           modules: ["moduleJ"],
         });
-        service2.relationships.add(service3, service4)
+        service2.relationships.add(service3, service4);
         service3.relatedServices.add(service2);
         service4.relatedServices.add(service2);
         decomposition.services.add(service3, service4);

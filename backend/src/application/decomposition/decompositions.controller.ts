@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Controller, Get, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { GetDecompositionsQueryDto } from "./use-cases/get-decompositions/get-decompositions-query.dto";
 import { GetDecompositionsService } from "./use-cases/get-decompositions/get-decompositions.service";
@@ -16,9 +16,4 @@ export class DecompositionsController {
   public async getDecompositions(@Query() query: GetDecompositionsQueryDto) {
     return await this.getDecompositionsService.execute(query);
   }
-
-  @Get(":id")
-  public async getDecomposition(@Param("id") id: string) {
-  }
-
 }

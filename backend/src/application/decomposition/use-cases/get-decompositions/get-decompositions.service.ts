@@ -24,12 +24,20 @@ export class GetDecompositionsService {
     const filterQuery: FilterQuery<Decomposition> = {};
     if (query.id != null) {
       filterQuery.id = {
-        $in: query.id
-      }
+        $in: query.id,
+      };
     }
     const [results, count] = await this.decompositionRepository.findAndCount(
       filterQuery,
-      { offset, limit, populate: ["services", "services.relationships"] }
+      {
+        offset,
+        limit,
+        populate: [
+          "services",
+          "services.relationships",
+          "services.relatedServices",
+        ],
+      }
     );
     return {
       data: results,

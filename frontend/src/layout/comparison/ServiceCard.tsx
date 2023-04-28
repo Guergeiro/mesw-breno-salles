@@ -3,14 +3,33 @@ import { Component, For } from "solid-js";
 import { FaSolidXmark } from "solid-icons/fa";
 import { removeService } from "./services-focused.store";
 import { ServiceSchema } from "shared-schemas";
+import { useStore } from "@nanostores/solid";
+import {
+  DecompositionsColoursStore,
+  getRandomColor,
+} from "./decompositions-colours.store";
+import { computed } from "nanostores";
 
 export type ServiceCardProps = {
   service: ServiceSchema;
 };
 
 const ServiceCard: Component<ServiceCardProps> = (props) => {
+  const colour = useStore(
+    computed(DecompositionsColoursStore, (store) => {
+      if (typeof props.service.decomposition === "string") {
+        return store.get(props.service.decomposition) ?? getRandomColor();
+      }
+      return store.get(props.service.decomposition.id) ?? getRandomColor();
+    })
+  );
   return (
-    <div class="w-full max-w-md p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div
+      class="w-full max-w-md p-2 bg-white border rounded-lg shadow dark:bg-gray-800"
+      style={{
+        "border-color": colour(),
+      }}
+    >
       <div class="flex items-center justify-between mb-4">
         <h6 class="font-bold leading-none text-gray-900 dark:text-white">
           {props.service.name}

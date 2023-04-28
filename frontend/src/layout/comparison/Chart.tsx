@@ -10,7 +10,6 @@ import { computed } from "nanostores";
 import {
   RefObject,
   useCallback,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -18,33 +17,38 @@ import {
 } from "react";
 import ForceGraph2D, {
   ForceGraphMethods as ForceGraphMethods2D,
-  GraphData as GraphData2D,
-  NodeObject as NodeObject2D,
   LinkObject as LinkObject2D,
-  ForceGraphProps as ForceGraphProps2D
+  NodeObject as NodeObject2D,
 } from "react-force-graph-2d";
 import ForceGraph3D, {
   ForceGraphMethods as ForceGraphMethods3D,
-  GraphData as GraphData3D,
-  NodeObject as NodeObject3D,
   LinkObject as LinkObject3D,
+  NodeObject as NodeObject3D,
 } from "react-force-graph-3d";
 import { DecompositionSchema, ServiceSchema } from "shared-schemas";
 import colors from "tailwindcss/colors";
+import {
+  BoxGeometry,
+  Mesh,
+  MeshLambertMaterial,
+  MeshLambertMaterialParameters,
+  SphereGeometry,
+} from "three";
+import { CanZoomResetStore } from "./can-zoom-reset.store";
 import {
   DecompositionsColoursStore,
   getRandomColor,
   mixColors,
 } from "./decompositions-colours.store";
 import { DecompositionsShowingStore } from "./decompositions-showing.store";
-import { CanZoomResetStore } from "./can-zoom-reset.store";
 import { addService, ServicesFocusedStore } from "./services-focused.store";
 import { ShowModulesStore } from "./show-modules.store";
-import { BoxGeometry, Mesh, MeshLambertMaterial, SphereGeometry } from "three";
 
 const NODE_R = 4;
 
-type NodeObject = NodeObject2D | NodeObject3D;
+type NodeObject = (NodeObject2D | NodeObject3D) & {
+  links?: LinkObject[];
+};
 
 type LinkObject = LinkObject2D | LinkObject3D;
 
@@ -115,9 +119,9 @@ const Chart = () => {
 
   const showModules = useStore(ShowModulesStore);
 
-  const generateGraphData2 = useCallback(() => {
+  const generateGraphData = useCallback(() => {
     // 1st get all Modules
-    const nodes: { id: string }[] = [];
+    const nodes: { id: string; links?: typeof links }[] = [];
 
     if (showModules === true) {
       for (const module of moduleToServiceMap.keys()) {
@@ -133,7 +137,7 @@ const Chart = () => {
 
     if (showModules === true) {
       for (const [module, services] of moduleToServiceMap.entries()) {
-        for (const {id} of services) {
+        for (const { id } of services) {
           links.push({
             source: `module_${module}`,
             target: `service_${id}`,
@@ -141,19 +145,42 @@ const Chart = () => {
         }
       }
     }
-    for (const {id, relationships, relatedServices} of serviceMap.values()) {
+    for (const { id, relationships, relatedServices } of serviceMap.values()) {
       for (const relation of relationships || []) {
         links.push({
           source: `service_${id}`,
-          target: `service_${relation.id}`
-        })
+          target: `service_${relation.id}`,
+        });
       }
       for (const relation of relatedServices || []) {
         links.push({
           source: `service_${id}`,
-          target: `service_${relation.id}`
-        })
+          target: `service_${relation.id}`,
+        });
       }
+    }
+
+    for (const link of links) {
+      const a = nodes.find(function ({ id }) {
+        return link.source === id;
+      });
+      const b = nodes.find(function ({ id }) {
+        return link.target === id;
+      });
+      if (a == null) {
+        continue;
+      }
+      if (b == null) {
+        continue;
+      }
+      if (a.links == null) {
+        a.links = [];
+      }
+      a.links.push(link);
+      if (b.links == null) {
+        b.links = [];
+      }
+      b.links.push(link);
     }
 
     return {
@@ -162,43 +189,126 @@ const Chart = () => {
     };
   }, [moduleToServiceMap, serviceMap, showModules]);
 
-  const graphData = generateGraphData2();
+  const graphData = generateGraphData();
 
-  const containerRef = useRef<HTMLDivElement>(null);
   const fg2DRef = useRef<ForceGraphMethods2D>();
   const fg3DRef = useRef<ForceGraphMethods3D>();
 
-  const handleNodeColor = useCallback(
-    (node: NodeObject) => {
-      const [type, id] = (node.id as string).split("_")
-      if (type === "module") {
-        const decompositionIds: string[] = [];
-        for (const {decomposition} of moduleToServiceMap.get(id)!) {
-          if (typeof decomposition === "string") {
-            decompositionIds.push(decomposition);
-          } else {
-            decompositionIds.push(decomposition.id)
-          }
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [hoverHighlight, setHoverHighlight] = useState(new Set<LinkObject>());
+
+  const hasHighlight = useCallback(
+    (link: LinkObject) => {
+      return hoverHighlight.has(link);
+    },
+    [hoverHighlight]
+  );
+
+  const handleLinkWidth = useCallback(
+    (link: LinkObject) => {
+      const base = NODE_R / 2;
+      if (hasHighlight(link)) {
+        return 4 * base;
+      }
+      return base;
+    },
+    [hasHighlight]
+  );
+
+  const handleLinkHover = useCallback(
+    (link: LinkObject | null) => {
+      hoverHighlight.clear();
+      if (link != null) {
+        hoverHighlight.add(link);
+      }
+      setHoverHighlight(hoverHighlight);
+    },
+    [hoverHighlight]
+  );
+
+  const handleNodeHover = useCallback(
+    (node: NodeObject | null) => {
+      hoverHighlight.clear();
+      if (node != null) {
+        for (const link of node.links || []) {
+          hoverHighlight.add(link);
         }
-        const hex = mixColors(decompositionIds.map(function (decomposition) {
-          return decompositionColours.get(decomposition)!;
-        }));
-        return `#${hex}`
+      }
+      setHoverHighlight(hoverHighlight);
+    },
+    [hoverHighlight]
+  );
+
+  const handleLinkParticlesWidth = useCallback(
+    (link: LinkObject) => {
+      if (hasHighlight(link)) {
+        return 4;
+      }
+      return 0;
+    },
+    [hasHighlight]
+  );
+
+  const mixDecompositionsColours = useCallback(
+    (ids: string[]) => {
+      const allColours: string[] = [];
+
+      for (const id of ids) {
+        allColours.push(decompositionColours.get(id) || getRandomColor());
       }
 
-      const service = serviceMap.get(id)!;
-      if (typeof service.decomposition === "object") {
+      const hex = mixColors(allColours);
+      return `#${hex}`;
+    },
+    [decompositionColours]
+  );
+
+  const handleNodeColor = useCallback(
+    (node: NodeObject) => {
+      const [type, id] = (node.id as string).split("_");
+      const idsToMix: string[] = [];
+      if (type === "module") {
+        for (const { decomposition } of moduleToServiceMap.get(id)!) {
+          if (typeof decomposition === "string") {
+            idsToMix.push(decomposition);
+          } else {
+            idsToMix.push(decomposition.id);
+          }
+        }
+      } else {
+        const service = serviceMap.get(id)!;
+        if (typeof service.decomposition === "string") {
+          idsToMix.push(service.decomposition);
+        } else {
+          idsToMix.push(service.decomposition.id);
+        }
+      }
+
+      return mixDecompositionsColours(idsToMix);
+    },
+    [moduleToServiceMap, serviceMap, mixDecompositionsColours]
+  );
+
+  const handleLinkParticlesColour = useCallback(
+    ({ source, target }: LinkObject) => {
+      if (typeof source !== "object") {
         return getRandomColor();
       }
-      const decomposition = decompositionMap.get(service.decomposition)!;
-      return decompositionColours.get(decomposition.id)!;
+      const sourceColour = handleNodeColor(source);
+      if (typeof target !== "object") {
+        return getRandomColor();
+      }
+      const targetColour = handleNodeColor(target);
+      const hex = mixColors([sourceColour, targetColour]);
+      return `#${hex}`;
     },
-    [moduleToServiceMap, serviceMap, decompositionMap, decompositionColours]
+    [handleNodeColor]
   );
 
   const handleNodeVal = useCallback(
     (node: NodeObject) => {
-      const [_, id] = (node.id as string).split("_")
+      const [_, id] = (node.id as string).split("_");
       const service = serviceMap.get(id);
       if (service == null) {
         return 1;
@@ -210,7 +320,7 @@ const Chart = () => {
 
   const handleNodeLabel = useCallback(
     (node: NodeObject) => {
-      const [_, id] = (node.id as string).split("_")
+      const [_, id] = (node.id as string).split("_");
       const service = serviceMap.get(id);
       if (service == null) {
         return id;
@@ -220,61 +330,64 @@ const Chart = () => {
     [serviceMap]
   );
 
-  const handleLinkWidth = useCallback(
-    (_link: LinkObject) => {
-      return 3;
+  const handleNodeClick = useCallback(
+    (node: NodeObject, cameraMove: () => boolean) => {
+      const [type, id] = (node.id as string).split("_");
+      if (type === "module") {
+        return;
+      }
+      const hasMoved = cameraMove();
+      if (hasMoved) {
+        CanZoomResetStore.set(true);
+        addService(serviceMap.get(id)!);
+      }
     },
     [serviceMap]
   );
 
   const handle2DNodeClick = useCallback(
     (node: NodeObject2D) => {
-      const [type, id] = (node.id as string).split("_")
-      if (type === "module") {
-        return;
-      }
-      // Aim at node from outside it
-      const distance = NODE_R * 4;
+      handleNodeClick(node, function () {
+        // Aim at node from outside it
+        const distance = NODE_R * 4;
 
-      if (fg2DRef?.current != null) {
-        fg2DRef.current.centerAt(node.x!, node.y!, 1000);
-        fg2DRef.current.zoom(distance, 1000);
-        CanZoomResetStore.set(true);
-        addService(serviceMap.get(id)!);
-      }
+        if (fg2DRef?.current != null) {
+          fg2DRef.current.centerAt(node.x!, node.y!, 1000);
+          fg2DRef.current.zoom(distance, 1000);
+          return true;
+        }
+        return false;
+      });
     },
-    [fg2DRef, serviceMap]
+    [fg2DRef, handleNodeClick]
   );
 
   const handle3DNodeClick = useCallback(
     (node: NodeObject3D) => {
-      const [type, id] = (node.id as string).split("_")
-      if (type === "module") {
-        return;
-      }
+      handleNodeClick(node, function () {
+        const distance = NODE_R * 12;
+        const distRatio = 1 + distance / Math.hypot(node.x!, node.y!, node.z!);
 
-      const distance = NODE_R * 12;
-      const distRatio = 1 + distance / Math.hypot(node.x!, node.y!, node.z!);
-
-      if (fg3DRef?.current != null) {
-        fg3DRef.current.cameraPosition(
-          {
-            x: node.x! * distRatio,
-            y: node.y! * distRatio,
-            z: node.z! * distRatio,
-          },
-          {
-            x: node.x!,
-            y: node.y!,
-            z: node.z!,
-          },
-          1000
-        );
-        CanZoomResetStore.set(true);
-        addService(serviceMap.get(id)!);
-      }
+        if (fg3DRef?.current != null) {
+          fg3DRef.current.cameraPosition(
+            {
+              x: node.x! * distRatio,
+              y: node.y! * distRatio,
+              z: node.z! * distRatio,
+            },
+            {
+              x: node.x!,
+              y: node.y!,
+              z: node.z!,
+            },
+            1000
+          );
+          return true;
+        }
+        return false;
+      });
     },
-    [fg3DRef, serviceMap]
+    [fg3DRef, handleNodeClick]
   );
 
   const zoomReset = useStore(CanZoomResetStore);
@@ -293,12 +406,77 @@ const Chart = () => {
     }
   }, [zoomReset, fg3DRef]);
 
+  const focusedServices = useStore(ServicesFocusedStore);
+
+  const handleNodeCanvasObject = useCallback(
+    (node: NodeObject2D, ctx: any) => {
+      const [type, id] = (node.id as string).split("_");
+      ctx.fillStyle = handleNodeColor(node);
+      if (type === "module") {
+        ctx.fillRect(
+          node.x! - NODE_R / 2,
+          node.y! - NODE_R / 2,
+          NODE_R,
+          NODE_R
+        );
+        return;
+      }
+      const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
+
+      ctx.beginPath();
+      ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.closePath();
+      for (const service of focusedServices) {
+        if (service.id === id) {
+          ctx.strokeStyle = red500;
+          ctx.stroke();
+          break;
+        }
+      }
+    },
+    [handleNodeColor, handleNodeVal, focusedServices]
+  );
+
+  const handleNodeThreeObject = useCallback(
+    (node: NodeObject3D) => {
+      const [type, id] = (node.id as string).split("_");
+      const color = handleNodeColor(node);
+      const mesh = new Mesh();
+      if (type === "module") {
+        mesh.geometry = new BoxGeometry(NODE_R, NODE_R, NODE_R);
+      } else {
+        const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
+        mesh.geometry = new SphereGeometry(size);
+      }
+      const materialProps: MeshLambertMaterialParameters = {
+        color,
+        transparent: false,
+        opacity: 1,
+      };
+      for (const service of focusedServices) {
+        if (service.id === id) {
+          materialProps.wireframe = true;
+          break;
+        }
+      }
+      mesh.material = new MeshLambertMaterial(materialProps);
+
+      return mesh;
+    },
+    [handleNodeColor, handleNodeVal, focusedServices]
+  );
+
   const { width, height } = useSize(containerRef);
 
   const graphMode = useStore(ForcedGraphMode);
 
   const slate100 = useMemo(() => {
     return colors.slate[100];
+  }, []);
+
+  const red500 = useMemo(() => {
+    return colors.red[500];
   }, []);
 
   return (
@@ -310,21 +488,15 @@ const Chart = () => {
           backgroundColor={slate100}
           height={height}
           graphData={graphData}
-          nodeCanvasObject={(node, ctx) => {
-            const [type] = (node.id as string).split("_")
-            ctx.fillStyle = handleNodeColor(node);
-            if (type === "module") {
-              ctx.fillRect(node.x! - NODE_R / 2, node.y! - NODE_R / 2, NODE_R, NODE_R)
-            } else {
-              const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
-              ctx.beginPath();
-              ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI)
-              ctx.fill();
-            }
-          }}
+          nodeCanvasObject={handleNodeCanvasObject}
           nodeLabel={handleNodeLabel}
           linkWidth={handleLinkWidth}
+          linkDirectionalParticles={4}
+          linkDirectionalParticleWidth={handleLinkParticlesWidth}
+          linkDirectionalParticleColor={handleLinkParticlesColour}
           onNodeClick={handle2DNodeClick}
+          onNodeHover={handleNodeHover}
+          onLinkHover={handleLinkHover}
           cooldownTicks={100}
           onEngineStop={fitZoom2D}
         />
@@ -335,27 +507,15 @@ const Chart = () => {
           backgroundColor={slate100}
           height={height}
           graphData={graphData}
-          nodeThreeObject={(node) => {
-            const [type] = (node.id as string).split("_")
-            const color = handleNodeColor(node);
-            const mesh = new Mesh()
-            mesh.material = new MeshLambertMaterial({
-              color,
-              transparent: false,
-              opacity: 1
-            })
-            if (type === "module") {
-              mesh.geometry = new BoxGeometry(NODE_R, NODE_R, NODE_R)
-            } else {
-              const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
-              mesh.geometry = new SphereGeometry(size)
-            }
-            return mesh;
-          }}
+          nodeThreeObject={handleNodeThreeObject}
           nodeResolution={64}
           nodeLabel={handleNodeLabel}
           linkWidth={handleLinkWidth}
+          linkDirectionalParticles={4}
+          linkDirectionalParticleWidth={handleLinkParticlesWidth}
+          linkDirectionalParticleColor={handleLinkParticlesColour}
           onNodeClick={handle3DNodeClick}
+          onLinkHover={handleLinkHover}
           cooldownTicks={100}
           onEngineStop={fitZoom3D}
         />

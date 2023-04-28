@@ -21,10 +21,10 @@ export type MetadataProps = {
 
 @Embeddable()
 export class Metadata {
-  @Property({type: FloatType})
+  @Property({ type: FloatType })
   public resolution!: number;
 
-  @Property({type: FloatType})
+  @Property({ type: FloatType })
   public modularity!: number;
 
   public constructor({ resolution, modularity }: MetadataProps) {

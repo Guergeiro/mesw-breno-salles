@@ -5,7 +5,7 @@ import { ToolSchema } from "./tool.schema";
 const baseSchema = z.object({
   id: z.string().uuid(),
   status: z.enum(["started", "finished", "failed"]),
-  decompositionsCount: z.coerce.number()
+  decompositionsCount: z.coerce.number(),
 });
 
 export type ResultSchema = z.infer<typeof baseSchema> & {

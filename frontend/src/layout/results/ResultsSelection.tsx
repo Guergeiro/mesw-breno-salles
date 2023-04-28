@@ -149,7 +149,6 @@ const TableRow: Component<{
   result: ResultSchema;
   status: ResultSchema["status"];
 }> = (props) => {
-
   const decompositionsStore = useStore(DecompositionsSelectedStore);
   const resultSelected = useStore(
     computed(ResultsSelectedStore, (store) => {
@@ -173,7 +172,7 @@ const TableRow: Component<{
     }
 
     return false;
-  })
+  });
 
   const name = createMemo(() => {
     if (typeof props.result.tool === "string") {
@@ -327,9 +326,7 @@ const ExpandableRow: Component<{ result: string }> = (props) => {
                   })
                 );
                 const isChecked = createMemo(() => {
-                  return (
-                    resultSelected() || decompositionSelected()
-                  );
+                  return resultSelected() || decompositionSelected();
                 });
                 return (
                   <ExpandableTableRow
@@ -337,12 +334,9 @@ const ExpandableRow: Component<{ result: string }> = (props) => {
                     checked={isChecked()}
                     onChange={(e) => {
                       if (e.currentTarget.checked) {
-                        DecompositionsSelectedStore.setKey(item.id, item)
+                        DecompositionsSelectedStore.setKey(item.id, item);
                       } else {
-                        DecompositionsSelectedStore.setKey(
-                          item.id,
-                          null
-                        );
+                        DecompositionsSelectedStore.setKey(item.id, null);
                       }
                     }}
                   />

@@ -36,10 +36,12 @@ export class ReceiveResultService {
 
   private createDecompositions({ results }: SuccessStatus) {
     const decompositions = results.map(function ({ metadata, services }) {
-      const decomposition = new Decomposition({metadata});
-      decomposition.services.add(services.map(function (service) {
-        return new Service(service);
-      }));
+      const decomposition = new Decomposition({ metadata });
+      decomposition.services.add(
+        services.map(function (service) {
+          return new Service(service);
+        })
+      );
 
       return decomposition;
     });

@@ -8,7 +8,7 @@ const baseSchema = z.object({
     modularity: z.coerce.number().optional(),
     resolution: z.coerce.number().optional(),
   }),
-  servicesCount: z.coerce.number()
+  servicesCount: z.coerce.number(),
 });
 
 export type DecompositionSchema = z.infer<typeof baseSchema> & {
@@ -17,8 +17,10 @@ export type DecompositionSchema = z.infer<typeof baseSchema> & {
   services?: ServiceSchema[];
 };
 
-export const DecompositionSchema: z.ZodType<DecompositionSchema> = baseSchema.extend({
-  result: z.union([z.string().uuid(), z.lazy(() => ResultSchema)]),
-}).extend({
-  services: z.lazy(() => ServiceSchema.array().optional())
-});
+export const DecompositionSchema: z.ZodType<DecompositionSchema> = baseSchema
+  .extend({
+    result: z.union([z.string().uuid(), z.lazy(() => ResultSchema)]),
+  })
+  .extend({
+    services: z.lazy(() => ServiceSchema.array().optional()),
+  });

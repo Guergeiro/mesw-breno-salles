@@ -82,7 +82,7 @@ const ResultsWaiting: Component = () => {
         </For>
       </Table>
       <Button
-      class="mr-2"
+        class="mr-2"
         variant="alternative"
         onClick={() => {
           HomePageStepsStore.set(HomePageStep.TOOLS_SELECTION);

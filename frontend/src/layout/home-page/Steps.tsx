@@ -1,7 +1,12 @@
 import Stepper from "@components/Stepper";
 import { useStore } from "@nanostores/solid";
 import { createMemo, ParentComponent } from "solid-js";
-import { GetStepIndex, GetSteps, HomePageStep, HomePageStepsStore } from "./home-page-steps.store";
+import {
+  GetStepIndex,
+  GetSteps,
+  HomePageStep,
+  HomePageStepsStore,
+} from "./home-page-steps.store";
 
 const Steps: ParentComponent = (props) => {
   const steps = useStore(HomePageStepsStore);

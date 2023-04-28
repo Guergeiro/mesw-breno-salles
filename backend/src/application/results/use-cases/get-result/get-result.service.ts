@@ -13,11 +13,7 @@ export class GetResultService {
     return await this.resultRepository.findOneOrFail(
       { id: id },
       {
-        populate: [
-          "tool",
-          "tool.languages",
-          "decompositions",
-        ],
+        populate: ["tool", "tool.languages", "decompositions"],
       }
     );
   }

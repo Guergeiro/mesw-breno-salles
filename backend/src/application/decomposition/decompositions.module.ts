@@ -8,6 +8,6 @@ import { GetDecompositionsService } from "./use-cases/get-decompositions/get-dec
 @Module({
   controllers: [DecompositionsController],
   imports: [MikroOrmModule.forFeature([Decomposition]), CommonModule],
-  providers: [GetDecompositionsService]
+  providers: [GetDecompositionsService],
 })
 export class DecompositionsModule {}

@@ -8,13 +8,17 @@ export const HomePageStep = {
 } as const;
 export type HomePageStep = (typeof HomePageStep)[keyof typeof HomePageStep];
 
-export const HomePageStepsStore = atom<HomePageStep>(HomePageStep.TOOLS_SELECTION);
+export const HomePageStepsStore = atom<HomePageStep>(
+  HomePageStep.TOOLS_SELECTION
+);
 
 export function SetStepByKey(value: HomePageStep) {
   HomePageStepsStore.set(value);
 }
 export function GetStepKey(step: number) {
-  const possibleOptions = Object.keys(HomePageStep) as Array<keyof typeof HomePageStep>;
+  const possibleOptions = Object.keys(HomePageStep) as Array<
+    keyof typeof HomePageStep
+  >;
   if (step >= possibleOptions.length) {
     throw new Error();
   }
