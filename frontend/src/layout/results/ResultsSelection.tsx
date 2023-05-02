@@ -95,16 +95,16 @@ const ResultsSelection: Component = () => {
 
   const pendingResults = useStore(PendingResultsStore);
 
-  const resultsSelected = useStore(
-    computed(ResultsSelectedStore, (store) => {
-      const selected: string[] = [];
-      for (const [key, value] of Object.entries(store)) {
-        if (value === "true") {
-          selected.push(key);
+  const decompositionSelected = useStore(
+    computed(DecompositionsSelectedStore, (store) => {
+      const out: DecompositionSchema[] = [];
+
+      for (const value of Object.values(store)) {
+        if (value != null) {
+          out.push(value);
         }
       }
-
-      return selected;
+      return out;
     })
   );
 
@@ -125,9 +125,9 @@ const ResultsSelection: Component = () => {
       <Button
         class="mr-2"
         variant="alternative"
-        disabled={resultsSelected().length === 0}
+        disabled={decompositionSelected().length === 0}
         onClick={() => {
-          ResultsSelectedStore.set({});
+          DecompositionsSelectedStore.set({});
         }}
       >
         Clear
@@ -136,7 +136,7 @@ const ResultsSelection: Component = () => {
       <Anchor
         variant="default"
         href="/compare"
-        disabled={resultsSelected().length === 0}
+        disabled={decompositionSelected().length === 0}
       >
         Compare
       </Anchor>
@@ -149,31 +149,6 @@ const TableRow: Component<{
   result: ResultSchema;
   status: ResultSchema["status"];
 }> = (props) => {
-  const decompositionsStore = useStore(DecompositionsSelectedStore);
-  const resultSelected = useStore(
-    computed(ResultsSelectedStore, (store) => {
-      const parentSelected = store[props.result.id] === "true";
-      return parentSelected;
-    })
-  );
-
-  const parentSelected = createMemo(() => {
-    if (resultSelected()) {
-      return true;
-    }
-
-    for (const key of Object.values(decompositionsStore())) {
-      if (key == null) {
-        continue;
-      }
-      if (key.result === props.result.id) {
-        return true;
-      }
-    }
-
-    return false;
-  });
-
   const name = createMemo(() => {
     if (typeof props.result.tool === "string") {
       return props.result.tool;
@@ -188,6 +163,10 @@ const TableRow: Component<{
   });
 
   const [expanded, setExpanded] = createSignal(false);
+
+  const decompositionsCount = createMemo(() => {
+    return props.result.decompositionsCount ?? 0;
+  });
 
   return (
     <>
@@ -210,7 +189,7 @@ const TableRow: Component<{
           {props.result.id}
         </th>
         <td class="p-4">
-          <Show when={props.result.decompositionsCount > 0}>
+          <Show when={decompositionsCount()}>
             <span
               onClick={() => {
                 setExpanded(!expanded());
@@ -255,25 +234,7 @@ const TableRow: Component<{
           <span class="sr-only">{props.status}</span>
         </td>
 
-        <td class="w-4 p-4">
-          <div class="flex items-center">
-            <input
-              id={props.result.id}
-              type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
-              checked={parentSelected()}
-              onChange={(e) => {
-                ResultsSelectedStore.setKey(
-                  props.result.id,
-                  `${e.currentTarget.checked}`
-                );
-              }}
-            />
-            <label for={props.result.id} class="sr-only">
-              {props.result.id}
-            </label>
-          </div>
-        </td>
+        <td class="p-4"></td>
       </tr>
 
       <Show when={expanded() === true}>
@@ -291,7 +252,7 @@ const ExpandableRow: Component<{ result: string }> = (props) => {
     if (parsed.success === false) {
       return [];
     }
-    return parsed.data.decompositions!;
+    return parsed.data.decompositions ?? [];
   });
 
   const resultSelected = useStore(
@@ -423,6 +384,27 @@ const ExpandableTableRow: Component<{
     }
     return out.join(",\n");
   });
+
+  const decompositionSelected = useStore(
+    computed(DecompositionsSelectedStore, (store) => {
+      const out: DecompositionSchema[] = [];
+
+      for (const value of Object.values(store)) {
+        if (value != null) {
+          out.push(value);
+        }
+      }
+      return out;
+    })
+  );
+
+  const canToggle = createMemo(() => {
+    if (props.checked === true) {
+      return true;
+    }
+    return decompositionSelected().length < 5;
+  });
+
   return (
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       <th
@@ -438,7 +420,12 @@ const ExpandableTableRow: Component<{
           <input
             type="checkbox"
             checked={props.checked}
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+            classList={{
+              "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600":
+                true,
+              "cursor-pointer": canToggle(),
+            }}
+            disabled={canToggle() === false}
             onChange={props.onChange}
           />
         </div>

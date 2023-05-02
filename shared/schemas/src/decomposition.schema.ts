@@ -8,7 +8,7 @@ const baseSchema = z.object({
     modularity: z.coerce.number().optional(),
     resolution: z.coerce.number().optional(),
   }),
-  servicesCount: z.coerce.number(),
+  servicesCount: z.coerce.number().optional(),
 });
 
 export type DecompositionSchema = z.infer<typeof baseSchema> & {

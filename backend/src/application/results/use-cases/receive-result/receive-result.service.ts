@@ -29,7 +29,9 @@ export class ReceiveResultService {
     if (this.isFailed(output)) {
       result.status = Status.FAILED;
     }
-    await resultRepository.persistAndFlush(result);
+    await this.orm.em.persistAndFlush(result);
+
+    await result.decompositions.init();
 
     this.subject.next({ id: result.id, status: result.status });
   }
@@ -37,11 +39,29 @@ export class ReceiveResultService {
   private createDecompositions({ results }: SuccessStatus) {
     const decompositions = results.map(function ({ metadata, services }) {
       const decomposition = new Decomposition({ metadata });
-      decomposition.services.add(
-        services.map(function (service) {
-          return new Service(service);
-        })
-      );
+
+      const nameServices = new Map<string, Service>();
+      for (const service of services) {
+        const existing = nameServices.get(service.name) ?? new Service(service);
+        nameServices.set(service.name, existing);
+      }
+
+      for (const service of services) {
+        const existing = nameServices.get(service.name);
+        if (existing == null) {
+          continue;
+        }
+
+        for (const relation of service.relationships) {
+          const existingRelationship = nameServices.get(relation);
+          if (existingRelationship == null) {
+            continue;
+          }
+          existing.relationships.add(existingRelationship);
+        }
+      }
+
+      decomposition.services.add([...nameServices.values()]);
 
       return decomposition;
     });

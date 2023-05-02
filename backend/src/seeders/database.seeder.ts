@@ -18,7 +18,7 @@ export class DatabaseSeeder extends Seeder {
     tool.name = "Miguel Brito";
     tool.languages.add(language);
 
-    const results = this.getResults(7);
+    const results = this.getResults(3);
     tool.results.add(results);
 
     await em.persistAndFlush([language, tool]);

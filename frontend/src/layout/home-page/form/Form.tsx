@@ -4,7 +4,7 @@ import { SetPendingResult } from "@stores/pending-results.store";
 import { ResultSchema } from "shared-schemas";
 import { Component, createMemo, Show } from "solid-js";
 import { z } from "zod";
-import { HomePageStep, HomePageStepsStore } from "../home-page-steps.store.ts";
+import { HomePageStep, HomePageStepsStore } from "../home-page-steps.store";
 import FormSteps from "./form-steps/FormSteps";
 import { ProjectUploadStore } from "./form-steps/ProjectUpload/ProjectUploadStore";
 import { ToolsSelectionStore } from "./form-steps/ToolsSelection/ToolsSelectionStore";
@@ -44,16 +44,6 @@ async function submitForm(form: FormData) {
   }
   const data = await res.json();
   return ResultSchema.parse(data);
-}
-
-function inForm(step: HomePageStep) {
-  switch (step) {
-    case HomePageStep.TOOLS_SELECTION:
-    case HomePageStep.FILE_INPUT:
-      return true;
-    default:
-      return false;
-  }
 }
 
 function getFulfilledResults(promises: PromiseResults) {
@@ -106,13 +96,25 @@ const Form: Component = () => {
     return forms;
   }
 
+  const isShowing = createMemo(() => {
+    switch (currentPage()) {
+      case HomePageStep.TOOLS_SELECTION:
+      case HomePageStep.FILE_INPUT:
+        return true;
+      default:
+        return false;
+    }
+  });
+
   return (
-    <Show when={inForm(currentPage())}>
+    <Show when={isShowing()}>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           const response = await onSubmit();
+          console.log(response);
           const fulfilled = getFulfilledResults(response);
+          console.log(fulfilled);
           setPendingResults(fulfilled);
           HomePageStepsStore.set(HomePageStep.RESULTS_WAITING);
         }}

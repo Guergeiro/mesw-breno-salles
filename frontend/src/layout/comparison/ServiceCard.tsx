@@ -56,9 +56,15 @@ const ServiceCard: Component<ServiceCardProps> = (props) => {
                 <li class="py-3 sm:py-4">
                   <div class="flex items-center space-x-4">
                     <div class="min-w-0">
-                      <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                      <p class="text-sm font-medium text-gray-900 truncate dark:text-white peer">
                         {item}
                       </p>
+                      <div
+                        role="tooltip"
+                        class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 lg:peer-hover:visible lg:peer-hover:opacity-100"
+                      >
+                        {item}
+                      </div>
                     </div>
                   </div>
                 </li>

@@ -176,6 +176,9 @@ export class JobsProcessor {
       const services = project.map((s) => {
         return this.parseService(s);
       });
+
+      this.randomizeRelationships(services);
+
       return {
         metadata: {
           modularity,
@@ -199,6 +202,37 @@ export class JobsProcessor {
     return {
       name,
       modules,
+      relationships: [],
     };
+  }
+
+  private randomizeRelationships(services: ProcessResult[number]["services"]) {
+    for (const service of services) {
+      const numRelationships =
+        Math.floor(Math.random() * (services.length - 1)) + 1;
+      const relatedServices = [];
+      const serviceGenerator = this.getRandomService(services, service);
+
+      for (let i = 0; i < numRelationships; i++) {
+        const randomService = serviceGenerator.next().value;
+        if (randomService != null) {
+          relatedServices.push(randomService.name);
+        }
+      }
+
+      service.relationships = relatedServices;
+    }
+  }
+
+  private *getRandomService<
+    T extends ProcessResult[number]["services"] = ProcessResult[number]["services"]
+  >(services: T, exclude: T[number]) {
+    while (true) {
+      const randomIndex = Math.floor(Math.random() * services.length);
+      const randomService = services[randomIndex];
+      if (randomService !== exclude) {
+        yield randomService;
+      }
+    }
   }
 }

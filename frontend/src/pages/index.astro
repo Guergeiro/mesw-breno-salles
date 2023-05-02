@@ -2,12 +2,21 @@
 import Page from "@components/Page.astro";
 import Footer from "@components/Footer.astro";
 import Sidebar from "@components/Sidebar.tsx";
+import InfoBanner from "@components/InfoBanner.tsx";
 import HomePage from "@layout/home-page/HomePage.astro";
 ---
 
 <Page title="Home Page">
   <Sidebar client:load>
-    <HomePage />
+    <div class="my-2">
+      <InfoBanner client:load>
+        In this area, you select the project you want to decompose into
+        microservices.
+      </InfoBanner>
+    </div>
+    <div class="my-2">
+      <HomePage />
+    </div>
   </Sidebar>
   <Footer slot="footer" />
 </Page>

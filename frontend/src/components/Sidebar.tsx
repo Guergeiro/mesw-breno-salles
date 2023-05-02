@@ -86,9 +86,8 @@ const Sidebar: ParentComponent = (props) => {
 
       <main
         classList={{
-          "p-4": true,
-          "mt-14": true,
-          "mb-16": true,
+          "pt-14": true,
+          "pb-16": true,
         }}
       >
         {props.children}

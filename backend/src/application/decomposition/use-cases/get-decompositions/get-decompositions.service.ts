@@ -2,7 +2,7 @@ import { DecompositionRepository } from "@domain/repositories/decomposition.repo
 import { PaginatorService } from "@common/paginator/paginator.service";
 import { Injectable } from "@nestjs/common";
 import { GetDecompositionsQueryDto } from "./get-decompositions-query.dto";
-import { FilterQuery } from "@mikro-orm/core";
+import { FilterQuery, serialize } from "@mikro-orm/core";
 import { Decomposition } from "@domain/entities/decomposition.entity";
 
 @Injectable()
@@ -40,7 +40,15 @@ export class GetDecompositionsService {
       }
     );
     return {
-      data: results,
+      data: results.map(function (result) {
+        return serialize(result, {
+          populate: [
+            "services",
+            "services.relationships",
+            "services.relatedServices",
+          ],
+        });
+      }),
       count,
       page: query.page,
     };

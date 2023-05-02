@@ -147,16 +147,26 @@ const Chart = () => {
     }
     for (const { id, relationships, relatedServices } of serviceMap.values()) {
       for (const relation of relationships || []) {
-        links.push({
+        const obj: Record<string, string> = {
           source: `service_${id}`,
-          target: `service_${relation.id}`,
-        });
+        };
+        if (typeof relation === "string") {
+          obj.target = `service_${relation}`;
+        } else {
+          obj.target = `service_${relation.id}`;
+        }
+        links.push(obj);
       }
       for (const relation of relatedServices || []) {
-        links.push({
+        const obj: Record<string, string> = {
           source: `service_${id}`,
-          target: `service_${relation.id}`,
-        });
+        };
+        if (typeof relation === "string") {
+          obj.target = `service_${relation}`;
+        } else {
+          obj.target = `service_${relation.id}`;
+        }
+        links.push(obj);
       }
     }
 
@@ -269,7 +279,7 @@ const Chart = () => {
       const [type, id] = (node.id as string).split("_");
       const idsToMix: string[] = [];
       if (type === "module") {
-        for (const { decomposition } of moduleToServiceMap.get(id)!) {
+        for (const { decomposition } of moduleToServiceMap.get(id) ?? []) {
           if (typeof decomposition === "string") {
             idsToMix.push(decomposition);
           } else {
@@ -277,11 +287,13 @@ const Chart = () => {
           }
         }
       } else {
-        const service = serviceMap.get(id)!;
-        if (typeof service.decomposition === "string") {
-          idsToMix.push(service.decomposition);
-        } else {
-          idsToMix.push(service.decomposition.id);
+        const service = serviceMap.get(id);
+        if (service != null) {
+          if (typeof service.decomposition === "string") {
+            idsToMix.push(service.decomposition);
+          } else {
+            idsToMix.push(service.decomposition.id);
+          }
         }
       }
 
@@ -339,7 +351,10 @@ const Chart = () => {
       const hasMoved = cameraMove();
       if (hasMoved) {
         CanZoomResetStore.set(true);
-        addService(serviceMap.get(id)!);
+        const service = serviceMap.get(id);
+        if (service != null) {
+          addService(service);
+        }
       }
     },
     [serviceMap]
@@ -352,7 +367,7 @@ const Chart = () => {
         const distance = NODE_R * 4;
 
         if (fg2DRef?.current != null) {
-          fg2DRef.current.centerAt(node.x!, node.y!, 1000);
+          fg2DRef.current.centerAt(node.x as number, node.y as number, 1000);
           fg2DRef.current.zoom(distance, 1000);
           return true;
         }
@@ -366,19 +381,22 @@ const Chart = () => {
     (node: NodeObject3D) => {
       handleNodeClick(node, function () {
         const distance = NODE_R * 12;
-        const distRatio = 1 + distance / Math.hypot(node.x!, node.y!, node.z!);
+        const x = node.x as number;
+        const y = node.y as number;
+        const z = node.z as number;
+        const distRatio = 1 + distance / Math.hypot(x, y, z);
 
         if (fg3DRef?.current != null) {
           fg3DRef.current.cameraPosition(
             {
-              x: node.x! * distRatio,
-              y: node.y! * distRatio,
-              z: node.z! * distRatio,
+              x: x * distRatio,
+              y: y * distRatio,
+              z: z * distRatio,
             },
             {
-              x: node.x!,
-              y: node.y!,
-              z: node.z!,
+              x: x,
+              y: y,
+              z: z,
             },
             1000
           );
@@ -409,22 +427,20 @@ const Chart = () => {
   const focusedServices = useStore(ServicesFocusedStore);
 
   const handleNodeCanvasObject = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (node: NodeObject2D, ctx: any) => {
       const [type, id] = (node.id as string).split("_");
       ctx.fillStyle = handleNodeColor(node);
+      const x = node.x as number;
+      const y = node.y as number;
       if (type === "module") {
-        ctx.fillRect(
-          node.x! - NODE_R / 2,
-          node.y! - NODE_R / 2,
-          NODE_R,
-          NODE_R
-        );
+        ctx.fillRect(x - NODE_R / 2, y - NODE_R / 2, NODE_R, NODE_R);
         return;
       }
       const size = Math.sqrt(Math.max(0, handleNodeVal(node) || 1)) * NODE_R;
 
       ctx.beginPath();
-      ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
+      ctx.arc(x, y, size, 0, 2 * Math.PI);
       ctx.fill();
       ctx.closePath();
       for (const service of focusedServices) {

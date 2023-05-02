@@ -36,6 +36,7 @@ export const ToolControllerOutput = MakeToolControllerOutputSchema(
         .object({
           name: z.string(),
           modules: z.string().array(),
+          relationships: z.string().array(),
         })
         .array(),
     })

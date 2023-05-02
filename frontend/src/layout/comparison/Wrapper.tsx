@@ -166,7 +166,7 @@ const Wrapper: ParentComponent = (props) => {
                       </span>
                       <div
                         role="tooltip"
-                        class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 translate-y-full translate-x-12 lg:peer-hover:visible lg:peer-hover:opacity-100"
+                        class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 translate-y-7 translate-x-14 lg:peer-hover:visible lg:peer-hover:opacity-100"
                       >
                         {item.id}
                       </div>

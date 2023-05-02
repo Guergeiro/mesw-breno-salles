@@ -35,6 +35,7 @@ export class MikroOrmConfigService implements MikroOrmOptionsFactory {
       validate: true,
       strict: true,
       logger: this.logger.log.bind(this.logger),
+      // loadStrategy: LoadStrategy.JOINED,
       seeder: {
         path: "dist/seeders",
         pathTs: "src/seeders",

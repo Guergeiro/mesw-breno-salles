@@ -5,7 +5,7 @@ import {
   SetStepByKey,
   HomePageStep,
   HomePageStepsStore,
-} from "../../home-page-steps.store.ts";
+} from "../../home-page-steps.store";
 import ProjectUpload from "./ProjectUpload/ProjectUpload";
 import { ProjectUploadStore } from "./ProjectUpload/ProjectUploadStore";
 import ToolsSelection from "./ToolsSelection/ToolsSelection";

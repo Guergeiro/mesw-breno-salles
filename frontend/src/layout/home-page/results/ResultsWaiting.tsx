@@ -1,7 +1,7 @@
+import Anchor from "@components/Anchor";
 import Button from "@components/Button";
 import { useStore } from "@nanostores/solid";
 import { PendingResultsStore } from "@stores/pending-results.store";
-import { ResultsSelectedStore } from "@stores/results-selected.store";
 import { ResultSchema } from "shared-schemas";
 import {
   FaSolidCircleCheck,
@@ -10,8 +10,8 @@ import {
 } from "solid-icons/fa";
 import {
   Component,
-  createEffect,
   createMemo,
+  createReaction,
   For,
   Match,
   ParentComponent,
@@ -19,25 +19,6 @@ import {
   Switch,
 } from "solid-js";
 import { HomePageStep, HomePageStepsStore } from "../home-page-steps.store";
-
-function isShowing(currentPage: HomePageStep) {
-  switch (currentPage) {
-    case HomePageStep.RESULTS_WAITING:
-    case HomePageStep.FINISHED:
-      return true;
-    default:
-      return false;
-  }
-}
-
-function addToSelectedResultsStore(results: ResultSchema[]) {
-  const finished = results.filter(function (result) {
-    return result.status === "finished";
-  });
-  for (const { id } of finished) {
-    ResultsSelectedStore.setKey(id, "true");
-  }
-}
 
 const ResultsWaiting: Component = () => {
   const pendingResults = useStore(PendingResultsStore);
@@ -47,6 +28,9 @@ const ResultsWaiting: Component = () => {
   });
 
   const allFinished = createMemo(() => {
+    if (pendingResultsArray().length === 0) {
+      return false;
+    }
     for (const { status } of pendingResultsArray()) {
       if (status === "started") {
         return false;
@@ -55,29 +39,30 @@ const ResultsWaiting: Component = () => {
     return true;
   });
 
-  createEffect(() => {
-    if (allFinished() === true) {
-      // StepsStore.set(Step.FINISHED);
-      // addToSelectedResultsStore(pendingResultsArray());
-    }
+  const track = createReaction(() => {
+    HomePageStepsStore.set(HomePageStep.FINISHED);
   });
+
+  track(() => allFinished());
 
   const currentPage = useStore(HomePageStepsStore);
 
+  const isShowing = createMemo(() => {
+    switch (currentPage()) {
+      case HomePageStep.RESULTS_WAITING:
+      case HomePageStep.FINISHED:
+        return true;
+      default:
+        return false;
+    }
+  });
+
   return (
-    <Show when={isShowing(currentPage())}>
+    <Show when={isShowing()}>
       <Table>
         <For each={pendingResultsArray()}>
-          {(props) => {
-            const { id } = props;
-            const result = pendingResults()[id];
-            const name = createMemo(() => {
-              if (typeof result.tool === "string") {
-                return result.tool;
-              }
-              return result.tool.name;
-            });
-            return <TableRow name={name()} status={result.status} />;
+          {(item) => {
+            return <TableRow result={item} />;
           }}
         </For>
       </Table>
@@ -90,47 +75,56 @@ const ResultsWaiting: Component = () => {
       >
         New Decomposition
       </Button>
-      <Button variant="default" disabled={allFinished() === false}>
+      <Anchor
+        variant="default"
+        disabled={allFinished() === false}
+        href="/results"
+      >
         View Results
-      </Button>
+      </Anchor>
     </Show>
   );
 };
 export default ResultsWaiting;
 
-const TableRow: Component<{ name: string; status: ResultSchema["status"] }> = (
-  props
-) => {
+const TableRow: Component<{ result: ResultSchema }> = (props) => {
+  console.log(props);
+  const name = createMemo(() => {
+    if (typeof props.result.tool === "string") {
+      return props.result.tool;
+    }
+    return props.result.tool.name;
+  });
   return (
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <th
         scope="row"
         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
       >
-        {props.name}
+        {name()}
       </th>
       <td class="px-6 p-4">
         <Switch>
-          <Match when={props.status === "finished"}>
+          <Match when={props.result.status === "finished"}>
             <FaSolidCircleCheck
               size={24}
               class={"dark:text-green-600 fill-green-600"}
             />
           </Match>
-          <Match when={props.status === "started"}>
+          <Match when={props.result.status === "started"}>
             <FaSolidSpinner
               size={24}
               class={`rotate-center dark:text-gray-600 fill-blue-600`}
             />
           </Match>
-          <Match when={props.status === "failed"}>
+          <Match when={props.result.status === "failed"}>
             <FaSolidCircleXmark
               size={24}
               class={"dark:text-red-600 fill-red-600"}
             />
           </Match>
         </Switch>
-        <span class="sr-only">{props.status}</span>
+        <span class="sr-only">{props.result.status}</span>
       </td>
     </tr>
   );

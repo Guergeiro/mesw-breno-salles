@@ -4,7 +4,7 @@ RUN apt-get install git -y
 
 FROM git as tool_clone
 WORKDIR /usr/src/app
-RUN git clone --single-branch https://github.com/miguelfbrito/microservice-identification.git tool
+RUN git clone --single-branch https://github.com/Guergeiro/mesw-microservice-identification.git tool
 
 FROM git as mallet_clone
 WORKDIR /usr/src/app

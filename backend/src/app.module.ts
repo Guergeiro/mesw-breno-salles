@@ -11,6 +11,7 @@ import {
   OnModuleInit,
 } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { APP_PIPE } from "@nestjs/core";
 import { DatabaseSeeder } from "@seeders/database.seeder";
 
 @Module({
@@ -28,7 +29,7 @@ import { DatabaseSeeder } from "@seeders/database.seeder";
   ],
   providers: [
     {
-      provide: "APP_PIPE",
+      provide: APP_PIPE,
       useClass: ZodValidationPipe,
     },
   ],

@@ -10,9 +10,9 @@ const baseSchema = z.object({
 export type ServiceSchema = z.infer<typeof baseSchema> & {
   decomposition: string | DecompositionSchema;
 } & {
-  relatedServices?: ServiceSchema[];
+  relatedServices?: string[] | ServiceSchema[];
 } & {
-  relationships?: ServiceSchema[];
+  relationships?: string[] | ServiceSchema[];
 };
 
 export const ServiceSchema: z.ZodType<ServiceSchema> = baseSchema
@@ -23,8 +23,14 @@ export const ServiceSchema: z.ZodType<ServiceSchema> = baseSchema
     ]),
   })
   .extend({
-    relatedServices: z.lazy(() => ServiceSchema.array().optional()),
+    relatedServices: z.union([
+      z.string().uuid().array().optional(),
+      z.lazy(() => ServiceSchema.array().optional()),
+    ]),
   })
   .extend({
-    relationships: z.lazy(() => ServiceSchema.array().optional()),
+    relationships: z.union([
+      z.string().uuid().array().optional(),
+      z.lazy(() => ServiceSchema.array().optional()),
+    ]),
   });
