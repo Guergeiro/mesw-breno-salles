@@ -1,4 +1,7 @@
+import { AuthGuard } from "@common/auth/auth.guard";
+import { UserDecorator } from "@common/auth/user.decorator";
 import { PaginatorQueryDto } from "@common/paginator/paginator-query.dto";
+import { User } from "@domain/entities/user.entity";
 import {
   BadRequestException,
   Body,
@@ -11,11 +14,12 @@ import {
   Query,
   Sse,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
 import { EventPattern } from "@nestjs/microservices";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { ToolControllerOutput } from "shared-tools";
 import { CreateResultRequestDto } from "./use-cases/create-result/create-result-request.dto";
 import { CreateResultService } from "./use-cases/create-result/create-result.service";
@@ -49,13 +53,20 @@ export class ResultsController {
   }
 
   @Get(":id")
-  public async getResult(@Param("id") id: string) {
-    return await this.getResultService.execute(id);
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  public async getResult(@UserDecorator() user: User, @Param("id") id: string) {
+    return await this.getResultService.execute(user, id);
   }
 
   @Get()
-  public async getResults(@Query() query: PaginatorQueryDto) {
-    return await this.getResultsService.execute(query);
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  public async getResults(
+    @UserDecorator() user: User,
+    @Query() query: PaginatorQueryDto
+  ) {
+    return await this.getResultsService.execute(user, query);
   }
 
   @Post()
@@ -64,7 +75,10 @@ export class ResultsController {
     type: CreateResultRequestDto,
   })
   @UseInterceptors(FileInterceptor("file"))
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   public async createResult(
+    @UserDecorator() user: User,
     @Body() body: CreateResultRequestDto,
     @UploadedFile(
       new ParseFilePipeBuilder()
@@ -80,7 +94,7 @@ export class ResultsController {
     if (file == null) {
       throw new BadRequestException();
     }
-    return await this.createResultService.execute(body, file);
+    return await this.createResultService.execute(user, body, file);
   }
 
   @EventPattern("end")

@@ -7,6 +7,7 @@ import { useStore } from "@nanostores/solid";
 import { DecompositionsSelectedStore } from "@stores/decompositions-selected.store";
 import { PendingResultsStore } from "@stores/pending-results.store";
 import { ResultsSelectedStore } from "@stores/results-selected.store";
+import { CurrentUserStore } from "@stores/current-user.store";
 import { computed } from "nanostores";
 import {
   CreatePaginationSchema,
@@ -35,17 +36,25 @@ import {
 } from "solid-js";
 import { z } from "zod";
 
-async function getResults(url: URL) {
-  const res = await fetch(url);
+async function getResults(url: URL, user: string) {
+  const res = await fetch(url, {
+    headers: {
+      "authorization": `Bearer ${user}`
+    }
+  });
   if (res.ok === false) {
     throw new Error(res.statusText);
   }
   return await res.json();
 }
 
-async function getResult(id: string) {
+async function getResult(id: string, user: string) {
   const url = new URL(`results/${id}`, API_URL);
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      "authorization": `Bearer ${user}`
+    }
+  });
   if (res.ok === false) {
     throw new Error(res.statusText);
   }
@@ -67,8 +76,10 @@ const ResultsSelection: Component = () => {
     return url;
   });
 
+  const user = useStore(CurrentUserStore)
+
   const [response] = createResource(url, function () {
-    return getResults(url());
+    return getResults(url(), user());
   });
 
   const parsedData = createMemo(() => {
@@ -245,7 +256,10 @@ const TableRow: Component<{
 };
 
 const ExpandableRow: Component<{ result: string }> = (props) => {
-  const [response] = createResource(props.result, getResult);
+  const user = useStore(CurrentUserStore)
+  const [response] = createResource(props.result, function () {
+    return getResult(props.result, user())
+  });
 
   const parsedData = createMemo(() => {
     const parsed = ResultSchema.safeParse(response());

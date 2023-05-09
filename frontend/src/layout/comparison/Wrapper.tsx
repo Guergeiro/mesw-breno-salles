@@ -2,6 +2,7 @@ import Anchor from "@components/Anchor";
 import Button from "@components/Button";
 import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
+import { CurrentUserStore } from "@stores/current-user.store";
 import { DecompositionsSelectedStore } from "@stores/decompositions-selected.store";
 import { DecompositionsStore } from "@stores/decompositions.store";
 import { ForcedGraphMode } from "@stores/forced-graph-mode.store";
@@ -29,8 +30,12 @@ import { ShowModulesStore } from "./show-modules.store";
 import { ShowServicesSidebarStore } from "./show-services-sidebar.store";
 import ThreeWayComparison from "./ThreeWayComparison";
 
-async function getDecompositions(url: URL) {
-  const res = await fetch(url);
+async function getDecompositions(url: URL, user: string) {
+  const res = await fetch(url, {
+    headers: {
+      "authorization": `Bearer ${user}`
+    }
+  });
   if (res.ok === false) {
     throw new Error(res.statusText);
   }
@@ -63,8 +68,10 @@ const Wrapper: ParentComponent = (props) => {
     return url;
   });
 
+  const user = useStore(CurrentUserStore)
+
   const [response] = createResource(url, function () {
-    return getDecompositions(url());
+    return getDecompositions(url(), user());
   });
 
   const parsedData = createMemo(() => {

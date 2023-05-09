@@ -4,6 +4,7 @@ import { Injectable } from "@nestjs/common";
 import { GetDecompositionsQueryDto } from "./get-decompositions-query.dto";
 import { FilterQuery, serialize } from "@mikro-orm/core";
 import { Decomposition } from "@domain/entities/decomposition.entity";
+import { User } from "@domain/entities/user.entity";
 
 @Injectable()
 export class GetDecompositionsService {
@@ -18,10 +19,14 @@ export class GetDecompositionsService {
     this.paginatorService = paginatorService;
   }
 
-  public async execute(query: GetDecompositionsQueryDto) {
+  public async execute(user: User, query: GetDecompositionsQueryDto) {
     const { offset, limit } = this.paginatorService.paginate(query);
 
-    const filterQuery: FilterQuery<Decomposition> = {};
+    const filterQuery: FilterQuery<Decomposition> = {
+      result: {
+        owner: user,
+      },
+    };
     if (query.id != null) {
       filterQuery.id = {
         $in: query.id,

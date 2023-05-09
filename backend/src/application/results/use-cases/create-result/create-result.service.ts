@@ -1,5 +1,6 @@
 import { JobsService } from "@common/jobs/jobs.service";
 import { Result } from "@domain/entities/result.entity";
+import { User } from "@domain/entities/user.entity";
 import { ResultRepository } from "@domain/repositories/result.repository";
 import { ToolRepository } from "@domain/repositories/tool.repository";
 import { Injectable } from "@nestjs/common";
@@ -27,6 +28,7 @@ export class CreateResultService {
   }
 
   public async execute(
+    user: User,
     { tool, ...rest }: CreateResultRequestDto,
     file: Express.Multer.File
   ) {
@@ -35,6 +37,7 @@ export class CreateResultService {
     const result = new Result();
     result.id = randomUUID();
     result.tool = dbTool;
+    result.owner = user;
 
     await this.s3ClientService.createObject({
       id: result.id,

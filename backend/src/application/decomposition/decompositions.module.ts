@@ -1,5 +1,6 @@
 import { CommonModule } from "@common/common.module";
 import { Decomposition } from "@domain/entities/decomposition.entity";
+import { User } from "@domain/entities/user.entity";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { CacheModule, Module } from "@nestjs/common";
 import { DecompositionsController } from "./decompositions.controller";
@@ -9,7 +10,7 @@ import { GetDecompositionsService } from "./use-cases/get-decompositions/get-dec
 @Module({
   controllers: [DecompositionsController],
   imports: [
-    MikroOrmModule.forFeature([Decomposition]),
+    MikroOrmModule.forFeature([Decomposition, User]),
     CacheModule.register({
       ttl: 3600000,
     }),

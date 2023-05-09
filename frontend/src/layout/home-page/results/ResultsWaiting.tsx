@@ -88,7 +88,6 @@ const ResultsWaiting: Component = () => {
 export default ResultsWaiting;
 
 const TableRow: Component<{ result: ResultSchema }> = (props) => {
-  console.log(props);
   const name = createMemo(() => {
     if (typeof props.result.tool === "string") {
       return props.result.tool;

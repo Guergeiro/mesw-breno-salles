@@ -1,5 +1,21 @@
 <script>
-  window.addEventListener("beforeunload", () => {
-    localStorage.clear();
+  import { API_URL } from "@env";
+  import { CurrentUserStore } from "@stores/current-user.store.ts";
+
+  async function createUser() {
+    const res = await fetch(new URL("users", API_URL), {
+      method: "POST",
+    });
+    if (res.ok !== true) {
+      throw new Error();
+    }
+    const data = await res.json();
+    return data;
+  }
+  CurrentUserStore.subscribe(async function (value) {
+    if (value == null) {
+      const { id } = await createUser();
+      CurrentUserStore.set(id);
+    }
   });
 </script>

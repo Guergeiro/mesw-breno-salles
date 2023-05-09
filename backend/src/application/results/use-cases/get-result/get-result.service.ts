@@ -1,3 +1,4 @@
+import { User } from "@domain/entities/user.entity";
 import { ResultRepository } from "@domain/repositories/result.repository";
 import { Injectable } from "@nestjs/common";
 
@@ -9,9 +10,9 @@ export class GetResultService {
     this.resultRepository = resultRepository;
   }
 
-  public async execute(id: string) {
+  public async execute(user: User, id: string) {
     return await this.resultRepository.findOneOrFail(
-      { id: id },
+      { id: id, owner: user },
       {
         populate: ["tool", "tool.languages", "decompositions"],
       }

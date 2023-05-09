@@ -13,6 +13,7 @@ import {
 import { BaseEntity } from "./base.entity";
 import { Decomposition } from "./decomposition.entity";
 import { Tool } from "./tool.entity";
+import { User } from "./user.entity";
 
 @Embeddable()
 export class Parameters {
@@ -27,6 +28,9 @@ export class Parameters {
 export class Result extends BaseEntity {
   @ManyToOne()
   public tool!: Tool;
+
+  @ManyToOne({ hidden: true })
+  public owner!: User;
 
   @Enum(() => Status)
   public status: Status = Status.STARTED;

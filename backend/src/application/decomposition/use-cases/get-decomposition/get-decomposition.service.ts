@@ -1,3 +1,4 @@
+import { User } from "@domain/entities/user.entity";
 import { DecompositionRepository } from "@domain/repositories/decomposition.repository";
 import { serialize } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
@@ -10,9 +11,14 @@ export class GetDecompositionService {
     this.decompositionRepository = decompositionRepository;
   }
 
-  public async execute(id: string) {
+  public async execute(user: User, id: string) {
     const decomposition = await this.decompositionRepository.findOneOrFail(
-      { id },
+      {
+        id,
+        result: {
+          owner: user,
+        },
+      },
       {
         populate: [
           "services",

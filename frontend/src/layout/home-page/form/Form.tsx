@@ -1,5 +1,6 @@
 import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
+import { CurrentUserStore } from "@stores/current-user.store";
 import { SetPendingResult } from "@stores/pending-results.store";
 import { ResultSchema } from "shared-schemas";
 import { Component, createMemo, Show } from "solid-js";
@@ -25,18 +26,22 @@ const PromiseResults = z
   .array();
 export type PromiseResults = z.infer<typeof PromiseResults>;
 
-async function submitForms(forms: FormData[]) {
+async function submitForms(forms: FormData[], user: string) {
   const promises = forms.map(function (form) {
-    return submitForm(form);
+    return submitForm(form, user);
   });
   const results = await Promise.allSettled(promises);
   const parsedResults = PromiseResults.parse(results);
   return parsedResults;
 }
 
-async function submitForm(form: FormData) {
+async function submitForm(form: FormData, user: string) {
   const url = new URL("results", API_URL);
-  const res = await fetch(url, { method: "POST", body: form });
+  const res = await fetch(url, { method: "POST", body: form,
+    headers: {
+      "authorization": `Bearer ${user}`
+    }
+  });
   ProjectUploadStore.set(null);
 
   if (res.ok === false) {
@@ -78,10 +83,11 @@ const Form: Component = () => {
   });
 
   const projectUploadStore = useStore(ProjectUploadStore);
+  const user = useStore(CurrentUserStore)
 
   async function onSubmit() {
     const forms = buildForms();
-    const response = await submitForms(forms);
+    const response = await submitForms(forms, user());
     return response;
   }
 
@@ -112,9 +118,7 @@ const Form: Component = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           const response = await onSubmit();
-          console.log(response);
           const fulfilled = getFulfilledResults(response);
-          console.log(fulfilled);
           setPendingResults(fulfilled);
           HomePageStepsStore.set(HomePageStep.RESULTS_WAITING);
         }}

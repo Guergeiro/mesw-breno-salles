@@ -11,3 +11,7 @@ import Comparison from "@layout/comparison/Comparison.astro";
   </Sidebar>
   <Footer slot="footer" />
 </Page>
+<script>
+  import { DecompositionsSelectedStore } from "@stores/decompositions-selected.store";
+  DecompositionsSelectedStore.set({});
+</script>
