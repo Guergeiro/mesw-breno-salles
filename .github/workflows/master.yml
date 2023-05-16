@@ -1,0 +1,122 @@
+name: Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  code-quality:
+    # Only one OS is required since fmt is cross platform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check `pnpm format` passes
+        run: pnpm format:check
+
+      - name: Check `pnpm lint` passes
+        run: pnpm lint:check
+
+      - name: Check `pnpm type` passes
+        run: pnpm type:check
+
+  build:
+    needs: code-quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Remove dependencies
+        run: find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+      - name: Clean extra files
+        run: |
+          rm .gitignore &&
+          rm .dockerignore &&
+          rm -rdf .git &&
+          rm -rdf .sota
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: directory
+          path: ./
+
+  deploy-apps:
+    needs: [code-quality, build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [backend, frontend]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: directory
+          path: ./directory
+      - name: Prepare envs
+        run: |
+          echo "PROD_DOCKERFILE=${{ matrix.app }}/Dockerfile.prod" >> $GITHUB_ENV
+          echo "DOCKERFILE=Dockerfile" >> $GITHUB_ENV
+      - name: Rename dockerfile
+        working-directory: directory
+        run: |
+          mv \
+          ${{ env.PROD_DOCKERFILE }} \
+          ${{ env.DOCKERFILE }}
+      - name: Install Railway
+        run: npm i -g @railway/cli
+      - name: Deploy
+        run: railway up --service ${{ matrix.app }}
+        working-directory: directory
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  deploy-tools:
+    needs: [code-quality, build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [miguel-brito]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: directory
+          path: ./directory
+      - name: Prepare envs
+        run: |
+          echo "PROD_DOCKERFILE=tools/${{ matrix.app }}/Dockerfile.prod" >> $GITHUB_ENV
+          echo "DOCKERFILE=Dockerfile" >> $GITHUB_ENV
+      - name: Rename dockerfile
+        working-directory: directory
+        run: |
+          mv \
+          ${{ env.PROD_DOCKERFILE }} \
+          ${{ env.DOCKERFILE }}
+      - name: Install Railway
+        run: npm i -g @railway/cli
+      - name: Deploy
+        run: railway up --service ${{ matrix.app }}
+        working-directory: directory
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

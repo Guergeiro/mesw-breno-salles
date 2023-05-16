@@ -37,10 +37,12 @@ async function submitForms(forms: FormData[], user: string) {
 
 async function submitForm(form: FormData, user: string) {
   const url = new URL("results", API_URL);
-  const res = await fetch(url, { method: "POST", body: form,
+  const res = await fetch(url, {
+    method: "POST",
+    body: form,
     headers: {
-      "authorization": `Bearer ${user}`
-    }
+      authorization: `Bearer ${user}`,
+    },
   });
   ProjectUploadStore.set(null);
 
@@ -74,7 +76,7 @@ const Form: Component = () => {
   const selectedTools = createMemo(() => {
     const selected: string[] = [];
     for (const [key, value] of Object.entries(toolsSelectedStore())) {
-      if (value === true) {
+      if (value != null) {
         selected.push(key);
       }
     }
@@ -83,7 +85,7 @@ const Form: Component = () => {
   });
 
   const projectUploadStore = useStore(ProjectUploadStore);
-  const user = useStore(CurrentUserStore)
+  const user = useStore(CurrentUserStore);
 
   async function onSubmit() {
     const forms = buildForms();

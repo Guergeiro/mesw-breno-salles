@@ -1,0 +1,10 @@
+{
+  "entry": ["index.ts"],
+  "splitting": true,
+  "sourcemap": true,
+  "minify": true,
+  "format": ["cjs", "esm"],
+  "treeshake": true,
+  "shims": true
+}
+

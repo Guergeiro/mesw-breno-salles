@@ -6,11 +6,12 @@
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "syncpack": "^8.5.14",
     "typescript": "^4.9.5"
   },
   "scripts": {
+    "build": "pnpm --recursive --parallel build",
     "format": "prettier --write \"{backend,frontend,shared,tools}/**/*.{ts,tsx,css,html,astro}\"",
     "format:check": "prettier --check \"{backend,frontend,shared,tools}/**/*.{ts,tsx,css,html,astro}\"",
     "lint": "eslint \"{backend,frontend,shared,tools}/**/*.{ts,tsx}\" --fix",
@@ -18,6 +19,6 @@
     "sync:format": "syncpack format",
     "sync:mismatches": "syncpack fix-mismatches",
     "sync:set-semver": "syncpack set-semver-ranges --semver-range ^",
-    "test": "pnpm test --recursive"
+    "type:check": "pnpm --recursive --parallel type:check"
   }
 }

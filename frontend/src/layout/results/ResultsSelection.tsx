@@ -39,8 +39,8 @@ import { z } from "zod";
 async function getResults(url: URL, user: string) {
   const res = await fetch(url, {
     headers: {
-      "authorization": `Bearer ${user}`
-    }
+      authorization: `Bearer ${user}`,
+    },
   });
   if (res.ok === false) {
     throw new Error(res.statusText);
@@ -52,8 +52,8 @@ async function getResult(id: string, user: string) {
   const url = new URL(`results/${id}`, API_URL);
   const res = await fetch(url, {
     headers: {
-      "authorization": `Bearer ${user}`
-    }
+      authorization: `Bearer ${user}`,
+    },
   });
   if (res.ok === false) {
     throw new Error(res.statusText);
@@ -76,7 +76,7 @@ const ResultsSelection: Component = () => {
     return url;
   });
 
-  const user = useStore(CurrentUserStore)
+  const user = useStore(CurrentUserStore);
 
   const [response] = createResource(url, function () {
     return getResults(url(), user());
@@ -256,9 +256,9 @@ const TableRow: Component<{
 };
 
 const ExpandableRow: Component<{ result: string }> = (props) => {
-  const user = useStore(CurrentUserStore)
+  const user = useStore(CurrentUserStore);
   const [response] = createResource(props.result, function () {
-    return getResult(props.result, user())
+    return getResult(props.result, user());
   });
 
   const parsedData = createMemo(() => {
@@ -281,16 +281,15 @@ const ExpandableRow: Component<{ result: string }> = (props) => {
       <td colspan="6">
         <Show
           when={response.loading === false}
-          fallback={() => {
-            return (
-              <div class="m-4">
-                <FaSolidSpinner
-                  size={24}
-                  class={`rotate-center dark:text-gray-600 fill-blue-600 mx-auto`}
-                />
-              </div>
-            );
-          }}
+          fallback={
+            <div class="m-4">
+              {" "}
+              <FaSolidSpinner
+                size={24}
+                class={`rotate-center dark:text-gray-600 fill-blue-600 mx-auto`}
+              />{" "}
+            </div>
+          }
         >
           <ExpandableTable>
             <For each={parsedData()}>

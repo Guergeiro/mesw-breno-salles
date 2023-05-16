@@ -35,8 +35,6 @@ function host() {
   return {
     URL: process.env.URL_ROOT || "0.0.0.0",
     PORT: parseInt(process.env.PORT || "8000"),
-    APP_URL: process.env.APP_URL || "0.0.0.0",
-    APP_PORT: parseInt(process.env.APP_PORT || "50001"),
   };
 }
 
@@ -51,7 +49,6 @@ function redis() {
 
 function s3() {
   return {
-    ENDPOINT: process.env.S3_ENDPOINT,
     ACCESS_KEY: process.env.S3_ACCESS_KEY,
     SECRET_KEY: process.env.S3_SECRET_KEY,
     REGION: process.env.S3_REGION,

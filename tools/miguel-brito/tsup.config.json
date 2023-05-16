@@ -1,0 +1,10 @@
+{
+  "entry": ["src/**/*.ts"],
+  "splitting": true,
+  "sourcemap": true,
+  "minify": true,
+  "format": ["cjs"],
+  "treeshake": true,
+  "shims": true
+}
+

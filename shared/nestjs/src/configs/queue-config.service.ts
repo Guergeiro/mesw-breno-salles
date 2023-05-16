@@ -22,6 +22,8 @@ export class QueueConfigService implements SharedBullConfigurationFactory {
       redis: {
         host: HOST,
         port: PORT,
+        user: this.configService.get<string>("queue.USER"),
+        password: this.configService.get<string>("queue.PASSWORD"),
       },
     };
   }

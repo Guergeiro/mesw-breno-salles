@@ -37,11 +37,10 @@ RUN pip3 install -r requirements.txt
 
 FROM guergeiro/pnpm:18-8 as node_install
 WORKDIR /usr/src/app
-COPY . ./
-RUN pnpm install
+COPY . .
+RUN pnpm install --prod
 RUN rm -rdf backend
 RUN rm -rdf frontend
-RUN rm -rdf tools/dongjin-yu
 
 FROM ubuntu:focal
 RUN apt-get update
@@ -57,7 +56,6 @@ RUN apt-get install curl -y
 ENV SHELL="/bin/bash"
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install nodejs -y
-RUN npm install --global pnpm@8
 
 WORKDIR /usr/src/app
 COPY --from=pip_install /root/.cache/pip /root/.cache/pip
@@ -70,4 +68,5 @@ RUN pip3 install -r requirements.txt
 COPY --from=node_install /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app/tools/miguel-brito
-CMD pnpm dev
+CMD ["node", "dist/index.js"]
+

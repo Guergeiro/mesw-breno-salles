@@ -1,9 +1,7 @@
-FROM guergeiro/pnpm:18-8 as cache
+FROM guergeiro/pnpm:18-8
 WORKDIR /usr/src/app
-COPY pnpm-lock.yaml .
-RUN pnpm fetch
 COPY . ./
-RUN pnpm install --prefer-offline --recursive --shamefully-hoist
+RUN pnpm install --shamefully-hoist
 RUN rm -rdf backend
 RUN rm -rdf tools
 WORKDIR /usr/src/app/frontend

@@ -37,7 +37,7 @@ services:
     command: >
       "
       sleep 10;
-      aws --endpoint-url=http://localstack:4566 s3api create-bucket --bucket projects --acl private;
+      aws --endpoint-url=http://localstack:4566 s3api create-bucket --bucket mesw-breno-salles --acl private;
       "
     depends_on:
       - localstack
@@ -56,18 +56,12 @@ services:
       POSTGRES_URI: postgres://app_user:password@postgres:5432/app_db
       REDIS_HOST: broker
       REDIS_PORT: 6379
-      S3_ENDPOINT: http://localstack:4566
       S3_REGION: us-east-1
       S3_ACCESS_KEY: test
       S3_SECRET_KEY: test
     volumes:
       - ./backend:/usr/src/app/backend
-      - /usr/src/app/backend/temp
-      - /usr/src/app/backend/node_modules
-
       - ./shared:/usr/src/app/shared
-      - /usr/src/app/shared/nestjs/node_modules
-      - /usr/src/app/shared/tools/node_modules
     ports:
       - "3000:50000"
   frontend:
@@ -78,11 +72,7 @@ services:
     restart: always
     volumes:
       - ./frontend:/usr/src/app/frontend
-      - /usr/src/app/frontend/node_modules
-
       - ./shared:/usr/src/app/shared
-      - /usr/src/app/shared/nestjs/node_modules
-      - /usr/src/app/shared/tools/node_modules
     ports:
       - "3001:3000"
   tool-queue:
@@ -106,8 +96,22 @@ services:
       S3_SECRET_KEY: test
     volumes:
       - ./tools/miguel-brito:/usr/src/app/tools/miguel-brito
-      - /usr/src/app/tools/miguel-brito/node_modules
-
       - ./shared:/usr/src/app/shared
-      - /usr/src/app/shared/nestjs/node_modules
-      - /usr/src/app/shared/tools/node_modules
+  dongjin-yu:
+    build:
+      context: .
+      dockerfile: tools/dongjin-yu/Dockerfile.dev
+    container_name: mesw-breno-salles_dongjin-yu
+    restart: always
+    environment:
+      REDIS_HOST: broker
+      REDIS_PORT: 6379
+      QUEUE_HOST: tool-queue
+      QUEUE_PORT: 6379
+      S3_ENDPOINT: http://localstack:4566
+      S3_REGION: us-east-1
+      S3_ACCESS_KEY: test
+      S3_SECRET_KEY: test
+    volumes:
+      - ./tools/dongjin-yu:/usr/src/app/tools/dongjin-yu
+      - ./shared:/usr/src/app/shared

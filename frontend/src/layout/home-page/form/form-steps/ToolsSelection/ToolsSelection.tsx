@@ -14,6 +14,7 @@ import {
   Signal,
 } from "solid-js";
 import { z } from "zod";
+import { LanguagesSelectedStore } from "./LanguagesSelectedStore";
 import { ToolsSelectionStore } from "./ToolsSelectionStore";
 
 async function getTools(url: URL) {
@@ -21,7 +22,7 @@ async function getTools(url: URL) {
   return await res.json();
 }
 
-function setValue(id: string, value: boolean) {
+function setValue(id: string, value: ToolSchema | null) {
   ToolsSelectionStore.setKey(id, value);
 }
 
@@ -86,6 +87,21 @@ const TableRow: Component<{ tool: ToolSchema }> = (props) => {
     return value != null;
   });
 
+  const languagesStore = useStore(LanguagesSelectedStore);
+
+  const isDisabled = createMemo(() => {
+    const set = new Set<string>();
+    for (const { id } of props.tool.languages || []) {
+      set.add(id);
+    }
+    for (const id of languagesStore()) {
+      if (set.has(id) === false) {
+        return true;
+      }
+    }
+    return false;
+  });
+
   return (
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <th
@@ -102,10 +118,19 @@ const TableRow: Component<{ tool: ToolSchema }> = (props) => {
           <input
             id={props.tool.id}
             type="checkbox"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+            classList={{
+              "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600":
+                true,
+              "cursor-pointer": isDisabled() === false,
+            }}
+            disabled={isDisabled()}
             checked={isChecked()}
-            onChange={(e) => {
-              setValue(props.tool.id, e.currentTarget.checked);
+            onChange={({ currentTarget }) => {
+              if (currentTarget.checked === true) {
+                setValue(props.tool.id, props.tool);
+              } else {
+                setValue(props.tool.id, null);
+              }
             }}
           />
           <label for={props.tool.id} class="sr-only">

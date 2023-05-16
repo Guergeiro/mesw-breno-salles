@@ -19,7 +19,7 @@ const FormSteps: Component = () => {
   const selectedTools = createMemo(() => {
     const selected: string[] = [];
     for (const [key, value] of Object.entries(toolsSelectedStore())) {
-      if (value === true) {
+      if (value != null) {
         selected.push(key);
       }
     }

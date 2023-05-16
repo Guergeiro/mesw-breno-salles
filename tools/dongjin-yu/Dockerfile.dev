@@ -1,0 +1,32 @@
+FROM ubuntu:latest as git
+RUN apt-get update
+RUN apt-get install git -y
+
+FROM git as tool_clone
+WORKDIR /usr/src/app
+RUN git clone --single-branch https://github.com/Guergeiro/mesw-msdecomposer.git tool
+
+FROM guergeiro/pnpm:18-8 as node_install
+WORKDIR /usr/src/app
+COPY . ./
+RUN pnpm install
+RUN rm -rdf backend
+RUN rm -rdf frontend
+RUN rm -rdf tools/miguel-brito
+
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install python3 -y
+RUN apt-get install curl -y
+ENV SHELL="/bin/bash"
+
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install nodejs -y
+RUN npm install --global pnpm@8
+
+WORKDIR /usr/src/app
+COPY --from=tool_clone /usr/src/app/tool tool
+COPY --from=node_install /usr/src/app /usr/src/app
+
+WORKDIR /usr/src/app/tools/dongjin-yu
+CMD pnpm dev

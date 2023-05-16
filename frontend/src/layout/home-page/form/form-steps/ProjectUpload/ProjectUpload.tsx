@@ -1,5 +1,8 @@
 import FileInput from "@components/FileInput";
+import { useStore } from "@nanostores/solid";
+import { computed } from "nanostores";
 import { Component } from "solid-js";
+import { ToolsSelectionStore } from "../ToolsSelection/ToolsSelectionStore";
 import { ProjectUploadStore } from "./ProjectUploadStore";
 
 function handleFileInput({ target }: InputEvent) {
@@ -15,14 +18,27 @@ function handleFileInput({ target }: InputEvent) {
 }
 
 const ProjectUpload: Component = () => {
+  const filetype = useStore(
+    computed(ToolsSelectionStore, (store) => {
+      for (const tool of Object.values(store || {})) {
+        for (const { slug } of tool?.languages || []) {
+          if (slug === "openapi") {
+            return ".json";
+          }
+        }
+      }
+      return ".zip";
+    })
+  );
+
   return (
     <>
       <FileInput
         inputId="project-file"
-        text="ZIP"
+        text={filetype()}
         label={"Upload project"}
         onInput={handleFileInput}
-        accept=".zip"
+        accept={filetype()}
       />
     </>
   );

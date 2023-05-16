@@ -134,6 +134,9 @@ web_modules/
 # MikroOrm temp
 temp
 
+# Astro generated types
+.astro
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

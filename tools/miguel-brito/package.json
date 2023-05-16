@@ -16,16 +16,21 @@
     "shared-tools": "workspace:shared-tools*"
   },
   "devDependencies": {
+    "@swc/core": "^1.3.58",
     "@total-typescript/ts-reset": "^0.3.7",
     "@types/adm-zip": "^0.5.0",
     "@types/node": "^18.13.0",
     "dotenv": "^16.0.3",
     "node-dev": "^8.0.0",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.1.2"
+    "tsconfig-paths": "^4.1.2",
+    "tsup": "^6.7.0"
   },
   "scripts": {
-    "build": "tsc --project .",
-    "dev": "node-dev src/index.ts"
+    "build": "pnpm build:js && pnpm build:dts",
+    "build:dts": "tsc --project tsconfig.json --emitDeclarationOnly",
+    "build:js": "tsup",
+    "dev": "node-dev src/index.ts",
+    "type:check": "tsc --project tsconfig.json --noEmit"
   }
 }

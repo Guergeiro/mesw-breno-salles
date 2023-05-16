@@ -33,8 +33,8 @@ import ThreeWayComparison from "./ThreeWayComparison";
 async function getDecompositions(url: URL, user: string) {
   const res = await fetch(url, {
     headers: {
-      "authorization": `Bearer ${user}`
-    }
+      authorization: `Bearer ${user}`,
+    },
   });
   if (res.ok === false) {
     throw new Error(res.statusText);
@@ -68,7 +68,7 @@ const Wrapper: ParentComponent = (props) => {
     return url;
   });
 
-  const user = useStore(CurrentUserStore)
+  const user = useStore(CurrentUserStore);
 
   const [response] = createResource(url, function () {
     return getDecompositions(url(), user());

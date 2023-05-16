@@ -7,9 +7,7 @@ import { CreateUserService } from "./use-cases/create-user/create-user.service";
 export class UsersController {
   private readonly createUserService: CreateUserService;
 
-  public constructor(
-createUserService: CreateUserService,
-  ) {
+  public constructor(createUserService: CreateUserService) {
     this.createUserService = createUserService;
   }
 

@@ -10,25 +10,18 @@ export type S3RequiredFile = {
 
 @Injectable()
 export class S3ClientService {
-  private readonly bucket = "projects";
+  private readonly bucket = "mesw-breno-salles";
   private readonly client: S3;
 
   public constructor(configService: ConfigService) {
     const accessKeyId = configService.get<string>("s3.ACCESS_KEY");
     const secretAccessKey = configService.get<string>("s3.SECRET_KEY");
     const region = configService.get<string>("s3.REGION");
-    const endpoint = configService.get<string>("s3.ENDPOINT");
-    if (
-      accessKeyId == null ||
-      secretAccessKey == null ||
-      region == null ||
-      endpoint == null
-    ) {
+    if (accessKeyId == null || secretAccessKey == null || region == null) {
       throw new Error();
     }
     const s3Config: S3ClientConfig = {
       region,
-      endpoint,
       credentials: {
         accessKeyId,
         secretAccessKey,
@@ -38,6 +31,7 @@ export class S3ClientService {
       configService.get<string>("NODE_ENV") !== "development";
 
     if (isProduction === false) {
+      s3Config.endpoint = "http://localstack:4566";
       s3Config.forcePathStyle = true;
       s3Config.tls = false;
     }
