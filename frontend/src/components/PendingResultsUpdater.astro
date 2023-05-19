@@ -1,4 +1,4 @@
-<script>
+<script defer="true">
   import { API_URL } from "@env";
   import { SetPendingResult } from "@stores/pending-results.store.ts";
   const sseSource = new EventSource(new URL("results/sse", API_URL));
