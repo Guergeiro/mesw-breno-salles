@@ -36,17 +36,21 @@ import { DatabaseSeeder } from "@seeders/database.seeder";
 })
 export class AppModule implements NestModule, OnModuleInit {
   private readonly orm: MikroORM;
+  private readonly configService: ConfigService;
 
-  public constructor(orm: MikroORM) {
+  public constructor(orm: MikroORM, configService: ConfigService) {
     this.orm = orm;
+    this.configService = configService;
   }
 
   public async onModuleInit() {
     const generator = this.orm.getSchemaGenerator();
     await generator.ensureDatabase();
-    await generator.dropSchema();
-    await generator.createSchema();
-    await generator.updateSchema();
+    if (this.configService.get<string>("NODE_ENV") !== "production") {
+      await generator.dropSchema();
+      await generator.createSchema();
+      await generator.updateSchema();
+    }
     await this.orm.getSeeder().seed(DatabaseSeeder);
   }
 

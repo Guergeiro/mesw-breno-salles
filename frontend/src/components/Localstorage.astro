@@ -12,10 +12,23 @@
     const data = await res.json();
     return data;
   }
+
+  async function getUser(id: string) {
+    const res = await fetch(new URL("users", API_URL), {
+      method: "POST",
+    });
+    return res.ok;
+  }
+
   CurrentUserStore.subscribe(async function (value) {
     if (value == null) {
       const { id } = await createUser();
       CurrentUserStore.set(id);
+    } else {
+      const ok = await getUser(value);
+      if (ok === false) {
+        CurrentUserStore.set(null);
+      }
     }
   });
 </script>

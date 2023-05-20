@@ -1,5 +1,12 @@
 import { LanguageRepository } from "@domain/repositories/language.repository";
-import { Collection, Entity, ManyToMany, Property } from "@mikro-orm/core";
+import {
+  Collection,
+  Entity,
+  Index,
+  ManyToMany,
+  Property,
+  Unique,
+} from "@mikro-orm/core";
 import { BaseEntity } from "./base.entity";
 import { Tool } from "./tool.entity";
 
@@ -9,6 +16,8 @@ export class Language extends BaseEntity {
   public name = "";
 
   @Property()
+  @Unique()
+  @Index()
   public slug = "";
 
   @ManyToMany(() => Tool, (tool) => tool.languages)

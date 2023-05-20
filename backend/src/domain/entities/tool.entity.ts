@@ -2,9 +2,11 @@ import { ToolRepository } from "@domain/repositories/tool.repository";
 import {
   Collection,
   Entity,
+  Index,
   ManyToMany,
   OneToMany,
   Property,
+  Unique,
 } from "@mikro-orm/core";
 import { BaseEntity } from "./base.entity";
 import { Language } from "./language.entity";
@@ -16,6 +18,8 @@ export class Tool extends BaseEntity {
   public name = "";
 
   @Property()
+  @Unique()
+  @Index()
   public slug = "";
 
   @OneToMany(() => Result, (result) => result.tool)
