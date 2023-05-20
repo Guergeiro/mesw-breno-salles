@@ -1,9 +1,6 @@
 FROM guergeiro/pnpm:18-8 as production
 WORKDIR /usr/src/app
 COPY . .
-RUN pnpm install
-RUN pnpm build
-RUN find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 RUN pnpm install --prod
 RUN rm -rdf backend
 RUN rm -rdf tools

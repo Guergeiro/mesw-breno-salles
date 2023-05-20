@@ -1,23 +1,22 @@
 ---
 import Page from "@components/Page.astro";
 import Footer from "@components/Footer.astro";
-import Sidebar from "@components/Sidebar.tsx";
+import Topbar from "@components/Topbar.astro";
 import InfoBanner from "@components/InfoBanner.tsx";
 import Results from "@layout/results/Results.astro";
 ---
 
 <Page title="Results">
-  <Sidebar client:load>
-    <div class="my-2">
-      <InfoBanner client:load>
-        In this area, you select the results you want to compare, up to <span
-          class="font-bold">5</span
-        >.
-      </InfoBanner>
-    </div>
-    <div class="my-2">
-      <Results />
-    </div>
-  </Sidebar>
+  <Topbar slot="navbar" />
+  <div class="my-2">
+    <InfoBanner client:load>
+      In this area, you select the results you want to compare, up to <span
+        class="font-bold">5</span
+      >.
+    </InfoBanner>
+  </div>
+  <div class="my-2">
+    <Results />
+  </div>
   <Footer slot="footer" />
 </Page>

@@ -118,7 +118,7 @@ const Anchor: ParentComponent<AnchorProps> = (props) => {
   );
   const variantClassList = createMemo(() => {
     if (mergedProps.variant == null) {
-      return props.classList;
+      return props.classList || {};
     }
     return setVariantClassList(mergedProps.variant, props.classList);
   });

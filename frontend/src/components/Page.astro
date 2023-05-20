@@ -14,7 +14,10 @@ import "../styles/index.css";
 <html lang="en">
   <Head title={title} />
   <body>
-    <slot />
+    <slot name="navbar" />
+    <main class="py-16">
+      <slot />
+    </main>
     <slot name="footer" />
     <PendingResultsUpdater />
     <Localstorage />
