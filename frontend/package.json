@@ -10,7 +10,7 @@
     "@nanostores/react": "^0.4.1",
     "@nanostores/solid": "^0.3.2",
     "@react-hook/resize-observer": "^1.2.6",
-    "@solid-primitives/event-listener": "^2.2.12",
+    "@solid-primitives/event-listener": "^2.2.13",
     "astro": "^2.5.0",
     "flowbite": "^1.6.5",
     "hex-rgb": "^5.0.0",
@@ -24,15 +24,15 @@
     "shared-schemas": "workspace:shared-schemas*",
     "shared-tools": "workspace:shared-tools*",
     "solid-icons": "^1.0.4",
-    "solid-js": "^1.4.3",
+    "solid-js": "^1.7.5",
     "tailwindcss": "^3.3.2",
     "three": "^0.152.2",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@types/three": "^0.150.2",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
+    "@types/three": "^0.150.2",
     "prettier": "^2.8.8",
     "prettier-plugin-astro": "^0.8.1"
   },

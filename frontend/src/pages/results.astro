@@ -9,7 +9,7 @@ import Results from "@layout/results/Results.astro";
 <Page title="Results">
   <Topbar slot="navbar" />
   <div class="my-2">
-    <InfoBanner client:load>
+    <InfoBanner client:only="solid-js">
       In this area, you select the results you want to compare, up to <span
         class="font-bold">5</span
       >.

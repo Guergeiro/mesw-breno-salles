@@ -1,4 +1,3 @@
-import Button from "@components/Button";
 import { useStore } from "@nanostores/solid";
 import { Component, createMemo, Match, Switch } from "solid-js";
 import {
@@ -42,34 +41,91 @@ const FormSteps: Component = () => {
       <Switch>
         <Match when={currentStep() === HomePageStep.TOOLS_SELECTION}>
           <ToolsSelection />
-          <Button
-            variant="default"
+          <button
+            type="button"
+            classList={{
+              "focus:outline-none": true,
+              "focus:ring-4": true,
+              "font-medium": true,
+              "rounded-lg": true,
+              "text-sm": true,
+              "px-5": true,
+              "py-2.5": true,
+              "text-white": true,
+              "bg-blue-700": true,
+              "hover:bg-blue-800": true,
+              "focus:ring-blue-300": true,
+              "dark:bg-blue-600": true,
+              "dark:hover:bg-blue-700": true,
+              "dark:focus:ring-blue-800": true,
+              "cursor-not-allowed": hasToolSelected() === false,
+              "opacity-50": hasToolSelected() === false,
+            }}
             disabled={hasToolSelected() === false}
             onClick={() => {
               SetStepByKey(HomePageStep.FILE_INPUT);
             }}
           >
             Next
-          </Button>
+          </button>
         </Match>
         <Match when={currentStep() === HomePageStep.FILE_INPUT}>
           <ProjectUpload />
-          <Button
-            class="mr-2"
-            variant={"alternative"}
+          <button
+            type="button"
+            classList={{
+              "focus:outline-none": true,
+              "focus:ring-4": true,
+              "font-medium": true,
+              "rounded-lg": true,
+              "text-sm": true,
+              "px-5": true,
+              "py-2.5": true,
+              "text-gray-900": true,
+              "bg-white": true,
+              border: true,
+              "border-gray-200": true,
+              "hover:bg-gray-100": true,
+              "hover:text-blue-700": true,
+              "focus:ring-gray-200": true,
+              "dark:focus:ring-gray-700": true,
+              "dark:bg-gray-800": true,
+              "dark:text-gray-400": true,
+              "dark:border-gray-600": true,
+              "dark:hover:text-white": true,
+              "dark:hover:bg-gray-700": true,
+              "mr-2": true,
+            }}
             onClick={() => {
               SetStepByKey(HomePageStep.TOOLS_SELECTION);
             }}
           >
             Previous
-          </Button>
-          <Button
-            variant="default"
+          </button>
+          <button
             type="submit"
+            classList={{
+              "focus:outline-none": true,
+              "focus:ring-4": true,
+              "font-medium": true,
+              "rounded-lg": true,
+              "text-sm": true,
+              "px-5": true,
+              "py-2.5": true,
+              "text-white": true,
+              "bg-blue-700": true,
+              "hover:bg-blue-800": true,
+              "focus:ring-blue-300": true,
+              "dark:bg-blue-600": true,
+              "dark:hover:bg-blue-700": true,
+              "dark:focus:ring-blue-800": true,
+              "cursor-not-allowed": hasFileSelected() === false,
+              "opacity-50": hasFileSelected() === false,
+            }}
             disabled={hasFileSelected() === false}
           >
             Submit
-          </Button>
+          </button>
         </Match>
       </Switch>
     </>

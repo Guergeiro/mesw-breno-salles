@@ -1,5 +1,3 @@
-import Anchor from "@components/Anchor";
-import Button from "@components/Button";
 import TablePagination from "@components/TablePagination";
 import Languages from "@components/tools/Languages";
 import { API_URL } from "@env";
@@ -133,24 +131,69 @@ const ResultsSelection: Component = () => {
           }}
         </For>
       </Table>
-      <Button
-        class="mr-2"
-        variant="alternative"
+      <button
+        type="button"
+        classList={{
+          "focus:outline-none": true,
+          "focus:ring-4": true,
+          "font-medium": true,
+          "rounded-lg": true,
+          "text-sm": true,
+          "px-5": true,
+          "py-2.5": true,
+          "text-gray-900": true,
+          "bg-white": true,
+          border: true,
+          "border-gray-200": true,
+          "hover:bg-gray-100": true,
+          "hover:text-blue-700": true,
+          "focus:ring-gray-200": true,
+          "dark:focus:ring-gray-700": true,
+          "dark:bg-gray-800": true,
+          "dark:text-gray-400": true,
+          "dark:border-gray-600": true,
+          "dark:hover:text-white": true,
+          "dark:hover:bg-gray-700": true,
+          "mr-2": true,
+          "cursor-not-allowed": decompositionSelected().length === 0,
+          "opacity-50": decompositionSelected().length === 0,
+        }}
         disabled={decompositionSelected().length === 0}
         onClick={() => {
           DecompositionsSelectedStore.set({});
         }}
       >
         Clear
-      </Button>
+      </button>
 
-      <Anchor
-        variant="default"
+      <a
+        classList={{
+          "focus:outline-none": true,
+          "focus:ring-4": true,
+          "font-medium": true,
+          "rounded-lg": true,
+          "text-sm": true,
+          "px-5": true,
+          "py-2.5": true,
+          "text-white": true,
+          "bg-blue-700": true,
+          "hover:bg-blue-800": true,
+          "focus:ring-blue-300": true,
+          "dark:bg-blue-600": true,
+          "dark:hover:bg-blue-700": true,
+          "dark:focus:ring-blue-800": true,
+          "cursor-not-allowed": decompositionSelected().length === 0,
+          "opacity-50": decompositionSelected().length === 0,
+        }}
         href="/compare"
-        disabled={decompositionSelected().length === 0}
+        onClick={(e) => {
+          if (decompositionSelected().length === 0) {
+            e.preventDefault();
+          }
+        }}
       >
         Compare
-      </Anchor>
+      </a>
     </>
   );
 };

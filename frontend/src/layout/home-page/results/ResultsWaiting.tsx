@@ -1,5 +1,3 @@
-import Anchor from "@components/Anchor";
-import Button from "@components/Button";
 import { useStore } from "@nanostores/solid";
 import { PendingResultsStore } from "@stores/pending-results.store";
 import { ResultSchema } from "shared-schemas";
@@ -66,22 +64,66 @@ const ResultsWaiting: Component = () => {
           }}
         </For>
       </Table>
-      <Button
+      <button
+        type="button"
+        classList={{
+          "focus:outline-none": true,
+          "focus:ring-4": true,
+          "font-medium": true,
+          "rounded-lg": true,
+          "text-sm": true,
+          "px-5": true,
+          "py-2.5": true,
+          "text-gray-900": true,
+          "bg-white": true,
+          border: true,
+          "border-gray-200": true,
+          "hover:bg-gray-100": true,
+          "hover:text-blue-700": true,
+          "focus:ring-gray-200": true,
+          "dark:focus:ring-gray-700": true,
+          "dark:bg-gray-800": true,
+          "dark:text-gray-400": true,
+          "dark:border-gray-600": true,
+          "dark:hover:text-white": true,
+          "dark:hover:bg-gray-700": true,
+          "mr-2": true,
+        }}
         class="mr-2"
-        variant="alternative"
         onClick={() => {
           HomePageStepsStore.set(HomePageStep.TOOLS_SELECTION);
         }}
       >
         New Decomposition
-      </Button>
-      <Anchor
-        variant="default"
-        disabled={allFinished() === false}
+      </button>
+      <a
+        classList={{
+          "focus:outline-none": true,
+          "focus:ring-4": true,
+          "font-medium": true,
+          "rounded-lg": true,
+          "text-sm": true,
+          "px-5": true,
+          "py-2.5": true,
+          "text-white": true,
+          "bg-blue-700": true,
+          "hover:bg-blue-800": true,
+          "focus:ring-blue-300": true,
+          "dark:bg-blue-600": true,
+          "dark:hover:bg-blue-700": true,
+          "dark:focus:ring-blue-800": true,
+          "cursor-not-allowed": allFinished() === false,
+          "opacity-50": allFinished() === false,
+        }}
         href="/results"
+        onClick={(e) => {
+          if (allFinished() === false) {
+            e.preventDefault();
+          }
+        }}
       >
         View Results
-      </Anchor>
+      </a>
     </Show>
   );
 };

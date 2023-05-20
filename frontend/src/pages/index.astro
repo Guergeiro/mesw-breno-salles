@@ -9,7 +9,7 @@ import HomePage from "@layout/home-page/HomePage.astro";
 <Page title="Home Page">
   <Topbar slot="navbar" />
   <div class="my-2">
-    <InfoBanner client:load>
+    <InfoBanner client:only="solid-js">
       In this area, you select the project you want to decompose into
       microservices.
     </InfoBanner>

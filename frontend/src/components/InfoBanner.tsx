@@ -1,7 +1,6 @@
 import { HiSolidLightBulb } from "solid-icons/hi";
 import { createSignal, ParentComponent } from "solid-js";
 import { FaSolidXmark } from "solid-icons/fa";
-import Button from "./Button";
 
 const InfoBanner: ParentComponent = (props) => {
   const [isHidden, setIsHidden] = createSignal(false);
@@ -24,7 +23,7 @@ const InfoBanner: ParentComponent = (props) => {
         </p>
       </div>
       <div class="flex items-center">
-        <Button
+        <button
           type="button"
           class="flex-shrink-0 inline-flex justify-center items-center text-blue-400 hover:bg-blue-200 hover:text-blue-900 rounded-lg text-sm p-1.5 dark:hover:bg-blue-600 dark:hover:text-white"
           onClick={() => {
@@ -33,7 +32,7 @@ const InfoBanner: ParentComponent = (props) => {
         >
           <FaSolidXmark class="w-4 h-4" />
           <span class="sr-only">Close banner</span>
-        </Button>
+        </button>
       </div>
     </div>
   );

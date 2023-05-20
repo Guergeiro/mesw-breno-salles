@@ -1,5 +1,3 @@
-import Anchor from "@components/Anchor";
-import Button from "@components/Button";
 import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
 import { CurrentUserStore } from "@stores/current-user.store";
@@ -198,24 +196,63 @@ const Wrapper: ParentComponent = (props) => {
           <div class="mb-5 mx-2">{props.children}</div>
           <div class="flex flex-row">
             <div class="mx-2">
-              <Anchor
-                variant={"alternative"}
+              <a
                 href="/results"
+                classList={{
+                  "focus:outline-none": true,
+                  "focus:ring-4": true,
+                  "font-medium": true,
+                  "rounded-lg": true,
+                  "text-sm": true,
+                  "px-5": true,
+                  "py-2.5": true,
+                  "text-gray-900": true,
+                  "bg-white": true,
+                  border: true,
+                  "border-gray-200": true,
+                  "hover:bg-gray-100": true,
+                  "hover:text-blue-700": true,
+                  "focus:ring-gray-200": true,
+                  "dark:focus:ring-gray-700": true,
+                  "dark:bg-gray-800": true,
+                  "dark:text-gray-400": true,
+                  "dark:border-gray-600": true,
+                  "dark:hover:text-white": true,
+                  "dark:hover:bg-gray-700": true,
+                }}
                 onClick={() => {
                   ResultsSelectedStore.set({});
                   DecompositionsSelectedStore.set({});
                 }}
               >
                 Go back
-              </Anchor>
+              </a>
             </div>
             <div class="mx-2">
-              <Button
-                variant="light"
+              <button
+                type="button"
                 classList={{
-                  "px-5": false,
-                  "py-2.5": false,
+                  "focus:outline-none": true,
+                  "focus:ring-4": true,
+                  "font-medium": true,
+                  "rounded-lg": true,
+                  "text-sm": true,
+                  "text-gray-900": true,
+                  "bg-white": true,
+                  border: true,
+                  "border-gray-300": true,
+                  "hover:bg-blue-800": true,
+                  "hover:bg-gray-100": true,
+                  "focus:ring-gray-200": true,
+                  "dark:bg-gray-800": true,
+                  "dark:text-white": true,
+                  "dark:border-gray-600": true,
+                  "dark:hover:bg-gray-700": true,
+                  "dark:hover:border-gray-600": true,
+                  "dark:focus:ring-gray-700": true,
                   "p-1": true,
+                  "cursor-not-allowed": canZoomReset() === false,
+                  "opacity-50": canZoomReset() === false,
                 }}
                 disabled={canZoomReset() === false}
                 onClick={() => {
@@ -223,7 +260,7 @@ const Wrapper: ParentComponent = (props) => {
                 }}
               >
                 <TbZoomReset size={24} />
-              </Button>
+              </button>
             </div>
             <div class="relative ml-auto mr-2">
               <label class="relative inline-flex h-full items-center cursor-pointer">

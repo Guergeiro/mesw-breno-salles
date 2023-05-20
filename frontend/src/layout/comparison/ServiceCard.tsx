@@ -1,4 +1,3 @@
-import Button from "@components/Button";
 import { Component, For } from "solid-js";
 import { FaSolidXmark } from "solid-icons/fa";
 import { removeService } from "./services-focused.store";
@@ -34,11 +33,27 @@ const ServiceCard: Component<ServiceCardProps> = (props) => {
         <h6 class="font-bold leading-none text-gray-900 dark:text-white">
           {props.service.name}
         </h6>
-        <Button
-          variant={"alternative"}
+        <button
+          type="button"
           classList={{
-            "px-5": false,
-            "py-2.5": false,
+            "focus:outline-none": true,
+            "focus:ring-4": true,
+            "font-medium": true,
+            "rounded-lg": true,
+            "text-sm": true,
+            "text-gray-900": true,
+            "bg-white": true,
+            border: true,
+            "border-gray-200": true,
+            "hover:bg-gray-100": true,
+            "hover:text-blue-700": true,
+            "focus:ring-gray-200": true,
+            "dark:focus:ring-gray-700": true,
+            "dark:bg-gray-800": true,
+            "dark:text-gray-400": true,
+            "dark:border-gray-600": true,
+            "dark:hover:text-white": true,
+            "dark:hover:bg-gray-700": true,
             "p-1": true,
           }}
           onClick={() => {
@@ -46,7 +61,7 @@ const ServiceCard: Component<ServiceCardProps> = (props) => {
           }}
         >
           <FaSolidXmark size={16} />
-        </Button>
+        </button>
       </div>
       <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
