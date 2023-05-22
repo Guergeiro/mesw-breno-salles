@@ -27,10 +27,9 @@ export class S3ClientService {
         secretAccessKey,
       },
     };
-    const isProduction =
-      configService.get<string>("NODE_ENV") !== "development";
+    const isDev = configService.get<string>("NODE_ENV") === "development";
 
-    if (isProduction === false) {
+    if (isDev === true) {
       s3Config.endpoint = "http://localstack:4566";
       s3Config.forcePathStyle = true;
       s3Config.tls = false;

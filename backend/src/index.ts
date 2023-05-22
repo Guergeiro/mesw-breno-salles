@@ -40,6 +40,7 @@ async function bootstrap() {
     .setTitle(env.NAME)
     .setDescription(`The ${env.NAME} Open API specification`)
     .setVersion(env.VERSION)
+    .addBearerAuth()
     .build();
   patchNestjsSwagger();
   const document = SwaggerModule.createDocument(app, config);

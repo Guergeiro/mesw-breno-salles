@@ -14,9 +14,7 @@
   }
 
   async function getUser(id: string) {
-    const res = await fetch(new URL("users", API_URL), {
-      method: "POST",
-    });
+    const res = await fetch(new URL(`users/${id}`, API_URL));
     return res.ok;
   }
 
