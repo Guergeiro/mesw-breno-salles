@@ -3,6 +3,7 @@ import { atom } from "nanostores";
 export const HomePageStep = {
   TOOLS_SELECTION: "tools_selection",
   FILE_INPUT: "file_input",
+  UPLOADING: "uploading",
   RESULTS_WAITING: "results_waiting",
   FINISHED: "finished",
 } as const;

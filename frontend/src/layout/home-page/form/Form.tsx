@@ -2,6 +2,7 @@ import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
 import { CurrentUserStore } from "@stores/current-user.store";
 import { SetPendingResult } from "@stores/pending-results.store";
+import { computed } from "nanostores";
 import { ResultSchema } from "shared-schemas";
 import { Component, createMemo, Show } from "solid-js";
 import { z } from "zod";
@@ -85,7 +86,11 @@ const Form: Component = () => {
   });
 
   const projectUploadStore = useStore(ProjectUploadStore);
-  const user = useStore(CurrentUserStore);
+  const user = useStore(
+    computed(CurrentUserStore, (id) => {
+      return id || "";
+    })
+  );
 
   async function onSubmit() {
     const forms = buildForms();
@@ -108,6 +113,7 @@ const Form: Component = () => {
     switch (currentPage()) {
       case HomePageStep.TOOLS_SELECTION:
       case HomePageStep.FILE_INPUT:
+      case HomePageStep.UPLOADING:
         return true;
       default:
         return false;
@@ -119,6 +125,7 @@ const Form: Component = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
+          HomePageStepsStore.set(HomePageStep.UPLOADING);
           const response = await onSubmit();
           const fulfilled = getFulfilledResults(response);
           setPendingResults(fulfilled);

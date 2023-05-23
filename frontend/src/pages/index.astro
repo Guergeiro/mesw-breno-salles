@@ -2,6 +2,9 @@
 import Page from "@components/Page.astro";
 import Footer from "@components/Footer.astro";
 import Topbar from "@components/Topbar.astro";
+import PendingResultsUpdater from "@components/PendingResultsUpdater.astro";
+import UserStorage from "@components/UserStorage.astro";
+import UserModal from "@components/UserModal.tsx";
 import InfoBanner from "@components/InfoBanner.tsx";
 import HomePage from "@layout/home-page/HomePage.astro";
 ---
@@ -18,4 +21,7 @@ import HomePage from "@layout/home-page/HomePage.astro";
     <HomePage />
   </div>
   <Footer slot="footer" />
+  <UserModal slot="user-modal" client:only="solid-js" />
+  <PendingResultsUpdater slot="pending-results-updater" />
+  <UserStorage slot="user-storage" />
 </Page>

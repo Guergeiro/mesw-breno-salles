@@ -74,7 +74,11 @@ const ResultsSelection: Component = () => {
     return url;
   });
 
-  const user = useStore(CurrentUserStore);
+  const user = useStore(
+    computed(CurrentUserStore, (id) => {
+      return id || "";
+    })
+  );
 
   const [response] = createResource(url, function () {
     return getResults(url(), user());
@@ -299,7 +303,11 @@ const TableRow: Component<{
 };
 
 const ExpandableRow: Component<{ result: string }> = (props) => {
-  const user = useStore(CurrentUserStore);
+  const user = useStore(
+    computed(CurrentUserStore, (id) => {
+      return id || "";
+    })
+  );
   const [response] = createResource(props.result, function () {
     return getResult(props.result, user());
   });

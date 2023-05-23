@@ -25,7 +25,7 @@
     } else {
       const ok = await getUser(value);
       if (ok === false) {
-        CurrentUserStore.set(null);
+        CurrentUserStore.set(undefined);
       }
     }
   });

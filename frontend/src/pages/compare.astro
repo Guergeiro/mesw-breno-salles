@@ -2,6 +2,9 @@
 import Page from "@components/Page.astro";
 import Footer from "@components/Footer.astro";
 import Topbar from "@components/Topbar.astro";
+import PendingResultsUpdater from "@components/PendingResultsUpdater.astro";
+import UserStorage from "@components/UserStorage.astro";
+import UserModal from "@components/UserModal.tsx";
 import Comparison from "@layout/comparison/Comparison.astro";
 ---
 
@@ -9,6 +12,9 @@ import Comparison from "@layout/comparison/Comparison.astro";
   <Topbar slot="navbar" />
   <Comparison />
   <Footer slot="footer" />
+  <UserModal slot="user-modal" client:only="solid-js" />
+  <PendingResultsUpdater slot="pending-results-updater" />
+  <UserStorage slot="user-storage" />
 </Page>
 <script>
   import { DecompositionsSelectedStore } from "@stores/decompositions-selected.store";

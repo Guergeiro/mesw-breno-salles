@@ -1,3 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
 
-export const CurrentUserStore = persistentAtom<string>("current-user");
+export const CurrentUserStore = persistentAtom<string | undefined>(
+  "current-user"
+);

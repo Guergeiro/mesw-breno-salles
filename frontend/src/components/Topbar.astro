@@ -1,4 +1,5 @@
 ---
+import UserBadge from "./UserBadge.tsx";
 const { pathname } = Astro.url;
 ---
 
@@ -65,17 +66,7 @@ const { pathname } = Astro.url;
       </ul>
     </div>
     <div class="flex items-center">
-      <span id="id" class="text-ellipsis overflow-hidden"></span>
+      <UserBadge client:only="solid-js" />
     </div>
   </div>
 </nav>
-<script>
-  import { CurrentUserStore } from "@stores/current-user.store.ts";
-  const span = document.querySelector("#id");
-
-  CurrentUserStore.subscribe(async function (value) {
-    if (value != null) {
-      span.innerText = value;
-    }
-  });
-</script>

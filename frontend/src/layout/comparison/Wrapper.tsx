@@ -66,7 +66,11 @@ const Wrapper: ParentComponent = (props) => {
     return url;
   });
 
-  const user = useStore(CurrentUserStore);
+  const user = useStore(
+    computed(CurrentUserStore, (id) => {
+      return id || "";
+    })
+  );
 
   const [response] = createResource(url, function () {
     return getDecompositions(url(), user());

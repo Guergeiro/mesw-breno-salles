@@ -32,8 +32,24 @@ const FormSteps: Component = () => {
 
   const projectUploadStore = useStore(ProjectUploadStore);
 
-  const hasFileSelected = createMemo(() => {
-    return projectUploadStore() != null;
+  const canSubmit = createMemo(() => {
+    if (currentStep() === HomePageStep.UPLOADING) {
+      return false;
+    }
+    if (projectUploadStore() == null) {
+      return false;
+    }
+    return true;
+  });
+
+  const showProjectUpload = createMemo(() => {
+    if (currentStep() === HomePageStep.FILE_INPUT) {
+      return true;
+    }
+    if (currentStep() === HomePageStep.UPLOADING) {
+      return true;
+    }
+    return false;
   });
 
   return (
@@ -69,7 +85,7 @@ const FormSteps: Component = () => {
             Next
           </button>
         </Match>
-        <Match when={currentStep() === HomePageStep.FILE_INPUT}>
+        <Match when={showProjectUpload()}>
           <ProjectUpload />
           <button
             type="button"
@@ -119,10 +135,10 @@ const FormSteps: Component = () => {
               "dark:bg-blue-600": true,
               "dark:hover:bg-blue-700": true,
               "dark:focus:ring-blue-800": true,
-              "cursor-not-allowed": hasFileSelected() === false,
-              "opacity-50": hasFileSelected() === false,
+              "cursor-not-allowed": canSubmit() === false,
+              "opacity-50": canSubmit() === false,
             }}
-            disabled={hasFileSelected() === false}
+            disabled={canSubmit() === false}
           >
             Submit
           </button>
