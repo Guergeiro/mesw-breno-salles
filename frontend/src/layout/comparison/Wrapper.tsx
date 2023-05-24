@@ -16,6 +16,7 @@ import {
   createSignal,
   For,
   ParentComponent,
+  Show,
 } from "solid-js";
 import colors from "tailwindcss/colors";
 import { z } from "zod";
@@ -136,54 +137,80 @@ const Wrapper: ParentComponent = (props) => {
   return (
     <>
       <div class="flex flex-col lg:flex-row">
-        <div class="w-full lg:w-2/12 mx-auto">
-          <h5 class="m-2">Decomposition Selection</h5>
-          <div class="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col">
-            <For each={decompositions()}>
-              {(item) => {
-                const isShowing = createMemo(() => {
-                  return decompositionShowing()[item.id] != null;
-                });
-                const style = createMemo(() => {
-                  if (isShowing()) {
-                    return decompositionColours().get(item.id);
-                  }
-                  return gray200();
-                });
-                return (
-                  <div class="h-full">
-                    <label class="relative inline-flex items-center m-2 py-4 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        value={item.id}
-                        class="sr-only peer"
-                        checked={isShowing()}
-                        onChange={(e) => {
-                          if (e.currentTarget.checked) {
-                            DecompositionsShowingStore.setKey(item.id, item);
-                          } else {
-                            DecompositionsShowingStore.setKey(item.id, null);
-                          }
-                        }}
-                      />
-                      <div
-                        class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[18px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600"
-                        style={{ "background-color": style() }}
-                      ></div>
-                      <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 truncate text-ellipsis w-full lg:w-1/3 2xl:w-1/2 peer">
-                        {item.id}
-                      </span>
-                      <div
-                        role="tooltip"
-                        class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 translate-y-7 translate-x-14 lg:peer-hover:visible lg:peer-hover:opacity-100"
-                      >
-                        {item.id}
+        <div class="w-full lg:w-2/12 mx-auto mb-2">
+          <div class="flex flex-col">
+            <div class="w-full">
+              <h5 class="m-2">Decomposition Selection</h5>
+              <div class="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col">
+                <For each={decompositions()}>
+                  {(item) => {
+                    const isShowing = createMemo(() => {
+                      return decompositionShowing()[item.id] != null;
+                    });
+                    const style = createMemo(() => {
+                      if (isShowing()) {
+                        return decompositionColours().get(item.id);
+                      }
+                      return gray200();
+                    });
+                    return (
+                      <div class="h-full">
+                        <label class="relative inline-flex items-center m-2 py-4 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            value={item.id}
+                            class="sr-only peer"
+                            checked={isShowing()}
+                            onChange={(e) => {
+                              if (e.currentTarget.checked) {
+                                DecompositionsShowingStore.setKey(
+                                  item.id,
+                                  item
+                                );
+                              } else {
+                                DecompositionsShowingStore.setKey(
+                                  item.id,
+                                  null
+                                );
+                              }
+                            }}
+                          />
+                          <div
+                            class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[18px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600"
+                            style={{ "background-color": style() }}
+                          ></div>
+                          <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 truncate text-ellipsis w-full lg:w-1/3 2xl:w-1/2 peer">
+                            {item.id}
+                          </span>
+                          <div
+                            role="tooltip"
+                            class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 translate-y-7 translate-x-14 lg:peer-hover:visible lg:peer-hover:opacity-100"
+                          >
+                            {item.id}
+                          </div>
+                        </label>
                       </div>
-                    </label>
-                  </div>
-                );
-              }}
-            </For>
+                    );
+                  }}
+                </For>
+              </div>
+            </div>
+            <Show when={expandServicesDiv()}>
+              <div
+                classList={{
+                  "w-full": true,
+                  "mx-auto": true,
+                }}
+              >
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-2">
+                  <For each={servicesFocused()}>
+                    {(item) => {
+                      return <ServiceCard service={item} />;
+                    }}
+                  </For>
+                </div>
+              </div>
+            </Show>
           </div>
         </div>
 
@@ -191,10 +218,7 @@ const Wrapper: ParentComponent = (props) => {
           classList={{
             "w-full": true,
             "mx-auto": true,
-            "mb-2": true,
-            "lg:w-10/12": expandServicesDiv() === false,
-            "lg:w-7/12": expandServicesDiv(),
-            "lg:transition-all": true,
+            "lg:w-10/12": true,
           }}
         >
           <div class="mb-5 mx-2">{props.children}</div>
@@ -317,23 +341,6 @@ const Wrapper: ParentComponent = (props) => {
                 </span>
               </label>
             </div>
-          </div>
-        </div>
-
-        <div
-          classList={{
-            "w-full": true,
-            "mx-auto": true,
-            "lg:w-3/12": expandServicesDiv(),
-            hidden: expandServicesDiv() === false,
-          }}
-        >
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
-            <For each={servicesFocused()}>
-              {(item) => {
-                return <ServiceCard service={item} />;
-              }}
-            </For>
           </div>
         </div>
       </div>

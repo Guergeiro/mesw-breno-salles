@@ -170,6 +170,9 @@ importers:
       '@react-hook/resize-observer':
         specifier: ^1.2.6
         version: 1.2.6(react@18.2.0)
+      '@solid-primitives/clipboard':
+        specifier: ^1.5.6
+        version: 1.5.6(solid-js@1.7.5)
       '@solid-primitives/event-listener':
         specifier: ^2.2.13
         version: 2.2.13(solid-js@1.7.5)
@@ -2703,6 +2706,15 @@ packages:
       '@react-hook/latest': 1.0.3(react@18.2.0)
       '@react-hook/passive-layout-effect': 1.2.1(react@18.2.0)
       react: 18.2.0
+    dev: false
+
+  /@solid-primitives/clipboard@1.5.6(solid-js@1.7.5):
+    resolution: {integrity: sha512-fG60S5/TSxfZy7gyNysPfft+IY1HJYP6dDlZWKfx3drwEFVfFXsoXqpiE13DUrxKhZehpuh5kLqhUvF2ebXyGw==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.0(solid-js@1.7.5)
+      solid-js: 1.7.5
     dev: false
 
   /@solid-primitives/event-listener@2.2.13(solid-js@1.7.5):

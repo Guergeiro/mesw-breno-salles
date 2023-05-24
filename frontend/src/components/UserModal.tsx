@@ -1,5 +1,4 @@
 import { useStore } from "@nanostores/solid";
-import { CurrentUserStore } from "@stores/current-user.store";
 import { UserModalOpen } from "@stores/user-modal-open.store";
 import { FaSolidXmark } from "solid-icons/fa";
 import { IoWarningOutline } from "solid-icons/io";
@@ -44,6 +43,7 @@ const UserModal: Component = () => {
                 onClick={() => {
                   localStorage.clear();
                   UserModalOpen.set(false);
+                  location.reload();
                 }}
               >
                 Yes, I'm sure

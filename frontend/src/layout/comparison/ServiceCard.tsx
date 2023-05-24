@@ -1,4 +1,4 @@
-import { Component, For } from "solid-js";
+import { Component, createMemo, For } from "solid-js";
 import { FaSolidXmark } from "solid-icons/fa";
 import { removeService } from "./services-focused.store";
 import { ServiceSchema } from "shared-schemas";
@@ -8,6 +8,8 @@ import {
   getRandomColor,
 } from "./decompositions-colours.store";
 import { computed } from "nanostores";
+import { IoCopy } from "solid-icons/io";
+import { writeClipboard } from "@solid-primitives/clipboard";
 
 export type ServiceCardProps = {
   service: ServiceSchema;
@@ -22,6 +24,7 @@ const ServiceCard: Component<ServiceCardProps> = (props) => {
       return store.get(props.service.decomposition.id) ?? getRandomColor();
     })
   );
+
   return (
     <div
       class="w-full max-w-md p-2 bg-white border rounded-lg shadow dark:bg-gray-800"
@@ -67,20 +70,33 @@ const ServiceCard: Component<ServiceCardProps> = (props) => {
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
           <For each={props.service.modules}>
             {(item) => {
+              const simplifiedName = createMemo(() => {
+                return item.split(".").pop() || "";
+              });
+
               return (
-                <li class="py-3 sm:py-4">
-                  <div class="flex items-center space-x-4">
+                <li>
+                  <div class="flex items-center">
                     <div class="min-w-0">
                       <p class="text-sm font-medium text-gray-900 truncate dark:text-white peer">
-                        {item}
+                        {simplifiedName()}
                       </p>
                       <div
                         role="tooltip"
-                        class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 lg:peer-hover:visible lg:peer-hover:opacity-100"
+                        class="absolute z-10 invisible opacity-0 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 peer-hover:visible peer-hover:opacity-100"
                       >
                         {item}
                       </div>
                     </div>
+                    <button
+                      type="button"
+                      class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 mr-0 ml-auto"
+                      onClick={async () => {
+                        await writeClipboard(item);
+                      }}
+                    >
+                      <IoCopy />
+                    </button>
                   </div>
                 </li>
               );
