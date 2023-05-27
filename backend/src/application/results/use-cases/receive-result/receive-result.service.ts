@@ -8,32 +8,63 @@ import { ToolControllerOutput } from "shared-tools";
 
 type SuccessStatus = Extract<ToolControllerOutput, { status: "success" }>;
 type FailedStatus = Extract<ToolControllerOutput, { status: "failed" }>;
+type StartedStatus = Extract<ToolControllerOutput, { status: "started" }>;
+
+type SubjectResult = {
+  id: string;
+  status: Status;
+} & (
+  | {
+      status: typeof Status.FAILED | typeof Status.FINISHED;
+    }
+  | {
+      status: typeof Status.STARTED;
+      prevision: number;
+    }
+);
 
 @Injectable()
 export class ReceiveResultService {
   private readonly orm: MikroORM;
-  private readonly subject = new Subject<{ id: string; status: Status }>();
+  private readonly subject = new Subject<SubjectResult>();
 
   public constructor(orm: MikroORM) {
     this.orm = orm;
   }
 
   @UseRequestContext()
-  public async execute(output: ToolControllerOutput) {
+  public async end(output: ToolControllerOutput) {
     const resultRepository = this.orm.em.getRepository(Result);
     const result = await resultRepository.findOneOrFail({ id: output.id });
     if (this.isSuccess(output)) {
       result.status = Status.FINISHED;
       result.decompositions.add(this.createDecompositions(output));
+      this.subject.next({
+        id: result.id,
+        status: result.status,
+      });
     }
     if (this.isFailed(output)) {
       result.status = Status.FAILED;
+      this.subject.next({
+        id: result.id,
+        status: result.status,
+      });
     }
     await this.orm.em.persistAndFlush(result);
+  }
 
-    await result.decompositions.init();
-
-    this.subject.next({ id: result.id, status: result.status });
+  @UseRequestContext()
+  public async progressResult(output: ToolControllerOutput) {
+    const resultRepository = this.orm.em.getRepository(Result);
+    const result = await resultRepository.findOneOrFail({ id: output.id });
+    if (this.isStarted(output)) {
+      this.subject.next({
+        id: result.id,
+        status: result.status,
+        prevision: output.prevision,
+      });
+    }
   }
 
   private createDecompositions({ results }: SuccessStatus) {
@@ -74,6 +105,10 @@ export class ReceiveResultService {
 
   private isFailed(output: ToolControllerOutput): output is FailedStatus {
     return output.status === "failed";
+  }
+
+  private isStarted(output: ToolControllerOutput): output is StartedStatus {
+    return output.status === "started";
   }
 
   public subscribe() {

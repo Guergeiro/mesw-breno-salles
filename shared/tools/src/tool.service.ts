@@ -5,9 +5,7 @@ import {
 
 type Input = MGInput;
 
-type OutputUnion = MGOutput;
-
-type Output = Extract<OutputUnion, { status: "success" }>["results"];
+type Output = MGOutput;
 
 export interface ToolService {
   startJob(input: Input): Promise<void>;

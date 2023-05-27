@@ -24,6 +24,8 @@ type ProcessResult = Extract<
   { status: "success" }
 >["results"];
 
+export type JobType = MiguelBritoInput["parameters"];
+
 @Processor("miguel-brito")
 export class JobsProcessor {
   private readonly logger = new Logger(JobsProcessor.name);
@@ -40,38 +42,34 @@ export class JobsProcessor {
   }
 
   @Process()
-  public async process(job: Job<MiguelBritoInput["parameters"]>) {
-    const path = await this.downloadProject(job.id as string);
-    await job.progress(20);
+  public async process(job: Job<JobType>) {
+    const { path, contentLength } = await this.downloadProject(
+      job.id as string
+    );
+    await job.progress(contentLength);
     await this.decompressProject(path);
-    await job.progress(40);
     await this.calculateMicroservices(path, job.data);
-    await job.progress(60);
     const projects = await this.parseData();
-    await job.progress(80);
     const decomposition = this.getDecomposition(projects);
-    await job.progress(100);
     return decomposition;
   }
 
   @OnQueueProgress()
-  public async onProgress(
-    job: Job<MiguelBritoInput["parameters"]>,
-    progress: number
-  ) {
-    this.logger.log(`Job ${job.id} ${progress}% processed`);
+  public async onProgress(job: Job<JobType>, contentLength: number) {
+    await this.jobsService.progressJob({
+      id: job.id as string,
+      status: "started",
+      prevision: this.calculatePrevisionTime(contentLength),
+    });
   }
 
   @OnQueueActive()
-  public async onStart(job: Job<MiguelBritoInput["parameters"]>) {
+  public async onStart(job: Job<JobType>) {
     this.logger.log(`Started processing job ${job.id}`);
   }
 
   @OnQueueCompleted()
-  public async onFinish(
-    job: Job<MiguelBritoInput["parameters"]>,
-    result: ProcessResult
-  ) {
+  public async onFinish(job: Job<JobType>, result: ProcessResult) {
     this.logger.log(`Finished processing job ${job.id}`);
     await this.jobsService.endJob({
       id: job.id as string,
@@ -81,7 +79,7 @@ export class JobsProcessor {
   }
 
   @OnQueueFailed()
-  public async onFail(job: Job<MiguelBritoInput["parameters"]>, error: Error) {
+  public async onFail(job: Job<JobType>, error: Error) {
     this.logger.log(`Failed processing job ${job.id}`);
     await this.jobsService.endJob({
       id: job.id as string,
@@ -90,11 +88,16 @@ export class JobsProcessor {
     });
   }
 
+  private calculatePrevisionTime(contentLength: number) {
+    const msFinal = (124000 * contentLength + 578142016000) / 7932825;
+    return msFinal;
+  }
+
   private async downloadProject(id: string) {
-    const { Body } = await this.s3ClientService.getObject(id);
+    const { Body, ContentLength } = await this.s3ClientService.getObject(id);
     const path = `/usr/src/app/tool/app/${id}`;
     await writeFile(`${path}.zip`, Body as Readable);
-    return path;
+    return { path, contentLength: ContentLength };
   }
 
   private async decompressProject(path: string) {

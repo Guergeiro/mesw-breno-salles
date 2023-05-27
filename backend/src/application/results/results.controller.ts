@@ -98,7 +98,12 @@ export class ResultsController {
   }
 
   @EventPattern("end")
-  public async receiveResult(output: ToolControllerOutput) {
-    return await this.receiveResultService.execute(output);
+  public async endResult(output: ToolControllerOutput) {
+    return await this.receiveResultService.end(output);
+  }
+
+  @EventPattern("progress")
+  public async progressResult(output: ToolControllerOutput) {
+    return await this.receiveResultService.progressResult(output);
   }
 }

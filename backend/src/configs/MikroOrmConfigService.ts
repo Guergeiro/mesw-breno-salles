@@ -44,6 +44,9 @@ export class MikroOrmConfigService implements MikroOrmOptionsFactory {
         emit: "ts",
         fileName: (className: string) => className,
       },
+      driverOptions: {
+        keepAlive: true,
+      },
     };
   }
 }

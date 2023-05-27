@@ -2,6 +2,7 @@ import { ZodValidationPipe } from "@anatine/zod-nestjs";
 import { ApplicationModule } from "@application/application.module";
 import { environment } from "@configs/environment";
 import { MikroOrmConfigService } from "@configs/MikroOrmConfigService";
+import { ThrottlerConfigService } from "@configs/ThrottlerConfigService";
 import { MikroORM } from "@mikro-orm/core";
 import { MikroOrmMiddleware, MikroOrmModule } from "@mikro-orm/nestjs";
 import {
@@ -11,7 +12,8 @@ import {
   OnModuleInit,
 } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { APP_PIPE } from "@nestjs/core";
+import { APP_GUARD, APP_PIPE } from "@nestjs/core";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { DatabaseSeeder } from "@seeders/database.seeder";
 
 @Module({
@@ -25,12 +27,20 @@ import { DatabaseSeeder } from "@seeders/database.seeder";
       useClass: MikroOrmConfigService,
       inject: [ConfigService],
     }),
+    ThrottlerModule.forRootAsync({
+      useClass: ThrottlerConfigService,
+      inject: [ConfigService],
+    }),
     ApplicationModule,
   ],
   providers: [
     {
       provide: APP_PIPE,
       useClass: ZodValidationPipe,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })

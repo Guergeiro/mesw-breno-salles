@@ -106,8 +106,6 @@ const ResultsSelection: Component = () => {
     return parsedData().count;
   });
 
-  const pendingResults = useStore(PendingResultsStore);
-
   const decompositionSelected = useStore(
     computed(DecompositionsSelectedStore, (store) => {
       const out: DecompositionSchema[] = [];
@@ -130,8 +128,7 @@ const ResultsSelection: Component = () => {
       >
         <For each={results()}>
           {(props) => {
-            const result = pendingResults()[props.id] || props;
-            return <TableRow result={props} status={result.status} />;
+            return <TableRow result={props} />;
           }}
         </For>
       </Table>
@@ -205,8 +202,20 @@ export default ResultsSelection;
 
 const TableRow: Component<{
   result: ResultSchema;
-  status: ResultSchema["status"];
 }> = (props) => {
+  const currentResult = useStore(
+    computed(PendingResultsStore, (store) => {
+      return store[props.result.id];
+    })
+  );
+
+  const status = createMemo(() => {
+    if (currentResult() != null) {
+      return currentResult().status;
+    }
+    return props.result.status;
+  });
+
   const name = createMemo(() => {
     if (typeof props.result.tool === "string") {
       return props.result.tool;
@@ -270,26 +279,26 @@ const TableRow: Component<{
         </td>
         <td class="p-4">
           <Switch>
-            <Match when={props.status === "finished"}>
+            <Match when={status() === "finished"}>
               <FaSolidCircleCheck
                 size={24}
                 class={"dark:text-green-600 fill-green-600"}
               />
             </Match>
-            <Match when={props.status === "started"}>
+            <Match when={status() === "started"}>
               <FaSolidSpinner
                 size={24}
                 class={"rotate-center dark:text-gray-600 fill-blue-600"}
               />
             </Match>
-            <Match when={props.status === "failed"}>
+            <Match when={status() === "failed"}>
               <FaSolidCircleXmark
                 size={24}
                 class={"dark:text-red-600 fill-red-600"}
               />
             </Match>
           </Switch>
-          <span class="sr-only">{props.status}</span>
+          <span class="sr-only">{status()}</span>
         </td>
 
         <td class="p-4"></td>

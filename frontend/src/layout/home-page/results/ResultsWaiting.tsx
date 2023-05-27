@@ -1,22 +1,35 @@
+import { API_URL } from "@env";
 import { useStore } from "@nanostores/solid";
+import { createTimer } from "@solid-primitives/timer";
+import { CurrentUserStore } from "@stores/current-user.store";
 import { PendingResultsStore } from "@stores/pending-results.store";
+import { computed } from "nanostores";
 import { ResultSchema } from "shared-schemas";
-import {
-  FaSolidCircleCheck,
-  FaSolidCircleXmark,
-  FaSolidSpinner,
-} from "solid-icons/fa";
+import { FaSolidSpinner } from "solid-icons/fa";
 import {
   Component,
   createMemo,
   createReaction,
+  createResource,
+  createSignal,
   For,
-  Match,
   ParentComponent,
   Show,
-  Switch,
 } from "solid-js";
 import { HomePageStep, HomePageStepsStore } from "../home-page-steps.store";
+
+async function getResult(id: string, user: string) {
+  const url = new URL(`results/${id}`, API_URL);
+  const res = await fetch(url, {
+    headers: {
+      authorization: `Bearer ${user}`,
+    },
+  });
+  if (res.ok === false) {
+    throw new Error(res.statusText);
+  }
+  return await res.json();
+}
 
 const ResultsWaiting: Component = () => {
   const pendingResults = useStore(PendingResultsStore);
@@ -55,12 +68,44 @@ const ResultsWaiting: Component = () => {
     }
   });
 
+  const user = useStore(
+    computed(CurrentUserStore, (id) => {
+      return id || "";
+    })
+  );
+
   return (
     <Show when={isShowing()}>
       <Table>
         <For each={pendingResultsArray()}>
           {(item) => {
-            return <TableRow result={item} />;
+            const [response] = createResource(item.id, function () {
+              return getResult(item.id, user());
+            });
+
+            const parsedData = createMemo(() => {
+              const parsed = ResultSchema.safeParse(response());
+              if (parsed.success) {
+                return parsed.data;
+              }
+              return {} as ResultSchema;
+            });
+            return (
+              <Show
+                when={response.loading === false}
+                fallback={
+                  <div class="m-4">
+                    {" "}
+                    <FaSolidSpinner
+                      size={24}
+                      class={`rotate-center dark:text-gray-600 fill-blue-600 mx-auto`}
+                    />{" "}
+                  </div>
+                }
+              >
+                <TableRow result={parsedData()} />
+              </Show>
+            );
           }}
         </For>
       </Table>
@@ -136,6 +181,55 @@ const TableRow: Component<{ result: ResultSchema }> = (props) => {
     }
     return props.result.tool.name;
   });
+
+  const currentResult = useStore(
+    computed(PendingResultsStore, (store) => {
+      return store[props.result.id];
+    })
+  );
+
+  const [increaseAmount] = createSignal(500);
+
+  const hasStarted = createMemo(() => {
+    const res = currentResult();
+    if (res.status !== "started") {
+      return false;
+    }
+    if (res.prevision === 0) {
+      return false;
+    }
+    return increaseAmount();
+  });
+
+  const [currentTime, setCurrentTime] = createSignal(0);
+
+  createTimer(
+    () => {
+      setCurrentTime(currentTime() + increaseAmount());
+    },
+    () => {
+      return hasStarted();
+    },
+    setInterval
+  );
+
+  const percentage = createMemo(() => {
+    const res = currentResult();
+    if (res.status !== "started") {
+      return 100;
+    }
+    if (res.prevision === Infinity) {
+      return 0;
+    }
+    const predictedPercentage = Math.floor(
+      (currentTime() * 100) / res.prevision
+    );
+    if (predictedPercentage > 99) {
+      return 99;
+    }
+    return predictedPercentage;
+  });
+
   return (
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <th
@@ -145,27 +239,24 @@ const TableRow: Component<{ result: ResultSchema }> = (props) => {
         {name()}
       </th>
       <td class="px-6 p-4">
-        <Switch>
-          <Match when={props.result.status === "finished"}>
-            <FaSolidCircleCheck
-              size={24}
-              class={"dark:text-green-600 fill-green-600"}
-            />
-          </Match>
-          <Match when={props.result.status === "started"}>
-            <FaSolidSpinner
-              size={24}
-              class={`rotate-center dark:text-gray-600 fill-blue-600`}
-            />
-          </Match>
-          <Match when={props.result.status === "failed"}>
-            <FaSolidCircleXmark
-              size={24}
-              class={"dark:text-red-600 fill-red-600"}
-            />
-          </Match>
-        </Switch>
-        <span class="sr-only">{props.result.status}</span>
+        <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+          <div
+            classList={{
+              "text-xs font-medium text-center p-0.5 leading-none rounded-full transition-all":
+                true,
+              "bg-green-600 text-green-100":
+                currentResult().status === "finished",
+              "bg-red-600 text-red-100": currentResult().status === "failed",
+              "bg-blue-600 text-blue-100": currentResult().status === "started",
+            }}
+            style={{
+              width: `${percentage()}%`,
+            }}
+          >
+            {percentage()}%
+          </div>
+        </div>
+        <span class="sr-only">{currentResult().status}</span>
       </td>
     </tr>
   );

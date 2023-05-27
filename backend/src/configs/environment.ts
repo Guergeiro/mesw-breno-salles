@@ -22,6 +22,7 @@ export async function environment() {
   env["host"] = host();
   env["redis"] = redis();
   env["s3"] = s3();
+  env["throttler"] = throttler();
   return env;
 }
 
@@ -33,7 +34,7 @@ function database() {
 
 function host() {
   return {
-    URL: process.env.URL_ROOT || "0.0.0.0",
+    URL: process.env.URL || "0.0.0.0",
     PORT: parseInt(process.env.PORT || "8000"),
   };
 }
@@ -52,5 +53,12 @@ function s3() {
     ACCESS_KEY: process.env.S3_ACCESS_KEY,
     SECRET_KEY: process.env.S3_SECRET_KEY,
     REGION: process.env.S3_REGION,
+  };
+}
+
+function throttler() {
+  return {
+    TTL: parseInt(process.env.THROTTLER_TTL || "60"),
+    LIMIT: parseInt(process.env.THROTTLER_LIMIT || "10"),
   };
 }

@@ -1,7 +1,8 @@
 <script>
   import { API_URL } from "@env";
   import { SetPendingResult } from "@stores/pending-results.store.ts";
-  const sseSource = new EventSource(new URL("results/sse", API_URL));
+
+  const sseSource = new EventSource(new URL(`results/sse`, API_URL));
   sseSource.addEventListener("message", function (message) {
     const data = JSON.parse(message?.data || "null");
     SetPendingResult(data);

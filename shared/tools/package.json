@@ -10,13 +10,12 @@
   "files": [
     "./dist"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./src/index.ts",
   "scripts": {
-    "build": "pnpm build:js && pnpm build:dts",
+    "build:shared": "pnpm build:pre && pnpm build:js && pnpm build:dts",
     "build:dts": "tsc --project tsconfig.json --emitDeclarationOnly",
     "build:js": "tsup",
+    "build:pre": "pnpm dlx ts-node ../../.scripts/prebuild.ts",
     "type:check": "tsc --project tsconfig.json --noEmit"
-  },
-  "types": "./dist/index.d.ts"
+  }
 }

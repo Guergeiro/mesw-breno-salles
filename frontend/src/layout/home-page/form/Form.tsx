@@ -64,8 +64,12 @@ function getFulfilledResults(promises: PromiseResults) {
 }
 
 function setPendingResults(results: ResultSchema[]) {
-  for (const result of results) {
-    SetPendingResult(JSON.parse(JSON.stringify(result)));
+  for (const { id, status } of results) {
+    SetPendingResult({
+      id,
+      status,
+      prevision: Infinity,
+    });
   }
 }
 
