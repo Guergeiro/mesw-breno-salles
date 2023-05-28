@@ -399,7 +399,7 @@ const Table: ParentComponent<{
             </th>
             <th scope="col" class="p-4"></th>
             <th scope="col" class="p-4">
-              Tool Name
+              Underlying Tool By
             </th>
             <th scope="col" class="p-4">
               Languages
@@ -433,10 +433,15 @@ const ExpandableTable: ParentComponent = (props) => {
             <th scope="col" class="p-4">
               Metadata
             </th>
-            <th scope="col" class="p-4">
+            <th scope="col" class="p-4 text-center">
               # Services
             </th>
-            <th scope="col" class="p-4"></th>
+            <th scope="col" class="p-4 text-center">
+              Action
+            </th>
+            <th scope="col" class="p-4 text-center">
+              Comparison Selection
+            </th>
           </tr>
         </thead>
         <tbody>{props.children}</tbody>
@@ -444,6 +449,26 @@ const ExpandableTable: ParentComponent = (props) => {
     </div>
   );
 };
+
+async function exportTxt(url: URL, user: string, id: string) {
+  const res = await fetch(url, {
+    headers: {
+      authorization: `Bearer ${user}`,
+    },
+  });
+  if (res.ok === false) {
+    throw new Error(res.statusText);
+  }
+  const blob = await res.blob();
+  const objectBlob = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = objectBlob;
+  a.download = `${id}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(objectBlob);
+}
 
 const ExpandableTableRow: Component<{
   onChange: JSX.CustomEventHandlersCamelCase<HTMLInputElement>["onChange"];
@@ -478,6 +503,16 @@ const ExpandableTableRow: Component<{
     return decompositionSelected().length < 5;
   });
 
+  const user = useStore(
+    computed(CurrentUserStore, (id) => {
+      return id || "";
+    })
+  );
+
+  const url = createMemo(() => {
+    return new URL(`decompositions/${props.item.id}/export`, API_URL);
+  });
+
   return (
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       <th
@@ -487,14 +522,25 @@ const ExpandableTableRow: Component<{
         {props.item.id}
       </th>
       <td class="p-4">{metadata()}</td>
-      <td class="p-4">{props.item.servicesCount}</td>
+      <td class="p-4 text-center">{props.item.servicesCount}</td>
+      <td class="p-4 text-center">
+        <button
+          type="button"
+          class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
+          onClick={async () => {
+            await exportTxt(url(), user(), props.item.id);
+          }}
+        >
+          Export .txt
+        </button>
+      </td>
       <td class="w-4 p-4">
         <div class="flex items-center">
           <input
             type="checkbox"
             checked={props.checked}
             classList={{
-              "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600":
+              "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 mx-auto":
                 true,
               "cursor-pointer": canToggle(),
             }}

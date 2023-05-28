@@ -14,10 +14,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     forceCloseConnections: true,
-    logger:
-      env.NODE_ENV === "production"
-        ? ["error", "warn"]
-        : ["error", "warn", "log", "debug", "verbose"],
+    logger: ["error", "warn", "log", "debug", "verbose"],
   });
 
   if (env.NODE_ENV === "production") {

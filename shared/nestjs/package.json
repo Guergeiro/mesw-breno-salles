@@ -21,10 +21,10 @@
   ],
   "main": "./src/index.ts",
   "scripts": {
-    "build:shared": "pnpm build:pre && pnpm build:js && pnpm build:dts",
     "build:dts": "tsc --project tsconfig.json --emitDeclarationOnly",
     "build:js": "tsup",
     "build:pre": "pnpm dlx ts-node ../../.scripts/prebuild.ts",
+    "build:shared": "pnpm build:pre && pnpm build:js && pnpm build:dts",
     "type:check": "tsc --project tsconfig.json --noEmit"
   }
 }

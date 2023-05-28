@@ -4,6 +4,7 @@ import { User } from "@domain/entities/user.entity";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { CacheModule, Module } from "@nestjs/common";
 import { DecompositionsController } from "./decompositions.controller";
+import { ExportDecompositionService } from "./use-cases/export-decomposition/export-decomposition.service";
 import { GetDecompositionService } from "./use-cases/get-decomposition/get-decomposition.service";
 import { GetDecompositionsService } from "./use-cases/get-decompositions/get-decompositions.service";
 
@@ -16,6 +17,10 @@ import { GetDecompositionsService } from "./use-cases/get-decompositions/get-dec
     }),
     CommonModule,
   ],
-  providers: [GetDecompositionsService, GetDecompositionService],
+  providers: [
+    GetDecompositionsService,
+    GetDecompositionService,
+    ExportDecompositionService,
+  ],
 })
 export class DecompositionsModule {}
