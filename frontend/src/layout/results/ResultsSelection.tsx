@@ -399,7 +399,7 @@ const Table: ParentComponent<{
             </th>
             <th scope="col" class="p-4"></th>
             <th scope="col" class="p-4">
-              Underlying Tool By
+              Underlying Tool
             </th>
             <th scope="col" class="p-4">
               Languages
