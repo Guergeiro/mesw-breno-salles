@@ -6,8 +6,8 @@ import ResultsWaiting from "./results/ResultsWaiting.tsx";
 ---
 
 <Section>
-  <Steps client:only="solid-js">
-    <Form client:only="solid-js" />
-    <ResultsWaiting client:only="solid-js" />
+  <Steps client:load>
+    <Form client:load />
+    <ResultsWaiting client:load />
   </Steps>
 </Section>
