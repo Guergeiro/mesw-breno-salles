@@ -21,13 +21,17 @@ export type StepperProps = {
 const LabelSpan: Component<{ label: string }> = (props) => {
   const [first, ...rest] = props.label.split(" ");
   if (rest.length === 0) {
-    return <>{props.label}</>;
+    return (
+      <div class="hidden sm:inline-flex sm:mr-2 lg:mr-4">{props.label}</div>
+    );
   }
   return (
-    <>
+    <div class="hidden sm:inline-flex sm:mr-2 lg:mr-4">
       {first}{" "}
-      <span class="hidden lg:inline-flex lg:ml-2">{rest.join(" ")}</span>
-    </>
+      <span class="hidden lg:inline-flex lg:ml-2 lg:mr-4">
+        {rest.join(" ")}
+      </span>
+    </div>
   );
 };
 
@@ -85,7 +89,7 @@ const Stepper: Component<StepperProps> = (props) => {
                   <Show when={index() !== props.steps.length - 1}>
                     <svg
                       aria-hidden="true"
-                      class="w-4 h-4 ml-2 lg:ml-4"
+                      class="w-4 h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
