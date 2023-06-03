@@ -21,7 +21,11 @@ async function bootstrap() {
     app.use(helmet());
   }
 
-  app.enableCors();
+  const protocol = env.NODE_ENV === "development" ? "http" : "https";
+
+  app.enableCors({
+    origin: `${protocol}://${env.host.APP_URL}`,
+  });
   app.enableShutdownHooks();
 
   app.connectMicroservice<RedisOptions>(

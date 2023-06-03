@@ -36,6 +36,7 @@ function host() {
   return {
     URL: process.env.URL || "0.0.0.0",
     PORT: parseInt(process.env.PORT || "8000"),
+    APP_URL: process.env.APP_URL || "0.0.0.0:3001",
   };
 }
 
