@@ -1,0 +1,97 @@
+\section{Background}
+
+To give readers a foundational understanding of microservices architecture and
+its key features, we will provide a brief overview of microservices and
+contrast them with traditional monolithic applications. This will allow readers
+to clearly understand the differences between the two architectures.
+
+\subsection{Monoliths}
+
+Monolithic applications are software systems that are designed as a single,
+self-contained unit \cite{gos2020comparison}. In other words, monolithic
+applications are composed of a single, integrated codebase that includes all of
+the necessary components and features for the application to run
+\cite{kazanavivcius2019migrating}. This means that all of the different parts
+of the application, such as the user interface, business logic, and database
+access are all contained within a single codebase and are not modularized or
+separated into distinct components that are separately deployed and executed.
+
+Monolithic architecture is a traditional approach to software development that
+has been widely used for many years \cite{gos2020comparison}. It is generally
+characterized by a strong emphasis on simplicity and ease of development.
+However, monolithic applications can also be more difficult to maintain and
+update, as changes to one part of the codebase can have unintended consequences
+on other parts of the system. This can make it challenging to introduce new
+features or make changes to the application without significant testing and
+debugging \cite{kazanavivcius2019migrating}.
+
+Despite these challenges, monolithic applications are still widely used in many
+contexts due to their simplicity and ease of development. They are particularly
+well-suited for small to medium-sized applications that do not require a high
+level of modularity or separation of concerns.
+
+\subsection{Microservices}
+
+Microservices is an architectural style that structures an application as a
+collection of loosely coupled services \cite{newman2021building}. This means
+that each microservice is a self-contained unit of functionality, which
+communicates with other microservices through well-defined interfaces,
+typically using a lightweight messaging protocol such as HTTP
+\cite{fowler-microservices}.
+
+One key benefit of this approach is that it allows for greater flexibility and
+scalability \cite{newman2019monolith}. Because each microservice is independent
+and modular, it can be modified and deployed independently of the other
+services in the application. This can make it easier to make changes to the
+system, as it is not necessary to redeploy the entire application every time a
+change is made. In addition, the modular nature of microservices allows for
+easier scaling, as individual services can be scaled up or down as needed to
+meet changing demand
+\cite{newman2019monolith,newman2021building,fowler-microservices}.
+
+Another advantage of microservices is that they can be developed and maintained
+by small, autonomous teams \cite{chen2018microservices}. This can be beneficial
+for organizations with a large codebase or a distributed development team, as
+it allows for more focused development and faster deployment of changes
+\cite{nadareishvili2016microservice}.
+
+However, there are also challenges to consider when adopting a microservices
+architecture \cite{fowler-microservices-tradeoffs}. One challenge is the added
+complexity of managing a distributed system, as there may be a larger number of
+moving parts to monitor and troubleshoot \cite{newman2021building}. In
+addition, the communication between microservices can add latency to the
+system, which may impact the performance of the overall application
+\cite{fowler-microservices-tradeoffs,pautasso2017microservices}.
+
+Overall, microservices can be an effective way to structure an application,
+particularly for large, complex systems that require a high degree of
+flexibility and scalability \cite{newman2021building}. However, it is important
+to carefully evaluate the trade-offs and consider whether the benefits of a
+microservices architecture are worth the added complexity
+\cite{fowler-microservices-tradeoffs}.
+
+\subsection{Refactoring}
+
+Refactoring is the process of modifying the internal structure of an existing
+codebase without changing its external behaviour \cite{becker1999refactoring}.
+When migrating from a monolithic architecture to a microservices architecture,
+it may be necessary to refactor the existing codebase to break it into
+independent microservices. This can be a complex and time-consuming process,
+particularly for large, complex systems \cite{newman2019monolith}.
+
+There are several factors to consider when refactoring an existing codebase for
+a microservices architecture \cite{newman2019monolith}. One challenge is
+ensuring that the code is modular and loosely coupled so it can be developed
+and deployed independently as a microservice. This may require restructuring
+the code, introducing new abstractions and interfaces, and potentially even
+rewriting parts of the code.
+
+Another challenge is preserving the application's existing functionality while
+making changes to the codebase. It is important to carefully plan and test the
+refactoring process to ensure that the application continues to work as
+expected after the changes are made.
+
+Overall, refactoring an existing codebase for a microservices architecture can
+be a significant undertaking, and it is important to carefully evaluate the
+resources and time required to complete the process \cite{newman2019monolith}.
+

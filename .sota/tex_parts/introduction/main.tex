@@ -1,0 +1,71 @@
+\section{Introduction} \label{sec:introduction}
+
+Microservices is an architectural style that evolved from Service Oriented
+Architecture (SOA). Just like SOA, microservices are an alternative to
+monolithic architecture. The main contrasts are that, while monolithic
+applications are software systems with a single, integrated codebase that
+includes all necessary components, and features
+\cite{kazanavivcius2019migrating}, microservices tend to be separated, and
+loosely coupled \cite{newman2021building}. Also while monoliths tend to be
+easier to develop they may scale poorly and are harder to maintain when
+compared to microservices \cite{newman2019monolith}. Microservices are
+increasingly being used in the development of modern applications, particularly
+in the areas of cloud computing and DevOps \cite{ren2018migrating}. Many
+organizations, including large enterprises and startups, are adopting
+microservices as a way to build and deploy applications more quickly and
+efficiently \cite{richardson-microservices}. Microservices are particularly
+well-suited for distributed, cloud-based environments, where they can take
+advantage of the flexibility and scalability of the cloud
+\cite{fowler-microservices-prerequisites}. This type of architecture is already
+being applied in multiple well-known companies, like Uber, Netflix, eBay
+\cite{microservices-users}, and also being followed by the rest of the herd
+when compared to monolith architecture \cite{taibi2017processes}.
+
+Refactoring from monoliths to microservices is a heavily debated topic both in
+the academic world and the industry. The main takes from this debate are that
+refactoring is difficult and time-consuming, especially for companies with
+limited resources who struggle with migrating their already existing monolithic
+applications to microservices. To help address this, some tools were developed
+that help with the refactor \citeSLR{brito2021identification,
+kalia2021mono2micro, freitas2021refactoring}, but in today's world, where the
+amount of data and information is constantly increasing, it would be ideal to
+have a centralised location where architects, engineers, and developers can
+access and utilise all the tools that are currently available as well as those
+that will be developed in the future. Unfortunately, at the moment, no tool
+that offers multiple options for migrations with different possibilities
+exists.
+
+The goal of this study is to structurally analyse the state of the art in
+regards to the migration of monolithic applications to microservices
+architectural style, mainly how tools are helping architects, engineers and
+developers in this migration, and how automated they are. Furthermore, in the
+following thesis, the purpose is to develop a tool which aims to aggregate
+existing tools into a single platform, as well as provide the means to extend
+and incorporate new tools. This tool will offer a convenient and comprehensive
+way to access and use a variety of tools that help the refactor from monoliths
+to microservices as well as provide them with a perspective on several
+migration proposals, allowing for easily comparable and different combinations
+options.
+
+To achieve this, the guidelines presented by Kitchenham and Charters
+\cite{kitchenham2007guidelines} were followed while performing a systematic
+literature review. The research protocol was defined at first and then followed
+to ensure all results could be reproduced.
+
+According to Kitchenham and Charters \cite{kitchenham2007guidelines}, research
+questions should be specified as they will direct the entire review
+methodology. The research questions formulated are as follows:
+
+\emph{
+  \begin{enumerate}[{RQ}1.]
+    \item What tools already exist that aid in the migration process of
+      monoliths to microservices?
+    \begin{enumerate}[{RQ1.}1.]
+      \item How do they take the monolith as input?
+      \item How do they produce the microservice as output?
+      \item Are they bound to a specific language?
+    \end{enumerate}
+    \item How can an aggregator of those tools help architects, engineers
+      and developers in their microservice migration?
+  \end{enumerate}
+}

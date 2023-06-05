@@ -1,0 +1,40 @@
+\section{Conclusion}
+
+Microservices are becoming more popular in the development of new applications.
+Many businesses, both large and small, are using microservices to design and
+deliver applications more rapidly and efficiently
+\cite{richardson-microservices}. Microservices are especially well-suited for
+distributed, cloud-based systems, where they may benefit from the cloud's
+flexibility and scalability \cite{fowler-microservices-prerequisites}.
+
+We performed a literature review on the subject of refactoring architecture
+from monolithic applications to microservices for this study. A total of one
+hundred and six primary research contributions were chosen, categorised, and
+analysed using a clear research protocol in order to collect pertinent
+migration data. A tool's target programming languages, the processes it uses to
+convert monolithic inputs into microservices, and the output of these
+identified microservices are the subject of analysis in this study.
+
+Tool input needs were examined first. Despite increased interest in
+microservice migration using automated tools, the topic is still young, and
+current solutions have strict inputs rather than being adaptable. Raw source
+code and OpenAPI were one method tools to identify microservices from
+monoliths.
+
+As for how existing tools output their identified microservices, the outcome
+would ideally be fully functional code ready for deployment, as it would make
+the migration process smoother and ensure that the resulting microservices have
+all necessary components, thus reducing the effort needed for manual migration.
+From the research analysed, common outputs from microservices identification
+tools include a list of candidates and source code.
+
+The proposed tool architecture consists of three distinct components. The
+frontend is responsible for the interface between the tool logic and the user.
+The backend serves as a bridge between the frontend, the database of available
+tools, and the tool domain. Each tool's adapter provides a consistent interface
+for interacting with the tool runtime. Ideally, each component of the proposed
+tool architecture would be deployed as a microservice in a Docker container to
+facilitate scalability and cross-platform deployment. This approach allows us
+to process multiple jobs concurrently and avoid potential bottlenecks in the
+communication between the tool runtime and the backend.
+
