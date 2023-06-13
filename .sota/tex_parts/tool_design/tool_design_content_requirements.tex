@@ -1,0 +1,49 @@
+Software requirements, also known as system specifications, refer to the explicit delineations of the functionalities a given system should offer, the scope of services it should provide, and the operational constraints it must adhere to.
+There are two types of requirements: Functional and Non-Functional, where the first focuses on what a system is supposed to do and the latter on how a system is supposed to be.
+We used the MoSCoW method to prioritise each requirement, and it is an acronym from the first letter of each prioritisation category: Must have, Should have, Could have, Will not have.
+
+\begin{table}[!htb] \caption{Functional Requirements} \label{tab:functional-requirements}
+  \begin{center}
+    \begin{tabular}[c]{p{16em}|p{8em}}
+      \textbf{Requirement} &
+      \textbf{Priority} \\
+      \hline Web app allows for user selection of an approach. & {Must have} \\
+      \hline Web app allows for user selection of a language. & {Must have} \\
+      \hline Web app allows for user parameter tunning. & {Must have} \\
+      \hline Web app allows for an user visualisation of the identified microservices. & {Must have} \\
+      \hline Web app allows for user code upload (either source code or specification). & {Must have} \\
+      \hline Web app allows comparrison between multiple identifications. & {Must have} \\
+      \hline Web app allows for user session. & {Should have} \\
+      \hline Web app allows for download of output. & {Could have} \\
+      \hline Web app allows for upload of previous outpus. & {Could have} \\
+      \hline Backend does not halt when an identification is running. & {Must have} \\
+      \hline Backend starts the identification as soon as the input is uploaded. & {Must have} \\
+      \hline Backend must serve the current existing approaches/languages/parameters to the user. & {Must have} \\
+      \hline Backend must signal the user when the identification is completed. & {Must have} \\
+      \hline Backend must signal the tool domain to start processing a code. & {Must have} \\
+      \hline Tool domain has at least one approach. & {Must have} \\
+      \hline Tool domain with each approach running separatly. & {Should have} \\
+      \hline Tool domain with extensible adapter for other approaches. & {Must have} \\
+      \hline Tool domain signals the backend when it finishes processing. & {Must have} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}[!htb] \caption{Non-Functional Requirements} \label{tab:non-functional-requirements}
+  \begin{center}
+    \begin{tabular}[c]{p{16em}|p{8em}}
+      \textbf{Requirement} &
+      \textbf{Priority} \\
+      \hline Web app must be deployed individually. & {Must have} \\
+      \hline Web app must be deployed using Docker. & {Must have} \\
+      \hline Web app could be split into multiple microservices. & {Could have} \\
+      \hline Backend must be deployed individually. & {Must have} \\
+      \hline Backend must be deployed using Docker. & {Must have} \\
+      \hline Backend could be split into multiple microservices. & {Could have} \\
+      \hline Tool domain should be deployed individually. & {Should have} \\
+      \hline Each tool implementation deployed individually. & {Could have} \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+We delimited eighteen functional and eight non-functional requirements as an initial Minimum Value Product (MVP), presented in \Cref{tab:functional-requirements} and \Cref{tab:non-functional-requirements}, respectively. It is essential to highlight that no requirement fits the \textit{"Will not have"} category because requirement elicitation was not conducted with a user but rather a brainstorming between the entities responsible for this work.

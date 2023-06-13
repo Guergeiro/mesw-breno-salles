@@ -1,0 +1,54 @@
+For microservices identification, it is important to understand how existing
+tools output their identified microservices in order to cater to the needs of
+users. The ideal outcome would be a fully functional code ready to be deployed,
+as it makes the migration process smoother, ensuring that the resulting
+microservices have all the necessary components and reducing the effort needed
+for manual migration. From the work that was analysed, tools that output a list
+of candidates and tools that output source code are more relevant to take into
+consideration and will be further discussed.
+
+\subsubsection*{Candidates List}
+
+A prevalent approach for identifying microservices in a monolithic system is by
+producing a candidate list. This approach is used in most of the publications
+and tools found, and it is a way of providing an organized and structured
+output of the microservices that can be derived from the monolithic
+application, in order to facilitate the migration process. The candidate list
+is commonly used as a guide or checklist for architects, engineers, and
+developers to assist in the actual partitioning of the application. It
+typically includes but is not limited to, data entities, interfaces, methods,
+and other relevant system components that are used as references to guide the
+migration process.
+
+The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} uses OpenAPI as
+input to identify microservices within a monolithic application. One of the
+limitations of their output is that it only provides a list of candidates,
+which may not include information about the relationships and interactions
+between each microservice. This can be an inconvenience when assigning
+different development teams or groups with the task of applying the migration,
+as they may not have enough information to understand how the microservices
+interact and depend on each other, making it harder to assign and split the
+workload accordingly.
+
+There are other tools available that output a more informative result for
+microservices identification. Even though they still output candidate lists,
+where no migration is done yet, these tools provide more detailed information
+about the relationships and connections between microservices, some of them
+even including visual feedback such as clusters and call context tree diagrams
+\citeSLR{krishna2021transforming, kalia2021mono2micro, kalia2020mono2micro,
+nakazawa2018visualization}. This additional information can be very beneficial
+for architects and developers, as it makes it easier for them to understand the
+connections and dependencies between microservices, and make informed decisions
+about how to proceed with the migration process.
+
+\subsubsection*{Source Code}
+
+Generating the final output of the migration process as source code that is
+ready to be deployed would be the ideal outcome for most cases, as it would
+lessen the efforts needed to migrate, but it is not yet commonly used in
+current literature. Out of the tools that were analysed, only two of them
+employ this method. One of them is the work of Freitas et al.
+\citeSLR{freitas2021refactoring}, and another is Mono2Micro
+\citeSLR{krishna2021transforming, kalia2021mono2micro, kalia2020mono2micro,
+nakazawa2018visualization} that in an update explained in a YouTube video
+\footnote{\url{https://youtu.be/NXno1fUoC8U}} they now output Java code.

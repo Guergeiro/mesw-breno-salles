@@ -1,0 +1,159 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[mesw]{feupteses}                  % work version
+%\usepackage[mesw,juri]{feupteses}             % jury verrion
+%\usepackage[mesw,final]{feupteses}            % final version
+%\usepackage[mesw,final,onpaper]{feupteses}    % final on paper version
+
+%% Additional options for feupteses.sty:
+%% - portugues: titles, etc in portuguese
+%% - onpaper: links are not shown (for paper versions)
+%% - backrefs: include back references from bibliography to citation place
+
+\usepackage[lofdepth,lotdepth]{subfig}
+\usepackage{graphicx}
+\usepackage{float}
+
+\definecolor{cloudwhite}{cmyk}{0,0,0,0.025}
+
+%% Include source-code listings package
+% \usepackage{listings}
+% \lstset{ %
+%  language=C,                        % choose the language of the code
+%  basicstyle=\footnotesize\ttfamily,
+%  keywordstyle=\bfseries,
+%  numbers=left,                      % where to put the line-numbers
+%  numberstyle=\scriptsize\texttt,    % the size of the fonts that are used for the line-numbers
+%  stepnumber=1,                      % the step between two line-numbers. If it's 1 each line will be numbered
+%  numbersep=8pt,                     % how far the line-numbers are from the code
+%  frame=tb,
+%  float=htb,
+%  aboveskip=8mm,
+%  belowskip=4mm,
+%  backgroundcolor=\color{cloudwhite},
+%  showspaces=false,                  % show spaces adding particular underscores
+%  showstringspaces=false,            % underline spaces within strings
+%  showtabs=false,                    % show tabs within strings adding particular underscores
+%  tabsize=2,                         % sets default tabsize to 2 spaces
+%  captionpos=b,                      % sets the caption-position to bottom
+%  breaklines=true,                   % sets automatic line breaking
+%  breakatwhitespace=false,           % sets if automatic breaks should only happen at whitespace
+%  escapeinside={\%*}{*)},            % if you want to add a comment within your code
+%  morekeywords={*,var,template,new}  % if you want to add more keywords to the set
+% }
+
+%%Uncomment to create an index (at the end of the document)
+%\makeindex
+
+%% Path to the figures directory
+%% TIP: use folder ``figures'' to keep all your figures
+\usepackage{url} % Urls
+\usepackage{indentfirst} % Indent first line section
+\usepackage{enumerate} % Ordered list
+\usepackage{cite} % Citations
+\usepackage{multibib} % Multiple bibliographies
+\usepackage{graphicx} % Allows for figures
+\usepackage{cleveref}
+\usepackage{import}
+\graphicspath{ {./.assets/images/} }
+
+\newcites{SLR}{Systematic Literature Review References}
+
+\begin{document}
+
+\title{Refactoring-assisted migration of monoliths to microservices}
+\author{Breno Salles}
+
+%% Comment next line if not necessary for degree
+%\degree{Programa Doutoral em Engenharia Informática}
+
+%% Uncomment next line for date of submission
+%\thesisdate{July 31, 2008}
+
+%% Comment next line copyright text if not used
+% \copyrightnotice{Breno Salles, 2023}
+
+\supervisor{Supervisor}{Prof.\ Jácome Cunha}
+
+%% Uncomment committee stuff in the final version
+% \committeetext{Approved in oral examination by the committee:}
+% \committeemember{President}{Prof.\ Name of the President}
+% \committeemember{Referee}{Prof.\ Name of the Referee}
+% \committeemember{Referee}{Prof.\ Name of the Referee}
+
+%% Uncomment signature line in the final on paper version if used
+%\signature
+
+\logo{uporto-feup.pdf}
+
+%% Uncomment next line for additional text below the author's name (front page)
+%\additionalfronttext{Preparação da Dissertação}
+
+%%----------------------------------------
+%% Preliminary materials
+%%----------------------------------------
+
+% remove unnecessary \include{} commands
+\begin{Prolog}
+  \import{./tex_parts/abstract/}{abstract_thesis.tex}
+  \import{./tex_parts/acknowledgments/}{acknowledgments_thesis.tex}
+  % \include{quote}    % initial quotation if desired
+  \cleardoublepage
+  \pdfbookmark[0]{Table of Contents}{contents}
+  \tableofcontents
+  \cleardoublepage
+  \pdfbookmark[0]{List of Figures}{figures}
+  \listoffigures
+  \cleardoublepage
+  \pdfbookmark[0]{List of Tables}{tables}
+  \listoftables
+  \cleardoublepage
+  \pdfbookmark[0]{List of Listings}{listings}
+  % \lstlistoflistings
+  % \include{abbrevs}  % the list of abbreviations used
+\end{Prolog}
+
+\StartBody
+
+\import{./tex_parts/introduction/}{introduction_thesis.tex}
+
+\import{./tex_parts/background/}{background_thesis.tex}
+
+\import{./tex_parts/slr/}{slr_thesis.tex}
+
+\import{./tex_parts/tool_design/}{tool_design_thesis.tex}
+
+\import{./tex_parts/solution_development/}{solution_development_thesis.tex}
+
+\import{./tex_parts/empirical_validation/}{empirical_validation_thesis.tex}
+
+\import{./tex_parts/conclusion/}{conclusion_thesis.tex}
+
+%%----------------------------------------
+%% Final materials
+%%----------------------------------------
+
+%% Bibliography
+%% Comment the next command if BibTeX file not used
+%% bibliography is in ``myrefs.bib''
+
+% \PrintBib{refs}
+
+\renewcommand{\bibname}{References}
+\bibliographystyle{plain}
+\bibliography{refs}
+\renewcommand{\bibname}{Systematic Literature Review References}
+\bibliographystyleSLR{plain}
+\bibliographySLR{slr}
+
+%% 2021-07-20: change
+%% comment next 2 commands if numbered appendices are not used
+% \appendix
+% \include{appendix1}
+
+%% Index
+%% Uncomment next command if index is required
+%% don't forget to run ``makeindex thesis'' command
+%\PrintIndex
+
+\end{document}

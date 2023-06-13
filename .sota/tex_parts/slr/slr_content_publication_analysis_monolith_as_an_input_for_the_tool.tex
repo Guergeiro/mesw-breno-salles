@@ -1,0 +1,73 @@
+The first aspect to be analysed is the input requirements for the tool. Despite
+the growing interest in microservice migration using automated tools, the field
+is still in its infancy, and the existing solutions tend to address specific
+issues rather than being versatile. As a result, the inputs for these tools are
+often rigid and not easily adjustable. For example, raw source code and OpenAPI
+specification were possible ways tools use for identifying microservices from
+monoliths and will be further discussed.
+
+\subsubsection*{Source Code}
+
+One potential method for providing input to a tool is by utilising source code
+directly. Our research revealed that eighteen of the contributions analysed use
+source code as input for their tools with multiple using Spring Boot or other
+equivalent frameworks to help in understanding the overall code structure. One
+reason for the use of frameworks is that they provide building blocks for
+developers, meaning the core functionality of the framework is already in place
+and developers simply fill in the gaps allowing for the framework to apply
+inversion of control \cite{gamma1995design}. Since the behaviour of the
+framework is kept intact, the tool can then safely analyse the overall code and
+even apply the refactoring.
+
+For instance, Freitas et al. \citeSLR{freitas2021refactoring} tool, MicroRefact
+\footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}}, utilises
+Java source code to extract structural information by relying on the Abstract
+Syntax Tree. This information is used to generate a list of candidate
+microservices. They then leverage Spring Boot decorators, particularly those
+utilising the Java Persistence API (JPA), to infer the entities of the database
+and their relationships. This process then results in the output of working
+Java code for each identified microservice.
+
+\subsubsection*{OpenAPI}
+
+In a microservices architecture, one of the common solutions for communication
+between different microservices is through HTTP calls. Therefore, it is
+reasonable to assume that identifying microservices within a monolithic
+application could be done by examining their REST endpoints since they will be
+exposed through HTTP protocols. This inspection of REST endpoints can also
+serve as a guide for decomposing the monolithic application into smaller,
+independent services. In fact, when the programming language was not a
+determining factor, OpenAPI was commonly used as the standard for
+distinguishing microservices from monolithic systems.
+
+The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} utilises the
+OpenAPI specification file to identify microservices within a monolithic
+application. The tool begins by extracting the operation names from the OpenAPI
+file, which are then input into the Affinity Propagation Algorithm
+\cite{frey2007clustering}. This algorithm calculates the number of
+microservices by analyzing the messages exchanged between data points.
+Afterwards, clustering is performed by utilising the Silhouette coefficient
+\cite{rousseeuw1987silhouettes} which results in the identification and
+grouping of similar microservices, helping in the decomposition of the
+monolithic system.
+
+MsDecomposer \footnote{\url{https://github.com/HduDBSI/MsDecomposer}}
+\citeSLR{sun2022expert} uses a similar approach to identify microservices
+within a monolithic application. The first step is to calculate the similarity
+of candidate topics and response messages among the APIs. Then, it constructs a
+graph that represents the similarity between different APIs, where the APIs are
+represented as nodes and the similarity score is the weight. Finally, it
+applies a graph-based clustering algorithm on the constructed graph, which
+helps to identify the candidate microservices.
+
+This highlights that OpenAPI is a language-agnostic method for identifying the
+architecture of software systems.
+
+\subsubsection*{Other}
+
+Besides the input types that have been previously mentioned, there are other
+types that may not be able to create a new category but are still relevant to
+the microservices identification process. For example, using a specific system
+model as input \citeSLR{staffa2021pangaea} or utilising the history of changes
+to understand in addition to common artefacts like classes and methods
+\citeSLR{santos2021microservice}.
