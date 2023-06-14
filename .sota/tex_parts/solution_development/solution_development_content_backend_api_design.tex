@@ -1,0 +1,18 @@
+The backend implements the REST architecture style and uses JSON as its data transport. The endpoints available are depicted in \Cref{tab:rest_endpoints} and achieves the level two of Richard Maturity Model https://martinfowler.com/articles/richardsonMaturityModel.html
+
+\begin{table}[!htb] \caption{REST Endpoints} \label{tab:rest_endpoints}
+  \begin{center}
+    \begin{tabular}[c]{p{12em}|p{12em}|p{12em}}
+      \textbf{Endpoint/Method} &
+      \textbf{GET} &
+      \textbf{POST} \\
+      \hline {/users} & N/A & Creates a user \\
+      \hline {/tools} & Retrieves all tools & N/A \\
+      \hline {/results} & Retrieves all results & Creates a result \\
+      \hline {/results/:id} & Retrieves a result that matches ``:id'' & N/A \\
+      \hline {/decompositions} & Retrieves all decompositions & N/A \\
+      \hline {/decompositions/:id} & Retrieves a decomposition that matches ``:id'' & N/A \\
+      \hline {/decompositions/:id/export} & Exports a decomposition that matches ``:id'' & N/A \\
+    \end{tabular}
+  \end{center}
+\end{table}

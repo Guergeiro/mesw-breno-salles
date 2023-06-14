@@ -53,8 +53,12 @@
 \usepackage{cite} % Citations
 \usepackage{multibib} % Multiple bibliographies
 \usepackage{graphicx} % Allows for figures
-\usepackage{cleveref}
-\usepackage{import}
+\usepackage{cleveref} % Automatically cref with naming
+\usepackage{import} % Smart and better imports
+\usepackage{caption} % Image caption
+
+\newcommand{\source}[1]{\caption*{Source: {#1}} }
+
 \graphicspath{ {./.assets/images/} }
 
 \newcites{SLR}{Systematic Literature Review References}
