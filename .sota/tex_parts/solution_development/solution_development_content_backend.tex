@@ -1,2 +1,9 @@
-As previously mentioned in \Cref{sub:technologies}, the entirity of the backend was built relying on Node.js runtime, the TypeScript language and the NestJS framework.
-Following the specification presented in \Cref{sub:tool_design}, each part of the infrastructure, that is, the backend itself and the tool adapter is a monolith that communicate between them via message broker using Redis.
+As stated in \Cref{sub:technologies}, the entire backend of the system is
+developed using the Node.js runtime, the TypeScript language, and the NestJS
+framework. Following the specifications outlined in \Cref{sub:tool_design},
+both the backend and the tool adapter components are monolithic applications.
+These components communicate through a message broker, utilising Redis as the
+underlying technology for message queuing and delivery. This messaging system
+enables seamless interaction and data exchange between the backend and the tool
+adapter, facilitating the flow of information within the system's
+infrastructure.

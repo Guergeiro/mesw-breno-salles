@@ -1,3 +1,26 @@
-The authentication and authorization mechanism serve as a way of enabling the user to come back with its user identification and retrieve previous decompositions, while being also separating its own findings and knowledge from others, providing a better user experience when coming back to the application.
-Authentication per se does not exist. A user can be created by simply making a \textit{POST} request to the \textit{/users} endpoint in order to retrieve a new user and no extra fields are required. As for authorization, the paths \textit{/results} and subpaths as well as \textit{decompositions} and subpaths require a user id to be accessible, making sure users content is not mixed together.
-To provide a better user experience, a client of this API, for example the frontend of this solution as described in \Cref{sub:frontend}, will need to save the user id locally and provide a seamless integration upon the user coming back to the application. The implementation details of the frontend are detailed in \Cref{sub:frontend_auth}.
+The authentication and authorisation mechanisms implemented within the system
+serve multiple purposes. Firstly, it allows users to retrieve their previous
+decompositions and separate their own findings and knowledge from those of
+others. This ensures a personalised and enhanced user experience when returning
+to the application.
+
+Authentication, as a standalone concept, is not explicitly implemented. Users
+can be created by making a POST request to the \textit{/users} endpoint, which
+generates a new user without requiring any additional fields.
+
+On the other hand, authorisation is enforced for specific paths within the API.
+The paths \textit{/results} and their subpaths, as well as
+\textit{/decompositions} and their subpaths, require a user id to be
+accessible. This mechanism ensures that each user's content remains segregated,
+preventing mixing or unauthorised access to other users' data.
+
+To provide a seamless user experience, the API client (e.g., the frontend
+application described in \Cref{sub:frontend}) needs to store the user id
+locally. This enables smooth integration when the user returns to the
+application, allowing them to retrieve their personalised data and settings
+effortlessly.
+
+Further implementation details of the frontend application can be found in
+\Cref{sub:frontend_auth}, providing a comprehensive overview of how the
+frontend interacts with the backend API to deliver the desired functionality
+and user experience.

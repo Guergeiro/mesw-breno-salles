@@ -1,14 +1,23 @@
-For any kind of structure data, Strucured Query Language (SQL) is normally the best way of representing it, and we can immediatly understand that there are five core entities in our system:
+Structured Query Language (SQL) is generally considered the most effective
+approach for representing structured data. In our system, there are five
+fundamental entities:
 
 \begin{enumerate}
-  \item Tool - which represents the underlying tool used in the decomposition.
-  \item Language - which represents which languages can be targeted for decomposition.
-  \item Result - which represents if a given job of decomposition was successful or not.
-  \item Decomposition - which represents the decomposition itself and all data required to represent it.
-  \item Service - which represents each microservice.
+  \item Tool - represents the underlying tool utilised during the decomposition
+    process. It encompasses the specific software or framework for breaking
+    down a system into smaller components.
+  \item Language - signifies the programming languages that can be targeted for
+    decomposition. It encapsulates the various programming languages that the
+    system supports for component extraction.
+  \item Result - denotes whether a decomposition job succeeded or encountered
+    any issues.
+  \item Decomposition - encapsulates the actual decomposition and includes all
+    the necessary data to represent it comprehensively.
+  \item Service - represents each microservice within the system.
 \end{enumerate}
 
-The relationships between them is represented in \Cref{fig:database-model}.
+The relationships between these entities are illustrated in
+\Cref{fig:database-model}, visually depicting their interconnections.
 
 \begin{figure*}[!htb]
   \caption{Database Model}

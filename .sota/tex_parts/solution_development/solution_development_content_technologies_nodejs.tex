@@ -1,9 +1,30 @@
-Node.js is an open-source runtime environment that enables the execution of JavaScript code outside of the web browser. Initially developed in 2009 by Ryan Dahl as a response to the criticisms he had expressed towards the widely used Apache HTTP Server.
+Node.js is an open-source runtime environment that enables the execution of
+JavaScript code outside of the web browser. Initially developed in 2009 by Ryan
+Dahl as a response to the criticisms he had expressed towards the widely used
+Apache HTTP Server \cite{ryan-dahl-nodejs}.
 
-In contrast to traditional execution models, where code is executed sequentially and relies on thread mechanisms to prevent blocking, Node.js adopts a distinct approach. It capitalises on JavaScript's event loop paradigm to manage asynchronous I/O operations. This event-driven architecture enables Node.js to handle concurrent requests efficiently, maximising performance.
+In contrast to traditional execution models, where code is executed
+sequentially and relies on thread mechanisms to prevent blocking, Node.js
+adopts a distinct approach. It capitalises on JavaScript's event loop
+\cite{javascript-event-loop} paradigm to manage asynchronous I/O operations.
+This event-driven architecture enables Node.js to handle concurrent requests
+efficiently, maximising performance \cite{nodejs-event-loop}.
 
-Moreover, the Node.js ecosystem offers modules via NPM that address various common challenges encountered in software development. These modules help with functionalities such as file and network access, manipulation of binary data, cryptography, and other general-purpose tasks.
+Moreover, the Node.js ecosystem offers modules via npm
+\footnote{\url{https://www.npmjs.com/}} that address various common challenges
+encountered in software development. These modules help with functionalities
+such as file and network access, manipulation of binary data, cryptography, and
+other general-purpose tasks.
 
-Node.js has become widely adopted as a versatile tooling platform for developing a wide range of applications, even when those applications themselves do not run on Node.js. Notably, frameworks such as React, Vue, and Angular utilise Node.js for tooling purposes, specifically for compiling their JavaScript framework code into browser-compatible JavaScript.
+Node.js has become widely adopted as a versatile tooling platform for
+developing a wide range of applications, even when those applications
+themselves do not run on Node.js. Notably, frameworks such as React
+\footnote{\url{https://github.com/facebook/react}}, Vue
+\footnote{\url{https://github.com/vuejs/core}}, and Angular
+\footnote{\url{https://github.com/angular/angular}} utilise Node.js for tooling
+purposes, specifically for compiling their JavaScript framework code into
+browser-compatible JavaScript.
 
-In the context of this work, Node.js is used for deploying both the backend and the underlying tool system, while is also used as a build tool for the frontend.
+In the context of this work, Node.js is used for deploying both the backend and
+the underlying tool system, while is also used as a build tool for the
+frontend.
