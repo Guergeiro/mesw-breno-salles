@@ -10,7 +10,7 @@
 %% - onpaper: links are not shown (for paper versions)
 %% - backrefs: include back references from bibliography to citation place
 
-\usepackage[lofdepth,lotdepth]{subfig}
+% \usepackage[lofdepth,lotdepth]{subfig}
 \usepackage{graphicx}
 \usepackage{float}
 
@@ -56,6 +56,8 @@
 \usepackage{cleveref} % Automatically cref with naming
 \usepackage{import} % Smart and better imports
 \usepackage{caption} % Image caption
+\usepackage{subcaption} % Subimage caption
+\usepackage{multirow} % row/colspan tables
 
 \newcommand{\source}[1]{\caption*{Source: {#1}} }
 
@@ -152,8 +154,8 @@
 
 %% 2021-07-20: change
 %% comment next 2 commands if numbered appendices are not used
-% \appendix
-% \include{appendix1}
+\appendix
+\import{./tex_parts/appendix/}{appendix_thesis.tex}
 
 %% Index
 %% Uncomment next command if index is required
