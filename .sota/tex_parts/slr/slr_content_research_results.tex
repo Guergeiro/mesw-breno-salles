@@ -1,21 +1,5 @@
-The query mentioned in the first iteration \Cref{subsub:first-iteration} was
-then applied to DB.1, DB.2 and DB.3 and after applying the selection criteria
-mentioned in \Cref{sub:selection-criteria}, results were gathered and
-are presented in \Cref{tab:tool-search}.
-
-\begin{table}[!htb] \caption{Tool Search} \label{tab:tool-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5.5em}|p{5em}|p{5em}} \textbf{Database} &
-      \textbf{Total\newline number\newline of results} &
-      \textbf{Extracted\newline Results} \\
-      \hline DB.1 & {118} & {3} \\
-      \hline DB.2 & {4} & {0} \\
-      \hline DB.3 & {658} & {3} \\
-    \end{tabular}
-  \end{center}
-\end{table}
-
-As for \href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
+The initial query mentioned in the \Cref{sub:query-definition} was applied to
+\href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and
 \href{https://duckduckgo.org}{DuckDuckGo}, the query would be essentially typed
 into their respective search engine and the results gathered as well as the
 query are presented in \Cref{tab:search-engine-tool-search}.
@@ -53,19 +37,40 @@ but only implemented a specific approach. This will help us to understand the
 context and origins of these tools and how they fit into the broader landscape
 of research in this area.
 
-As for the second iteration mentioned in \Cref{subsub:second-iteration}, we
-then proceeded to apply the query and search the first database. As shown in
-\Cref{tab:db1-search}, from four hundred and fifty results, only twelve passed
-the selection criteria defined in \Cref{sub:selection-criteria}.
+Applying the the query to the databases yielded 1394, with 34 that were
+extracted for having passed the selection criteria defined in
+\Cref{sub:selection-criteria}, as shown in \Cref{tab:other-db-search}.
 
-\begin{table}[!htb] \caption{DB.1 Results} \label{tab:db1-search}
+\begin{table}[!htb] \caption{DB Results} \label{tab:other-db-search}
   \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}} \textbf{Total\newline number\newline of
-      results} & \textbf{Extracted\newline New Results} \\
-      \hline{450} & {12} \\
+    \begin{tabular}[c]{p{5em}|p{5em}|p{5em}}
+      \textbf{Database} &
+      \textbf{Total\newline number\newline of results} &
+      \textbf{Extracted\newline Results} \\
+      \hline {DB.1} & {568} & {15} \\
+      \hline {DB.2} & {4} & {0} \\
+      \hline {DB.3} & {678} & {3} \\
+      \hline {DB.4} & {9} & {3} \\
+      \hline {DB.5 - 1st} & {21} & {1} \\
+      \hline {DB.5 - 2nd} & {0} & {0} \\
+      \hline {DB.6} & {114} & {12} \\
     \end{tabular}
   \end{center}
 \end{table}
+
+In the case of Science Direct, as presented in \Cref{tab:other-db-search},
+two queries were done. The main reason for this is that Science Direct is
+limited to 7 \textit{OR} conditions, therefore it was necessary to split it
+into two queries where it does not affect the general condition. In the
+specific case, the \textit{``evolv''} keyword was moved into a separate query.
+Also, Science Direct automatically accepts truncations without using the
+\textit{``*''} char. The two queries are:
+
+\begin{enumerate}
+  \item \emph{(microservice OR ``micro-service'') AND ( migrat OR decompos OR
+    identif OR refactor OR extract OR discover OR transition)}
+  \item \emph{(microservice OR ``micro-service'') AND (evolv)}
+\end{enumerate}
 
 After reviewing the references of the identified papers and applying forward
 and backward snowballing techniques, we were able to locate additional related
@@ -73,7 +78,7 @@ publications and expand the scope of our search as demonstrated in
 \Cref{tab:db1-snowballing}. This helped us to increase the number of relevant
 publications that we were able to consider in the next steps of the process.
 
-\begin{table}[!htb] \caption{DB.1 Snowballing Results} \label{tab:db1-snowballing}
+\begin{table}[!htb] \caption{Snowballing Results} \label{tab:db1-snowballing}
   \begin{center}
     \begin{tabular}[c]{p{8em}|p{8em}|p{8em}}
       \textbf{1st Forward} &
@@ -86,38 +91,9 @@ publications that we were able to consider in the next steps of the process.
   \end{center}
 \end{table}
 
-\begin{table}[!htb] \caption{Remaining DB Results} \label{tab:other-db-search}
-  \begin{center}
-    \begin{tabular}[c]{p{5em}|p{5em}|p{5em}}
-      \textbf{Database} &
-      \textbf{Total\newline number\newline of results} &
-      \textbf{Extracted\newline New Results} \\
-      \hline {DB.5 - 1st} & {21} & {1} \\
-      \hline {DB.5 - 2nd} & {0} & {0} \\
-      \hline {DB.4} & {9} & {3} \\
-      \hline {DB.6} & {114} & {12} \\
-      \hline {DB.3} & {20} & {0} \\
-      \hline {DB.2} & {0} & {0} \\
-    \end{tabular}
-  \end{center}
-\end{table}
-
-In the case of Science Direct, as presented in \Cref{tab:other-db-search},
-two queries were done. The main reason for this is that Science Direct is
-limited to 7 \textit{OR} conditions, therefore it was necessary to split it
-into two queries where it does not affect the general condition. In the
-specific case, the \textit{``evolv"} keyword was moved into a separate query.
-Also, Science Direct automatically accepts truncations without using the
-\textit{``*"} char. The two queries are:
-
-\begin{enumerate}
-  \item \emph{(microservice OR "micro-service") AND ( migrat OR decompos OR
-    identif OR refactor OR extract OR discover OR transition)}
-  \item \emph{(microservice OR "micro-service") AND (evolv)}
-\end{enumerate}
-
-After iterating over the results and reviewing the references of the newly
+Having iterated over the results and reviewing the references of the newly
 found publications, we did not identify any additional publications that were
 worth including in the final list. This marked the end of our general search
-for relevant publications. We were able to find one hundred and six relevant
-publications.
+for relevant publications. We were able to find 106 relevant publications.
+
+All the results that were analysed from of the search are available in a gist\footnote{\url{https://gist.github.com/Guergeiro/c3baefb0ac6fdf673866f6515f1416a3}}.

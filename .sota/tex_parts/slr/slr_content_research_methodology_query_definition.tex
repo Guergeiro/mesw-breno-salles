@@ -2,13 +2,13 @@ To identify relevant publications for this research, we will utilise a range of
 keywords related to the topic of microservices. These keywords will include
 various phrases and terms used to describe microservices. As for the practices
 that may help identification of microservices, keywords that help this
-architectural refactoring should be included, such as ``migration",
-``refactor", ``identification". It could also be useful to use ``monolith" (and
-all its possible synonyms) to be the comparison against ``microservices",
+architectural refactoring should be included, such as ``migration'',
+``refactor'', ``identification''. It could also be useful to use ``monolith'' (and
+all its possible synonyms) to be the comparison against ``microservices'',
 although this can result in some extra publications not related to
-microservices but instead related to ``service-oriented architecture". An
+microservices but instead related to ``service-oriented architecture''. An
 expected outcome or conclusion of the publication could be included,
-``approach" or even ``tool". The main keywords that will be used are present in
+``approach'' or even ``tool''. The main keywords that will be used are present in
 \Cref{tab:keywords}.
 
 \begin{table}[!htb] \caption{Keywords} \label{tab:keywords}
@@ -21,14 +21,12 @@ expected outcome or conclusion of the publication could be included,
   \end{center}
 \end{table}
 
-\subsubsection*{First iteration} \label{subsub:first-iteration}
-
-The first iteration of the review has the main purpose of determining how many
-tools exist that are able to solve this research question or, at the very
-least, help partially with it. In order to do this, one could not be limited to
-tools that are documented in academic databases therefore, in addition to the
-databases mentioned in \Cref{tab:databases},
-\href{https://github.com}{GitHub}, \href{https://gitlab.com}{GitLab} and even
+Initially the focus was in determining how many tools exist that are able to
+solve this research question or, at the very least, help partially with it. In
+order to do this, one could not be limited to tools that are documented in
+academic databases therefore, in addition to the databases mentioned in
+\Cref{tab:databases}, \href{https://github.com}{GitHub},
+\href{https://gitlab.com}{GitLab} and even
 \href{https://duckduckgo.org}{DuckDuckGo} were searched for, even though they
 do not represent a scientific search engine.
 
@@ -36,26 +34,17 @@ By using some keywords mentioned in \Cref{tab:keywords} the following
 initial trial query was created:
 
 \begin{center}
-  \emph{(``microservice" OR ``micro-service") AND (``migration" OR
-  ``identification") AND (``monolithic" OR ``monolith") AND (``tool")}
+  \emph{(``microservice'' OR ``micro-service'') AND (``migration'' OR
+  ``identification'') AND (``monolithic'' OR ``monolith'') AND (``tool'')}
 \end{center}
 
-\subsubsection*{Second iteration} \label{subsub:second-iteration}
-
-In the second iteration of the review process, the focus is on locating
-publications that describe alternative approaches for migrating from monolithic
-to microservices architectures that may not have been implemented in practice.
-This will allow an increased understanding of the current state of the art in
-this area, identify any gaps or areas where further research is needed, and
-determine what can be improved upon. This information will be useful in guiding
-the development of our tool and abstraction.
-
-As this was the beginning of a new iteration of the review process, the results
-of the previous ``test run" were not considered when extracting literature.
-Only after this iteration was completed did we incorporate the previously
-analysed literature and exclude it from further analysis to avoid duplication
-of effort. This allowed us to focus on identifying new and potentially relevant
-publications for our purposes.
+Afterwards, the focus was on locating publications that describe alternative
+approaches for migrating from monolithic to microservices architectures that
+may not have been implemented in practice. This will allow an increased
+understanding of the current state of the art in this area, identify any gaps
+or areas where further research is needed, and determine what can be improved
+upon. This information will be useful in guiding the development of our tool
+and abstraction.
 
 Relying on the keywords identified in \Cref{tab:keywords}, the following
 query was created:
@@ -74,6 +63,6 @@ the query to focus only on the titles and abstracts of the publications. The
 revised query that should be used is:
 
 \begin{center}
-  \emph{(microservice* OR "micro-service") AND (migrat* OR decompos* OR
+  \emph{(microservice* OR ``micro-service'') AND (migrat* OR decompos* OR
   identif* OR refactor* OR evolv* OR extract* OR discover* OR transition*)}
 \end{center}
