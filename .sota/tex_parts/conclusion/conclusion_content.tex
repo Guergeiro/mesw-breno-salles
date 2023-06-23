@@ -26,13 +26,12 @@ all necessary components, thus reducing the effort needed for manual migration.
 From the research analysed, common outputs from microservices identification
 tools include a list of candidates and source code.
 
-The proposed tool architecture consists of three distinct components. The
+The application architecture consists of three distinct components. The
 frontend is responsible for the interface between the tool logic and the user.
 The backend serves as a bridge between the frontend, the database of available
 tools, and the tool domain. Each tool's adapter provides a consistent interface
-for interacting with the tool runtime. Ideally, each component of the proposed
-tool architecture would be deployed as a microservice in a Docker container to
+for interacting with the tool runtime. Each component of the application
+architecture is be deployed as a microservice in a Docker container to
 facilitate scalability and cross-platform deployment. This approach allows us
 to process multiple jobs concurrently and avoid potential bottlenecks in the
 communication between the tool runtime and the backend.
-

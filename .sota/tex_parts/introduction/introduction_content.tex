@@ -33,17 +33,10 @@ that will be developed in the future. Unfortunately, at the moment, no tool
 that offers multiple options for migrations with different possibilities
 exists.
 
-The goal of this study is to structurally analyse the state of the art in
-regards to the migration of monolithic applications to microservices
-architectural style, mainly how tools are helping architects, engineers and
-developers in this migration, and how automated they are. Furthermore, in the
-following thesis, the purpose is to develop a tool which aims to aggregate
-existing tools into a single platform, as well as provide the means to extend
-and incorporate new tools. This tool will offer a convenient and comprehensive
-way to access and use a variety of tools that help the refactor from monoliths
-to microservices as well as provide them with a perspective on several
-migration proposals, allowing for easily comparable and different combinations
-options.
+In this dissertation, we structurally analyse the state of the art in regards to the
+migration of monolitch applications to microservices architectural style,
+mainly how tools are helping architects, engineers and developers in this
+migration, and how automated they are.
 
 To achieve this, the guidelines presented by Kitchenham and Charters
 \cite{kitchenham2007guidelines} were followed while performing a systematic
@@ -63,7 +56,37 @@ methodology. The research questions formulated are as follows:
       \item How do they produce the microservice as output?
       \item Are they bound to a specific language?
     \end{enumerate}
-    \item How can an aggregator of those tools help architects, engineers
-      and developers in their microservice migration?
+    \item How can an application that aggregates those tools help architects,
+      engineers and developers in their microservice migration?
+    \begin{enumerate}[{RQ2.}1.]
+      \item Is an application able to provide a good usability for decomposing?
+      \item Does an application improve the workload of decomposing?
+    \end{enumerate}
   \end{enumerate}
 }
+
+Furthermore, we also develop an application that aims to aggregate existing
+tools into a single platform and provide the means to extend and incorporate
+new tools. This application offers a convenient and comprehensive way to access
+and use various tools that help the refactor from monoliths to microservices
+and provide them with a perspective on several migration proposals, allowing
+for easily comparable and different combinations options.
+
+To evaluate the quality of the application, an empirical study was conducted,
+focusing on assessing both the usability and workload associated with its
+usage. The study yielded favourable outcomes in terms of usability, indicating
+that participants found the application to be user-friendly and intuitive.
+However, the workload results were varied, suggesting that the application's
+impact on reducing the overall workload during the decomposition process was
+not consistently observed among participants.
+
+The rest of this dissertation is structured as follows: \Cref{sec:background}
+introduces the reader to various concepts of monolithic and microservices
+architectures. \Cref{sec:slr} contains the literature review of the current
+state of the art. The architecture and design of the application is explained
+\Cref{sec:tool_design}. \Cref{sec:solution_development} discusses the
+development of the application. In \Cref{sec:empirical_validation}, we present
+the study design, its execution and corresponding analysis of results.
+\Cref{sec:discussion} discusses the results obtained and their threats to
+validity. Finally, \Cref{sec:conclusion} ends with with some conclusions and
+future work.
