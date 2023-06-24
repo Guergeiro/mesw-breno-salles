@@ -3,13 +3,13 @@ keywords related to the topic of microservices. These keywords will include
 various phrases and terms used to describe microservices. As for the practices
 that may help identification of microservices, keywords that help this
 architectural refactoring should be included, such as ``migration'',
-``refactor'', ``identification''. It could also be useful to use ``monolith'' (and
-all its possible synonyms) to be the comparison against ``microservices'',
+``refactor'', ``identification''. It could also be useful to use ``monolith''
+(and all its possible synonyms) to be the comparison against ``microservices'',
 although this can result in some extra publications not related to
 microservices but instead related to ``service-oriented architecture''. An
 expected outcome or conclusion of the publication could be included,
-``approach'' or even ``tool''. The main keywords that will be used are present in
-\Cref{tab:keywords}.
+``approach'' or even ``tool''. The main keywords that will be used are present
+in \Cref{tab:keywords}.
 
 \begin{table}[!htb] \caption{Keywords} \label{tab:keywords}
   \begin{center}
@@ -30,24 +30,25 @@ academic databases therefore, in addition to the databases mentioned in
 \href{https://duckduckgo.org}{DuckDuckGo} were searched for, even though they
 do not represent a scientific search engine.
 
-By using some keywords mentioned in \Cref{tab:keywords} the following
-initial trial query was created:
+By using some keywords mentioned in \Cref{tab:keywords} the following initial
+trial query was created (in an initial phase, we did not have all terms in
+\Cref{tab:keywords}):
 
 \begin{center}
   \emph{(``microservice'' OR ``micro-service'') AND (``migration'' OR
   ``identification'') AND (``monolithic'' OR ``monolith'') AND (``tool'')}
 \end{center}
 
-Afterwards, the focus was on locating publications that describe alternative
-approaches for migrating from monolithic to microservices architectures that
-may not have been implemented in practice. This will allow an increased
-understanding of the current state of the art in this area, identify any gaps
-or areas where further research is needed, and determine what can be improved
-upon. This information will be useful in guiding the development of our tool
-and abstraction.
+To increase the number of works found, we changed the focus to be on the
+location of publications that describe alternative approaches for migrating
+from monolithic to microservices architectures that may not have been
+implemented in practice. This will allow an increased understanding of the
+current state of the art in this area, identify any gaps or areas where further
+research is needed, and determine what can be improved upon. This information
+will be useful in guiding the development of our tool and abstraction.
 
-Relying on the keywords identified in \Cref{tab:keywords}, the following
-query was created:
+Relying on the keywords identified in \Cref{tab:keywords}, the following query
+was created:
 
 \begin{center}
   \emph{(microservice* OR micro?service*) AND (migrat* OR identif*) AND
@@ -57,10 +58,11 @@ query was created:
 In the event that the publications located through the snowballing approach are
 no longer adding significant value to the overall understanding of the topic, a
 new search query should be applied to the remaining databases. In some
-instances, the query produced more than two thousand results, which would have
+databases, the query produced more than two thousand results, which would have
 been impractical to analyse within the given timeframe. Therefore, we modified
-the query to focus only on the titles and abstracts of the publications. The
-revised query that should be used is:
+the query to focus only on the titles and abstracts of the publications, since
+in these parts of the documents, the authors tend to give more focus to what
+the work is really about. The revised query that should be used is:
 
 \begin{center}
   \emph{(microservice* OR ``micro-service'') AND (migrat* OR decompos* OR
