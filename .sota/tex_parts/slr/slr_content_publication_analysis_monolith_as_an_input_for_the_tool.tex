@@ -19,10 +19,10 @@ inversion of control \cite{gamma1995design}. Since the behaviour of the
 framework is kept intact, the tool can then safely analyse the overall code and
 even apply the refactoring.
 
-For instance, Freitas et al. \citeSLR{freitas2021refactoring} tool, MicroRefact
-\footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}}, utilises
-Java source code to extract structural information by relying on the Abstract
-Syntax Tree. This information is used to generate a list of candidate
+For instance, Freitas et al. \citeSLR{freitas2021refactoring} tool,
+MicroRefact\footnote{\url{https://github.com/FranciscoFreitas45/MicroRefact}},
+utilises Java source code to extract structural information by relying on the
+Abstract Syntax Tree. This information is used to generate a list of candidate
 microservices. They then leverage Spring Boot decorators, particularly those
 utilising the Java Persistence API (JPA), to infer the entities of the database
 and their relationships. This process then results in the output of working
@@ -38,7 +38,8 @@ exposed through HTTP protocols. This inspection of REST endpoints can also
 serve as a guide for decomposing the monolithic application into smaller,
 independent services. In fact, when the programming language was not a
 determining factor, OpenAPI was commonly used as the standard for
-distinguishing microservices from monolithic systems.
+distinguishing microservices from monolithic systems \citeSLR{al2019new,
+sun2022expert}.
 
 The tool proposed by Al-Debagy and Martinek \citeSLR{al2019new} utilises the
 OpenAPI specification file to identify microservices within a monolithic
@@ -51,7 +52,7 @@ Afterwards, clustering is performed by utilising the Silhouette coefficient
 grouping of similar microservices, helping in the decomposition of the
 monolithic system.
 
-MsDecomposer \footnote{\url{https://github.com/HduDBSI/MsDecomposer}}
+MsDecomposer\footnote{\url{https://github.com/HduDBSI/MsDecomposer}}
 \citeSLR{sun2022expert} uses a similar approach to identify microservices
 within a monolithic application. The first step is to calculate the similarity
 of candidate topics and response messages among the APIs. Then, it constructs a
