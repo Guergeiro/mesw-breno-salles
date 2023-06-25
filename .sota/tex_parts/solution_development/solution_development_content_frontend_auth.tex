@@ -2,8 +2,8 @@ In order to enhance the user experience of the authentication and authorisation
 mechanism described in \Cref{sub:backend_auth}, the application utilises local
 storage to store the user id. This approach provides a seamless and persistent
 user experience by retaining the user's identification information across
-sessions. The flowchart depicting the logic of this process is presented in
-\Cref{fig:frontend_auth_state}.
+sessions (FR07). The flowchart depicting the logic of this process is presented
+in \Cref{fig:frontend_auth_state}.
 
 \begin{figure*}[!htb]
   \caption{User ID storage Flowchart}
@@ -17,3 +17,7 @@ from local storage. This action carries the risk of losing access to all their
 previous decompositions. Therefore, users should exercise caution when manually
 deleting their user id, as it may result in losing important data and restrict
 their access to previous work within the application.
+
+The idea behind this \textit{``crude''} implementation was not have typical
+persistent authentication, but more so to have a minimalist mechanism that
+helps the users in their decompositions and evaluation.

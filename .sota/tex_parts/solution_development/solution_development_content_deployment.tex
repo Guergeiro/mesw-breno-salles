@@ -1,13 +1,9 @@
-Ideally, each component of the system is  deployed as a microservice in a
-Docker container to facilitate scalability and cross-platform deployment. This
-is especially important for the tool runtime component, as it is uncertain
-whether the tools will take advantage of multithreading. By using Docker, we
-can create a new container for each job, which would allow us to handle
-multiple jobs concurrently and avoid the need for users to wait for their jobs
-to complete. Of course, it is possible that certain tool limitations may
-prevent us from implementing this approach, but it is our goal to use
-microservices and Docker to the greatest extent possible to ensure the
-flexibility and scalability of the tool.
+Each system component is deployed as a microservice (NFR01, NFR04, NFR07,
+NFR08) in a Docker container (NFR02, NFR05) to facilitate scalability and
+cross-platform deployment. This is especially important for the tool runtime
+component, as we do not care how the specific tool is implemented as long as it
+subscribes to decompositions requests and publishes the decomposition results
+from and to the message broker.
 
 The application incorporates a Continuous Integration and Delivery (CI/CD)
 process. Whenever a new push is made to the \textit{master} branch of the Git
@@ -17,4 +13,5 @@ Railway\footnote{\url{https://railway.app/}}. However, since the application is
 packaged with Docker, it can be hosted on any platform that supports Docker
 images, as explained in \Cref{sub:docker}. This flexibility allows the
 application to be deployed to various hosting environments based on specific
-requirements and preferences.
+requirements and preferences. The tool is currently available at
+\url{https://frontend-mesw.brenosalles.com/}.

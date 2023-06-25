@@ -28,3 +28,17 @@ enhancing interoperability and scalability.
     \end{tabular}
   \end{center}
 \end{table}
+
+A lot of the time, when making calls to a REST API, there will be many results
+to return. Therefore, we paginate the results to ensure responses are easier to
+handle. Let us say the initial request asks for all the tools available; the
+result could be a massive response with hundreds of thousands of tools. There
+are better places to start than that. Therefore, we have built a limit on
+results to ensure that only that amount of results will be returned. This limit
+defaults to five results per page but can be changed at will.
+
+We employed pagination on endpoints that may return multiple results, that is
+on GET requests to \textit{/tools}, \textit{/results} and
+\textit{/decompositions}. This allow us to confidently serve the content the
+client needs, for example, serving the existing a tools and corresponding data
+that composes each tool, thereby completing FR12.
