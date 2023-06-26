@@ -4,9 +4,9 @@ These questions are divided into two types:
 
 \begin{enumerate}
   \item Odd-numbered items, considered the positive statements
-    \Cref{fig:statements_results_sus_positive}.
+    (\Cref{fig:statements_results_sus_positive}).
   \item Even-numbered items, considered the negative statements
-    \Cref{fig:statements_results_sus_negative}.
+    (\Cref{fig:statements_results_sus_negative}).
 \end{enumerate}
 
 The division of the questions into positive and negative statements provides
@@ -78,4 +78,28 @@ visual representation of the SUS Score data.
   \label{fig:sus_box_plot}
   \centering
   \includegraphics[width=\textwidth]{sus_score_box_plot}
+\end{figure*}
+
+Participants with experience in microservices, those who have worked with
+microservices and have experience in decomposing monoliths into microservices,
+have higher evaluations in positive statements and lower evaluations in
+negative statements, as evidenced in
+\Cref{fig:statements_results_sus_positive_exp,fig:statements_results_sus_negative_exp},
+respectively.
+
+\begin{figure*}[!htb]
+  \caption{Experienced Participants Statements Results SUS}
+  \label{fig:statements_results_sus_exp}
+  \centering
+  \begin{subfigure}[b]{1\textwidth}
+    \caption{Positive Statements}
+    \label{fig:statements_results_sus_positive_exp}
+    \includegraphics[width=\textwidth]{sus_positive_exp}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{1\textwidth}
+    \caption{Negative Statements}
+    \label{fig:statements_results_sus_negative_exp}
+    \includegraphics[width=\textwidth]{sus_negative_exp}
+  \end{subfigure}
 \end{figure*}

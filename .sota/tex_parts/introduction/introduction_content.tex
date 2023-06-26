@@ -22,16 +22,16 @@ rest of the herd when compared to monolith architecture
 
 Refactoring from monoliths to microservices is a heavily debated topic both in
 the academic world and the industry. The main takes from this debate are that
-refactoring is difficult and time-consuming, especially for companies with
-limited resources who struggle with migrating their already existing monolithic
-applications to microservices. To help address this, some tools were developed
+refactoring is difficult and time-consuming, and companies struggle with
+migrating their already existing monolithic applications to microservices
+\cite{kamimura2018extracting}. To help address this, some tools were developed
 that help with the refactor \citeSLR{brito2021identification,
 kalia2021mono2micro, freitas2021refactoring}, but in today's world, where the
 amount of data and information is constantly increasing, it would be ideal to
 have a centralised location where architects, engineers, and developers can
 access and utilise all the tools that are currently available as well as those
 that will be developed in the future. Unfortunately, at the moment, no tool
-that offers multiple options for migrations with different possibilities
+that offers multiple options for decompositions with different possibilities
 exists.
 
 In this dissertation, we structurally analyse the state of the art in regards
@@ -52,17 +52,13 @@ methodology. The research questions formulated are as follows:
   \begin{enumerate}[{RQ}1.]
     \item What tools already exist that aid in the migration process of
       monoliths to microservices?
-    \begin{enumerate}[{RQ1.}1.]
-      \item How do they take the monolith as input?
-      \item How do they produce the microservice as output?
-      \item Are they bound to a specific language?
-    \end{enumerate}
+      \begin{enumerate}[{RQ1.}1.]
+        \item How do they take the monolith as input?
+        \item How do they produce the microservice as output?
+        \item Are they bound to a specific language?
+      \end{enumerate}
     \item Is there an application that aggregates those tools to help
-      architects, engineers and developers in their microservice migration?
-    \begin{enumerate}[{RQ2.}1.]
-      \item Is an application able to provide a good usability for decomposing?
-      \item Does an application improve the workload of decomposing?
-    \end{enumerate}
+      architects, engineers and developers in their monolith decomposition?
   \end{enumerate}
 }
 
@@ -70,8 +66,25 @@ Furthermore, we also develop an application that aims to aggregate existing
 tools into a single platform and provide the means to extend and incorporate
 new tools. This application offers a convenient and comprehensive way to access
 and use various tools that help the decomposition from monoliths to
-microservices and provide them with a perspective on several migration
+microservices and provide them with a perspective on several decomposition
 proposals, allowing for easily comparable and different combinations options.
+
+The purpose of the application is to answer the following research question:
+\emph{
+  \begin{enumerate}[{RQ}1.] \setcounter{enumi}{2}
+    \item Can we devise an application that aggregates existing tools in a
+      single comprehensive environment to help in the decomposition to
+      microservices?
+      \begin{enumerate}[{RQ3.}1.]
+        \item Can the application exhibit a good usability for decomposing?
+        \item Does the application provide a low workload?
+      \end{enumerate}
+  \end{enumerate}
+}
+
+It is important to mention that the final objective is not to create a new
+technique for discovering microservices from a monolith system, but rather to
+aggregate the already existing ones into a single and comprehensive framework.
 
 We conducted an empirical study to evaluate the quality of the application,
 focusing on assessing the usability and workload associated with its usage. The

@@ -5,13 +5,13 @@ deliver applications more rapidly and efficiently
 distributed, cloud-based systems, where they may benefit from the cloud's
 flexibility and scalability \cite{fowler-microservices-prerequisites}.
 
-We performed a literature review on the subject of refactoring architecture
-from monolithic applications to microservices for this study. A total of one
-hundred and six primary research contributions were chosen, categorised, and
-analysed using a clear research protocol in order to collect pertinent
-migration data. A tool's target programming languages, the processes it uses to
-convert monolithic inputs into microservices, and the output of these
-identified microservices are the subject of analysis in this study.
+We performed a literature review on the subject of migratin architecture from
+monolithic applications to microservices for this study. A total of one hundred
+and six primary research contributions were chosen, categorised, and analysed
+using a clear research protocol in order to collect pertinent migration data. A
+tool's target programming languages, the processes it uses to convert
+monolithic inputs into microservices, and the output of these identified
+microservices are the subject of analysis in this study.
 
 Tool input needs were examined first. Despite increased interest in
 microservice migration using automated tools, the topic is still young, and
@@ -26,6 +26,16 @@ all necessary components, thus reducing the effort needed for manual migration.
 From the research analysed, common outputs from microservices identification
 tools include a list of candidates and source code.
 
+Based on the literature review and analysis, we found limited tools to aid the
+migration process from monoliths to microservices. Seven free and open-source
+tools were identified, each with varying levels of completeness.
+
+In terms of an application that aggregates these tools to assist architects,
+engineers, and developers in microservice migration, we have yet to find an
+existing application to fulfil this role. Therefore, the dissertation proposes
+a solution to this gap by providing a user-friendly and consolidated platform
+for microservice migration activities.
+
 The application architecture consists of three distinct components. The
 frontend is responsible for the interface between the tool logic and the user.
 The backend serves as a bridge between the frontend, the database of available
@@ -35,3 +45,17 @@ architecture is be deployed as a microservice in a Docker container to
 facilitate scalability and cross-platform deployment. This approach allows us
 to process multiple jobs concurrently and avoid potential bottlenecks in the
 communication between the tool runtime and the backend.
+
+Decomposing monolithic architectures into microservices primarily involves
+labour-intensive and time-consuming manual work, coupled with the difficulty of
+identifying functional units due to the complex analysis required across
+multiple dimensions of the software architecture. However, the application
+proposed in this study's experiment favourably impacted the participants.
+
+As evidenced by the positive evaluations and high scores obtained in the SUS,
+participants perceived the application as user-friendly, intuitive, and easy to
+navigate.
+
+Regarding the workload, the application did not yield significant effects on
+the decomposition process of monolithic architectures, as the performance
+results were mixed.
