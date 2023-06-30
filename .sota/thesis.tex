@@ -1,9 +1,9 @@
 \documentclass[11pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[mesw]{feupteses}                  % work version
-%\usepackage[mesw,juri]{feupteses}             % jury verrion
-%\usepackage[mesw,final]{feupteses}            % final version
-%\usepackage[mesw,final,onpaper]{feupteses}    % final on paper version
+% \usepackage[mesw,juri]{feupteses}             % jury verrion
+% \usepackage[mesw,final]{feupteses}            % final version
+% \usepackage[mesw,final,onpaper]{feupteses}    % final on paper version
 
 %% Additional options for feupteses.sty:
 %% - portugues: titles, etc in portuguese
@@ -11,9 +11,6 @@
 %% - backrefs: include back references from bibliography to citation place
 
 % \usepackage[lofdepth,lotdepth]{subfig}
-\usepackage{graphicx}
-\usepackage{float}
-
 \definecolor{cloudwhite}{cmyk}{0,0,0,0.025}
 
 %% Include source-code listings package
@@ -43,7 +40,7 @@
 % }
 
 %%Uncomment to create an index (at the end of the document)
-%\makeindex
+\makeindex
 
 %% Path to the figures directory
 %% TIP: use folder ``figures'' to keep all your figures
@@ -58,23 +55,26 @@
 \usepackage{caption} % Image caption
 \usepackage{subcaption} % Subimage caption
 \usepackage{multirow} % row/colspan tables
+\usepackage{float}
 
 \newcommand{\source}[1]{\caption*{Source: {#1}} }
 
 \graphicspath{ {./assets/images/} }
 
 \newcites{SLR}{Systematic Literature Review References}
+\newcites{WEB}{Website References}
 
 \begin{document}
 
-\title{Refactoring-assisted migration of monoliths to microservices}
+\title{Visually-assisted decomposition of Monoliths to Microservices}
+
 \author{Breno Salles}
 
 %% Comment next line if not necessary for degree
 %\degree{Programa Doutoral em Engenharia Informática}
 
 %% Uncomment next line for date of submission
-%\thesisdate{July 31, 2008}
+\thesisdate{June 26, 2023}
 
 %% Comment next line copyright text if not used
 % \copyrightnotice{Breno Salles, 2023}
@@ -162,6 +162,6 @@
 %% Index
 %% Uncomment next command if index is required
 %% don't forget to run ``makeindex thesis'' command
-%\PrintIndex
+\PrintIndex
 
 \end{document}
