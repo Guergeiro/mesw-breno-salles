@@ -1,11 +1,11 @@
 Redis is an in-memory multi-model database famous for its sub-millisecond
-latency. It was created in 2009 by Salvatore Sanfilippo \cite{redis-creator}
+latency. It was created in 2009 by Salvatore Sanfilippo \citeWEB{redis-creator}
 based on the idea that a cache can also be a durable data store. Around this
-time, applications like Instagram \cite{redis-popular} were growing
+time, applications like Instagram \citeWEB{redis-popular} were growing
 exponentially and needed a way to deliver data to their end users faster than a
 relation database could handle.
 
-Redis, which means Remote Dictionary Server \cite{redis-meaning}, was adopted
+Redis, which means Remote Dictionary Server \citeWEB{redis-meaning}, was adopted
 by some of the most popular sites in the world, because it changed the database
 game by creating a system in which data is always modified or read from the
 main computer memory as opposed to the much slower disk, but at the same time,
@@ -13,8 +13,8 @@ it stores its data on the disk so it can be reconstructed as needed.
 
 Every data point in the database is a key followed by a value that can be any
 of its many data structures, like lists, sets, streams, json, an others
-\cite{redis-data-types}. It can be used as a distributed key-value store,
-cache, and message broker \cite{redis-usage}. This latter use case is exactly
+\citeWEB{redis-data-types}. It can be used as a distributed key-value store,
+cache, and message broker \citeWEB{redis-usage}. This latter use case is exactly
 how Redis is used in the context of this application, by serving as the
 communication mechanism between the backend and the underlying tools. In the
 case of the implementation of the underlying tool, Redis is used as an internal
